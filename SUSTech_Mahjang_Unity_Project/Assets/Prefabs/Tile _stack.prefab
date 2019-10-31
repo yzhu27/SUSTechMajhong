@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3090594209435407433}
   m_Layer: 0
-  m_Name: Tile
+  m_Name: Tile _stack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23,7 +23,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2069587474913437274}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.091, y: 0.856, z: -2.51}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -31,7 +31,7 @@ Transform:
   - {fileID: 787285826976230021}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3850726759925274876
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 7269511629098683943}
   - component: {fileID: 3313667738197676200}
   - component: {fileID: 2391038872935948413}
-  - component: {fileID: 4465047323180673964}
   m_Layer: 0
   m_Name: Tile_MainObject
   m_TagString: Untagged
@@ -60,7 +59,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3850726759925274876}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.0016867467, y: -4.4408923e-19, z: 0.0036144573}
+  m_LocalPosition: {x: 0.0016867467, y: 0, z: 0.0036144573}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3090594209435407433}
@@ -126,19 +125,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: -9177129015941537034, guid: 013c8a6ff7671f540821da6af08d4a98, type: 3}
---- !u!114 &4465047323180673964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3850726759925274876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62483f7d97b354a479dca3e3e3569acf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 5
 --- !u!1 &7320881212127793576
 GameObject:
   m_ObjectHideFlags: 0

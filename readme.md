@@ -38,7 +38,7 @@ Unity 2019.1.9f1 或更新的版本，**推荐 Unity 2019.2.9f1**
 
     - Resources : 原始资源
 
-    - Prefebs : 资源预设
+    - Prefabs : 资源预设
 
   - Packages : Unity引擎库文件
 
