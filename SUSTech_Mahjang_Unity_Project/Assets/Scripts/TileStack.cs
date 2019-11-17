@@ -9,61 +9,91 @@ public class TileStack : MonoBehaviour
     GameObject tilePrefab = null;
     
     
-    private List<GameObject> Tiles;
-    private int amount = 0;
+    private List<TwoTiles> Tiles = new List<TwoTiles>();
     
-    void AddTile(int number)
+    
+    class TwoTiles
     {
-        bool up = false;
-        for (int i = 0; i < number; i++)
+        private GameObject upTile;
+        private GameObject downTile;
+        private int pointer;
+        private Vector3 up;
+        public TwoTiles(Vector3 up)
         {
+            pointer = 0;
+            this.up = up;
+        }
 
-            var instance = GameObject.Instantiate<GameObject>(tilePrefab, null);
-            instance.transform.parent = transform;
-            Debug.Log(transform.rotation.y);
-            if (transform.rotation.y == 0)
+        public void AddTile(GameObject tile)
+        {
+            if (pointer == 0)
             {
-                instance.transform.position = transform.position + new Vector3((instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.x) * (amount / 2), 0, 0);
-            }else if(transform.rotation.y == 1)
-            {
-                instance.transform.position = transform.position - new Vector3((instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.x) * (amount / 2), 0, 0);
-               
-            }else if(transform.rotation.y == -0.7071068f)//
-            {
-                instance.transform.position = transform.position + new Vector3(0, 0, (instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.x) * (amount / 2));
+                downTile = tile;
+                pointer++;
             }
             else
             {
-                instance.transform.position = transform.position - new Vector3(0, 0, (instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.x) * (amount / 2));
+                upTile = tile;
+                upTile.transform.position += up;
+                pointer++;
             }
-            instance.transform.rotation = transform.rotation;
-            Debug.Log(instance.GetComponentsInChildren<Transform>()[2]);
-            if (up)
+            
+            
+        }
+
+        public void RemoveTile()
+        {
+            if (pointer == 1)
             {
-                instance.transform.position += new Vector3(0, instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.z, 0);
+                Destroy(downTile);
+                pointer--;
             }
-            Tiles.Add(instance);
-            up = ((amount+2) % 2 == 0);
-            amount++;
+            else
+            {
+                Destroy(upTile);
+                pointer--;
+            }
+        }
+    }
+
+    public void AddTile(int number)
+    {
+        
+        for (int i = 0; i < number; i++)
+        {
+            
+            var instance = GameObject.Instantiate<GameObject>(tilePrefab, null);
+            instance.transform.parent = transform;
+            
+            instance.transform.position = transform.position + transform.right * (instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.x) * i;           
+            TwoTiles temp = new TwoTiles(new Vector3(0, instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.z, 0));
+            temp.AddTile(instance);
+            
+            instance = GameObject.Instantiate<GameObject>(tilePrefab, null);
+            instance.transform.parent = transform;
+            instance.transform.position = transform.position + transform.right * (instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.x) * i;
+            
+            temp.AddTile(instance);
+            
+            Tiles.Add(temp);
+           
         }
         return;
     }
    
-    void RemoveTile()
+    public void RemoveTile(int i)
     {
-        Destroy(Tiles[amount - 1]);
-        Tiles.RemoveAt(amount - 1);
-        amount--;
+
+        Tiles[i].RemoveTile();       
         return;
     }
     
     // Start is called before the first frame update
     void Start()
     {
-        Tiles = new List<GameObject>();
-        AddTile(40);
-        RemoveTile();
-        RemoveTile();
+       
+       
+        
     }
 
     // Update is called once per frame
@@ -72,3 +102,4 @@ public class TileStack : MonoBehaviour
         
     }
 }
+
