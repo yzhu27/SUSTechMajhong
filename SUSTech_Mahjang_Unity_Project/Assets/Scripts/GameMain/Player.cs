@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.Util;
+using System;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.GameMain
 {
@@ -21,39 +23,49 @@ namespace Assets.Scripts.GameMain
 		/// <summary>
 		/// 手牌
 		/// </summary>
-		public Tile[] hand;
+		public List<Tile> hand;
 
 		/// <summary>
 		/// 暗牌
 		/// </summary>
-		public Tile[] hiden;
+		public List<Tile> hiden;
 
 		/// <summary>
 		/// 碰/吃/杠区
 		/// </summary>
-		public Tile[] onDesk;
+		public List<Tile> onDesk;
 
 		/// <summary>
 		/// 打出的牌
 		/// </summary>
-		public Tile[] graveyard;
+		public List<Tile> graveyard;
 
 		// ------------------构造器----------------------
 
-		public Player() { }
+		public Player() 
+		{
+
+		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="user">该玩家对应的用户</param>
-		public Player(User user) { }
+		public Player(User user)
+		{
+			this.user = user;
+		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="user">该玩家对应的用户</param>
-		/// <param name="charator">玩家所选角色</param>
-		public Player(User user, Charactor charator) { }
+		/// <param name="charactor">玩家所选角色</param>
+		public Player(User user, Charactor charactor)
+		{
+			this.user = user;
+			this.charactor = charactor;
+		}
 
 		// ------------------一般-------------------------
 
@@ -133,6 +145,7 @@ namespace Assets.Scripts.GameMain
 
 	public class MainPlayer : Player
 	{
+
 		/// <summary>
 		/// 当前客户端自身的玩家对象
 		/// </summary>
@@ -143,6 +156,35 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		/// <param name="tile">抽到的牌</param>
 		public void Draw(Tile tile) { }
+
+		/// <summary>
+		/// 获取所有被选中的牌
+		/// </summary>
+		/// <param name="type">种类，'h'手牌，'n'暗牌</param>
+		/// <exception cref="ArgumentException"/>
+		/// <returns></returns>
+		public List<Tile> GetChoosed(char type='h')
+		{
+			List<Tile> tiles = new List<Tile>();
+			switch (type)
+			{
+				case 'h':
+					foreach (Tile t in this.hand)
+						if (t.IsChoosed())
+							tiles.Add(t);
+					break;
+				case 'n':
+					foreach (Tile t in this.hiden)
+						if (t.IsChoosed())
+							tiles.Add(t);
+					break;
+				default:
+					throw new ArgumentException("Parameter \'type\' should be \'h\' or \'n\'.", type.ToString());
+			}
+
+			return tiles;
+		}
+
 	}
 
 }

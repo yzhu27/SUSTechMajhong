@@ -52,12 +52,12 @@ namespace Assets.Scripts.GameMain
 		/// 开始一名玩家的回合
 		/// </summary>
 		/// <param name="player">0:自己, 1:上家, 2:对家, 3:下家</param>
-		public void startRound(int player) { }
+		public void StartRound(int player) { }
 
 		/// <summary>
 		/// 开始响应
 		/// </summary>
 		/// <param name="players">0:自己, 1:上家, 2:对家, 3:下家</param>
-		public void startResponse(int[] players) { }
+		public void StartResponse(int[] players) { }
 	}
 }
