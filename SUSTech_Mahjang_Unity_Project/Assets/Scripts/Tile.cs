@@ -19,7 +19,9 @@ public class Tile : MonoBehaviour
     /// represent the range of the movement of tile
     /// </summary>
     Vector3 up_position,down_position;
-    
+    [SerializeField]
+    float upDistance = 0.015f;
+
     /// <summary>
     ///the speed of the tile movement  
     /// </summary>
@@ -42,7 +44,7 @@ public class Tile : MonoBehaviour
     {
         up_position=transform.position;
         down_position=up_position;
-        up_position+=new Vector3(0,0.5f,0);
+        up_position+=new Vector3(0,upDistance,0);
     }
 
 

@@ -16,8 +16,8 @@ public class TileStacks : MonoBehaviour
         //    instance.AddTile(20);  
         //}
 
-        BroadcastMessage("AddTile", 20);
-        GameObject.Find("TillStack").GetComponent<TileStack>().AddTile(20);
+        //BroadcastMessage("AddTile", 20);
+
     }
 
     // Update is called once per frame

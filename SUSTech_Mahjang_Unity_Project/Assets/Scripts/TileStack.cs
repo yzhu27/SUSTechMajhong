@@ -63,14 +63,18 @@ public class TileStack : MonoBehaviour
         {
             
             var instance = GameObject.Instantiate<GameObject>(tilePrefab, null);
+            Debug.Log(instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.x);
+            Debug.Log(instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.y);
+            Debug.Log(instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.z);
             instance.transform.parent = transform;
-            
+            instance.transform.rotation = transform.rotation;
             instance.transform.position = transform.position + transform.right * (instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.x) * i;           
             TwoTiles temp = new TwoTiles(new Vector3(0, instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.z, 0));
             temp.AddTile(instance);
             
             instance = GameObject.Instantiate<GameObject>(tilePrefab, null);
             instance.transform.parent = transform;
+            instance.transform.rotation = transform.rotation;
             instance.transform.position = transform.position + transform.right * (instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.x) * i;
             
             temp.AddTile(instance);
@@ -91,8 +95,8 @@ public class TileStack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
-       
+
+        AddTile(20);
         
     }
 
