@@ -36,8 +36,8 @@ public class Tile : MonoBehaviour
     /// initial state of tile
     /// </summary>
     private move status = move.downwords;
-    
- 
+
+  
     
 
     // Start is called before the first frame update
@@ -46,8 +46,11 @@ public class Tile : MonoBehaviour
         up_position=transform.position;
         down_position=up_position;
         up_position+=new Vector3(0,upDistance,0);
+        
 
-       
+        //GetComponentsInChildren<Transform>()[1].GetComponent< SpriteRenderer > ().sprite =Resources.Load("1");
+
+
     }
 
 
@@ -75,8 +78,20 @@ public class Tile : MonoBehaviour
             GetComponentInParent<HandTile>().RemoveTile();
         }
         t1 = t2;
+        
     }
-
+   
+    //IEnumerator Example()
+    //{
+    //    print(Time.time);
+    //    yield return new WaitForSeconds(5);
+    //    print(Time.time);
+    //}
+    //private void OnMouseDrag()
+    //{
+    //    Debug.Log("dragging");
+    //    StartCoroutine(Example());
+    //}
 
 
     private void /// <summary>
@@ -97,10 +112,23 @@ public class Tile : MonoBehaviour
         status = move.downwords;
     }
 
+    public void AddTileFront(int TileId)
+    {
+        string path = TileId.ToString();
+        Texture2D tex = (Texture2D)Resources.Load(path);
+        SpriteRenderer spr = GetComponentsInChildren<Transform>()[1].GetComponent<SpriteRenderer>();
+        Sprite sp = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+        spr.sprite = sp;
+        Transform tr = GetComponentsInChildren<Transform>()[1].GetComponent<Transform>();
+        float x = 2.9f;
+        float y = 3.4f;
+        tr.localScale = new Vector3(x / tex.width, y / tex.height, 1);
+    }
 
     // Update is called once per frame
     void Update()
     {
+        
         if(isclick){
             ///after clicking ,the tile will move upward more quickly
             transform.position = Vector3.MoveTowards(transform.position, up_position, 2*MoveSpeed * Time.deltaTime);

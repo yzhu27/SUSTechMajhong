@@ -63,9 +63,9 @@ public class TileStack : MonoBehaviour
         {
             
             var instance = GameObject.Instantiate<GameObject>(tilePrefab, null);
-            Debug.Log(instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.x);
-            Debug.Log(instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.y);
-            Debug.Log(instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.z);
+            //Debug.Log(instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.x);
+            //Debug.Log(instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.y);
+            //Debug.Log(instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.z);
             instance.transform.parent = transform;
             instance.transform.rotation = transform.rotation;
             instance.transform.position = transform.position + transform.right * (instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.x) * i;           

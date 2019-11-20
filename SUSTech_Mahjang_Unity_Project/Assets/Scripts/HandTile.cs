@@ -15,8 +15,7 @@ public class HandTile : MonoBehaviour
     {
         int length = handTile.Count;
         for (int i=0; i < length; i++){
-            Debug.Log(handTile[i]);
-            Debug.Log(handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<Tile>().isclick);
+            
             if (handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<Tile>().isclick == true)
             {
                 handTileId.RemoveAt(i);
@@ -51,10 +50,11 @@ public class HandTile : MonoBehaviour
             
         }
         handTile.Clear();
-        Debug.Log(handTile.Count);
+        
         for (int i = 0; i < bound; i++)
         {
             GameObject instance =(GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Tile"));
+            instance.GetComponentsInChildren<Transform>()[2].GetComponent<Tile>().SendMessage("AddTileFront", handTileId[i]);
             handTile.Add(instance);
             instance.transform.parent = transform;
             instance.transform.rotation = transform.rotation;
@@ -64,13 +64,13 @@ public class HandTile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AddTile(20);
-        AddTile(20);
-        AddTile(20);
-        AddTile(20);
-        AddTile(20);
-        AddTile(20);
-        AddTile(20);
+        AddTile(1);
+        AddTile(2);
+        AddTile(2);
+        AddTile(3);
+        AddTile(1);
+        AddTile(3);
+        AddTile(1);
     }
 
     // Update is called once per frame
