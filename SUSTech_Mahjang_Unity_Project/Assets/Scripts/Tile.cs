@@ -30,13 +30,14 @@ public class Tile : MonoBehaviour
     /// <summary>
     /// represent whether the tile is clicked
     /// </summary>
-    private bool isclick=false;
+    public bool isclick=false;
     
     /// <summary>
     /// initial state of tile
     /// </summary>
     private move status = move.downwords;
     
+ 
     
 
     // Start is called before the first frame update
@@ -45,10 +46,13 @@ public class Tile : MonoBehaviour
         up_position=transform.position;
         down_position=up_position;
         up_position+=new Vector3(0,upDistance,0);
+
+       
     }
 
 
-
+    float t1;
+    float t2;
     private void /// <summary>
     /// Called while the mouse click down over the Collider
     /// </summary>
@@ -64,6 +68,13 @@ public class Tile : MonoBehaviour
             isclick = true;
         }
         Debug.Log("click down");
+
+        t2 = Time.realtimeSinceStartup;
+        if (t2 - t1 < 0.2)
+        {
+            GetComponentInParent<HandTile>().RemoveTile();
+        }
+        t1 = t2;
     }
 
 
@@ -85,6 +96,8 @@ public class Tile : MonoBehaviour
         if(!isclick)
         status = move.downwords;
     }
+
+
     // Update is called once per frame
     void Update()
     {

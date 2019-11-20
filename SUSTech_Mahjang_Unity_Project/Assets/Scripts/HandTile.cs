@@ -10,6 +10,23 @@ public class HandTile : MonoBehaviour
     private List<int> handTileId = new List<int>();
     [SerializeField]
     private float width = 0; 
+    
+    public void RemoveTile()
+    {
+        int length = handTile.Count;
+        for (int i=0; i < length; i++){
+            Debug.Log(handTile[i]);
+            Debug.Log(handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<Tile>().isclick);
+            if (handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<Tile>().isclick == true)
+            {
+                handTileId.RemoveAt(i);
+            Reconstruct();
+                break;
+         }
+        }
+
+    }
+
     public void AddTile(int[] Tiles)
     {
 
@@ -59,6 +76,6 @@ public class HandTile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
     }
 }
