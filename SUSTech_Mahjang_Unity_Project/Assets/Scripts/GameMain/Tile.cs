@@ -155,18 +155,12 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		public void Choose() => this.choosed = true;
 
-        public void Unchoose()
-        {
-            this.choosed = false;
-        }
+		public void Unchoose() => choosed = false;
 
-        /// <summary>
-        /// 是否被选中
-        /// </summary>
-        /// <returns>bool</returns>
-        public bool IsChoosed()
-		{
-			return this.choosed;
-		}
+		/// <summary>
+		/// 是否被选中
+		/// </summary>
+		/// <returns>bool</returns>
+		public bool IsChoosed() => choosed;
 	}
 }
