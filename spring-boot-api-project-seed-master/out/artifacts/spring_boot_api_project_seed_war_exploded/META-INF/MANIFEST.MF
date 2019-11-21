@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Implementation-Version: 1.0
+Built-By: Tchao
+Implementation-Vendor-Id: com.github.lihengming
+Created-By: IntelliJ IDEA
+Build-Jdk: 1.8.0_222
+Main-Class: ${start-class}
+
