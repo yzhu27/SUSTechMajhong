@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Assets.Scripts.Util;
+using Assets.Scripts.GameMain;
 public class HandTileOthers : MonoBehaviour
 {
     private List<GameObject> handTile = new List<GameObject>();
@@ -62,7 +63,8 @@ public class HandTileOthers : MonoBehaviour
         AddTile(1);
         AddTile(3);
         AddTile(1);
-        
+        Tile j = new Tile(0xf0230);
+        Debug.Log(Path.ImgPathOfTile("TileFront",j));
     }
 
     // Update is called once per frame
