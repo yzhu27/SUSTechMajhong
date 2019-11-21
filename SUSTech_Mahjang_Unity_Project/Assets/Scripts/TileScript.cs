@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.GameMain;
 
-public class Tile_ResponseMouse : MonoBehaviour
+public class TileScript : MonoBehaviour
 {
     
     /// <summary>
@@ -26,11 +27,11 @@ public class Tile_ResponseMouse : MonoBehaviour
     ///the speed of the tile movement  
     /// </summary>
     public int MoveSpeed = 5;
-    
+
     /// <summary>
     /// represent whether the tile is clicked
     /// </summary>
-    public bool isclick=false;
+    public Tile tile = new Tile();
     
     /// <summary>
     /// initial state of tile
@@ -62,13 +63,15 @@ public class Tile_ResponseMouse : MonoBehaviour
     /// 
     OnMouseDown()
     {
-        if (isclick)
+        if (tile.IsChoosed())
         {
-            isclick = false;
+            tile.Unchoose();
+            gameObject.GetComponent<MeshRenderer>().material = (Material)Resources.Load("commonTile");
         }
         else
         {
-            isclick = true;
+            tile.Choose();
+            gameObject.GetComponent<MeshRenderer>().material = (Material)Resources.Load("lightingTile");
         }
         Debug.Log("click down");
 
@@ -99,7 +102,7 @@ public class Tile_ResponseMouse : MonoBehaviour
     /// </summary>
     OnMouseEnter()
     {   
-        if(!isclick)
+        if(!tile.IsChoosed())
         status = move.upwords;
     }
 
@@ -108,13 +111,14 @@ public class Tile_ResponseMouse : MonoBehaviour
     /// </summary>
     OnMouseExit()
     {
-        if(!isclick)
+        if(!tile.IsChoosed())
         status = move.downwords;
     }
 
     public void AddTileFront(int TileId)
     {
-        string path = TileId.ToString();
+        tile.setid(TileId);
+        string path = "TileFront/" + TileId.ToString();
         Texture2D tex = (Texture2D)Resources.Load(path);
         SpriteRenderer spr = GetComponentsInChildren<Transform>()[1].GetComponent<SpriteRenderer>();
         Sprite sp = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f));
@@ -129,7 +133,8 @@ public class Tile_ResponseMouse : MonoBehaviour
     void Update()
     {
         
-        if(isclick){
+        if(tile.IsChoosed())
+        {
             ///after clicking ,the tile will move upward more quickly
             transform.position = Vector3.MoveTowards(transform.position, up_position, 2*MoveSpeed * Time.deltaTime);
         }
