@@ -148,9 +148,56 @@ namespace Assets.Scripts.Util
 		static int CanAddRod(Tile hand_tile, List<List<Tile>> on_desk)
 		{
 			for (int i = 0; i < on_desk.Count(); i++)
-				if (on_desk[i].Count() == 3 && CanRod(hand_tile, on_desk[i][0], on_desk[i][1], on_desk[i][2])) return i;
+				if (
+					on_desk[i].Count() == 3 &&
+					CanRod(hand_tile, on_desk[i][0], on_desk[i][1], on_desk[i][2])
+					) return i;
 			return -1;
 		}
 
+		/// <summary>
+		/// 获取可以用于碰的手牌序号列表
+		/// </summary>
+		/// <param name="last">被打出的牌</param>
+		/// <param name="hand_tiles">手牌</param>
+		/// <returns>可用于碰的牌，为空则没有可以碰的牌</returns>
+		static List<Tile> GetTouchableList(Tile last, List<Tile> hand_tiles)
+		{
+			List<Tile> tiles = new List<Tile>();
+
+			for(int i = 0; i < hand_tiles.Count(); i++)
+			{
+				if (hand_tiles[i] == last)
+					tiles.Add(hand_tiles[i]);
+			}
+			if (tiles.Count() > 1) return tiles;
+			else return new List<Tile>();
+		}
+
+		/// <summary>
+		/// 获取可以用于碰的手牌序号列表
+		/// </summary>
+		/// <param name="last">被打出的牌</param>
+		/// <param name="fix">已经选中的手牌</param>
+		/// <param name="hand_tiles">手牌</param>
+		/// <returns>可用于碰的牌，为空则没有可以碰的牌</returns>
+		static List<Tile> GetTouchableList(Tile last, Tile fix, List<Tile> hand_tiles)
+		{
+			if (last != fix) return new List<Tile>();
+
+			List<Tile> tiles = new List<Tile>();
+
+			for(int i = 0; i < hand_tiles.Count(); i++)
+			{
+				if (hand_tiles[i] == last)
+					tiles.Add(hand_tiles[i]);
+			}
+			return tiles;
+		}
+
+		static List<Tile> GetEatableList(Tile last, List<Tile> hand_tiles)
+		{
+
+		}
 	}
 }
