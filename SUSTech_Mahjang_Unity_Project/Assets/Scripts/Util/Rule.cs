@@ -156,7 +156,7 @@ namespace Assets.Scripts.Util
 		}
 
 		/// <summary>
-		/// 获取可以用于碰的手牌序号列表
+		/// 获取可以用于碰的手牌列表
 		/// </summary>
 		/// <param name="last">被打出的牌</param>
 		/// <param name="hand_tiles">手牌</param>
@@ -175,7 +175,7 @@ namespace Assets.Scripts.Util
 		}
 
 		/// <summary>
-		/// 获取可以用于碰的手牌序号列表
+		/// 获取可以用于碰的手牌列表
 		/// </summary>
 		/// <param name="last">被打出的牌</param>
 		/// <param name="fix">已经选中的手牌</param>
@@ -195,6 +195,12 @@ namespace Assets.Scripts.Util
 			return tiles;
 		}
 
+		/// <summary>
+		/// 获取可以用于吃的手牌列表
+		/// </summary>
+		/// <param name="last">被打出的牌</param>
+		/// <param name="hand_tiles">手牌</param>
+		/// <returns>可用于吃的牌，为空则没有可以吃的牌</returns>
 		static List<Tile> GetEatableList(Tile last, List<Tile> hand_tiles)
 		{
 			List<Tile> tiles = new List<Tile>();
@@ -228,6 +234,13 @@ namespace Assets.Scripts.Util
 			return tiles;
 		}
 
+		/// <summary>
+		/// 获取可以用于吃的手牌列表
+		/// </summary>
+		/// <param name="last">被打出的牌</param>
+		/// <param name="fix">已经选中的手牌</param>
+		/// <param name="hand_tiles">手牌</param>
+		/// <returns>可用于吃的牌，为空则没有可以吃的牌</returns>
 		static List<Tile> GetEatableList(Tile last, Tile fix, List<Tile> hand_tiles)
 		{
 			if (last.GetSpecial() != Special.None) return new List<Tile>();
