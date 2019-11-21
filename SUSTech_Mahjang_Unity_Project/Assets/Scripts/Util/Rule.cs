@@ -101,5 +101,56 @@ namespace Assets.Scripts.Util
 			};
 			return IsSentence(tiles);
 		}
+
+		/// <summary>
+		/// 判断是否可以杠
+		/// </summary>
+		/// <param name="hand_tile">手牌</param>
+		/// <returns></returns>
+		static bool CanRod(Tile hand_tile)
+		{
+			return hand_tile.GetSpecial() == Special.King
+				|| hand_tile.GetSpecial() == Special.Logo;
+		}
+
+		/// <summary>
+		/// 判断是否可以杠
+		/// </summary>
+		/// <param name="tile_1">被打出的牌或手牌</param>
+		/// <param name="tile_2">手牌</param>
+		/// <param name="tile_3">手牌</param>
+		/// <param name="tile_4">手牌</param>
+		/// <returns></returns>
+		static bool CanRod(Tile tile_1, Tile tile_2, Tile tile_3, Tile tile_4)
+		{
+			if (
+				tile_1.GetSpecial() != Special.King &&
+				tile_1.GetSpecial() != Special.Logo &&
+				tile_2.GetSpecial() != Special.King &&
+				tile_2.GetSpecial() != Special.Logo &&
+				tile_3.GetSpecial() != Special.King &&
+				tile_3.GetSpecial() != Special.Logo &&
+				tile_4.GetSpecial() != Special.King &&
+				tile_4.GetSpecial() != Special.Logo
+			)
+				return tile_1 == tile_2
+					&& tile_2 == tile_3
+					&& tile_3 == tile_4;
+			else return false;
+		}
+
+		/// <summary>
+		/// 是否可以蓄杠
+		/// </summary>
+		/// <param name="hand_tile">手牌</param>
+		/// <param name="on_desk">吃碰杠牌区</param>
+		/// <returns>返回可以蓄杠的牌堆序号，若不能蓄杠则返回-1</returns>
+		static int CanAddRod(Tile hand_tile, List<List<Tile>> on_desk)
+		{
+			for (int i = 0; i < on_desk.Count(); i++)
+				if (on_desk[i].Count() == 3 && CanRod(hand_tile, on_desk[i][0], on_desk[i][1], on_desk[i][2])) return i;
+			return -1;
+		}
+
 	}
 }
