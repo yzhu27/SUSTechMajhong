@@ -41,6 +41,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("lightup", new Tile(0xf0230));
+        GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("lightup", new Tile(0xf0230));
     }
 }

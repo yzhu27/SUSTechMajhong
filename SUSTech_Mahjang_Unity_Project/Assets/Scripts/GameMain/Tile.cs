@@ -73,6 +73,11 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		private bool choosed;
 
+		/// <summary>
+		/// 是否被激活
+		/// </summary>
+		private bool active;
+
 		///////////////////////////////////////////////////////////////////////////////////
 
 		/// <summary>
@@ -118,7 +123,7 @@ namespace Assets.Scripts.GameMain
 			tile_1.GetSpecial() == Special.King ||
 			tile_2.GetSpecial() == Special.King || // a king in tile_1 or tile_2
 			(tile_1.GetSpecial() == Special.Sign && tile_2.GetSpecial() == Special.Sign) || // sign tiles are same
-			(tile_1.id | 0xff) == (tile_2.id | 0xff); // same in id
+			(tile_1.id | 0xf) == (tile_2.id | 0xf); // same in id
 
 		public static bool operator !=(Tile tile_1, Tile tile_2) => !(tile_1 == tile_2);
 
@@ -130,19 +135,19 @@ namespace Assets.Scripts.GameMain
 		/// 获取牌的种类
 		/// </summary>
 		/// <returns>种类</returns>
-		public Special GetSpecial() => (Special)((id | 0xf0000) >> 16);
+		public Special GetSpecial() => (Special)((id & 0xf0000) >> 16);
 
 		/// <summary>
 		/// 获取院系编号
 		/// </summary>
 		/// <returns></returns>
-		public int GetDepartment() => (id | 0xff00) >> 8;
+		public int GetDepartment() => (id & 0xff00) >> 8;
 
 		/// <summary>
 		/// 获取普通牌的序号
 		/// </summary>
 		/// <returns>1~9</returns>
-		public int GetSeq() => (id | 0xf0) >> 4;
+		public int GetSeq() => (id & 0xf0) >> 4;
 
 		/// <summary>
 		/// 获取园牌园号
@@ -153,7 +158,7 @@ namespace Assets.Scripts.GameMain
 		/// <summary>
 		/// 选中
 		/// </summary>
-		public void Choose() => this.choosed = true;
+		public void Choose() => choosed = true;
 
 		public void Unchoose() => choosed = false;
 
@@ -162,5 +167,14 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		/// <returns>bool</returns>
 		public bool IsChoosed() => choosed;
+
+		/// <summary>
+		/// 激活
+		/// </summary>
+		public void Active() => active = true;
+
+		public void Unactive() => active = false;
+
+		public bool IsActive() => active;
 	}
 }

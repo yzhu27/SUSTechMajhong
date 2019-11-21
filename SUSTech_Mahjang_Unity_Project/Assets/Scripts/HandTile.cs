@@ -27,28 +27,33 @@ public class HandTile : MonoBehaviour
     {
 
         List < Tile >tiles;
-        if (ChoosedTiles.Count==0)
-        {
-            
-            tiles = Rule.GetTouchableList(lastTile, myplayer.hand);
-            
-        }
-        else
-        {
-             unlight();
-            Debug.Log(lastTile);
-            Debug.Log(ChoosedTiles[0]);
-            Debug.Log(lastTile == ChoosedTiles[0]);
-             tiles = Rule.GetTouchableList(lastTile, ChoosedTiles[0],myplayer.hand);
-             Debug.Log(tiles.Count);
-        }
+		if (ChoosedTiles.Count == 0)
+		{
+
+			tiles = Rule.GetEatableList(lastTile, myplayer.hand);
+			Debug.Log(tiles.Count);
+		}
+		else if (ChoosedTiles.Count == 1)
+		{
+			unlight();
+			//Debug.Log(lastTile);
+			//Debug.Log(ChoosedTiles[0]);
+			//Debug.Log(lastTile == ChoosedTiles[0]);
+			tiles = Rule.GetEatableList(lastTile, ChoosedTiles[0], myplayer.hand);
+			Debug.Log(tiles.Count);
+		}
+		else
+		{
+			unlight();
+			tiles = new List<Tile>();
+		}
         
         foreach (Tile tile in tiles)
         {
           
             for(int i = 0; i < myplayer.hand.Count; i++)
             {
-                if (myplayer.hand[i] == tile)
+                if (myplayer.hand[i].Equals(tile))
                 {
                     handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<MeshRenderer>().material = (Material)Resources.Load("Touchable");
                 }

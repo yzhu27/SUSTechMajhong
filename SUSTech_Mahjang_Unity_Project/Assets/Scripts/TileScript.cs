@@ -128,7 +128,8 @@ public class TileScript : MonoBehaviour
         {
             ///after clicking ,the tile will move upward more quickly
             transform.position = Vector3.MoveTowards(transform.position, up_position, 2*MoveSpeed * Time.deltaTime);
-        }
+			gameObject.GetComponent<MeshRenderer>().material = (Material)Resources.Load("lightingTile");
+		}
         else if(status == move.upwords)
         {
             transform.position = Vector3.MoveTowards(transform.position, up_position, MoveSpeed * Time.deltaTime);

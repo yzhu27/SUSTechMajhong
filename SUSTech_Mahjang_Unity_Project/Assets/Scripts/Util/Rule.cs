@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using UnityEngine;
 
 using Assets.Scripts.GameMain;
 
@@ -55,7 +55,8 @@ namespace Assets.Scripts.Util
 
 			if (king_count > 1) return true; // Two kings or more must be true
 			else
-			{	// One king or less
+			{   // One king or less
+				Debug.Log(string.Format("seqs: {0:d}, {1:d}, {2:d}, 0xf0>>4 = {3:d}", tiles[0].GetSeq(), tiles[1].GetSeq(), tiles[2].GetSeq(), (0xf0)>>4));
 				tiles.Sort();
 				if (king_count == 1) return
 						tiles[1].GetSeq() + 1 == tiles[2].GetSeq() ||
@@ -168,7 +169,10 @@ namespace Assets.Scripts.Util
 			for(int i = 0; i < hand_tiles.Count(); i++)
 			{
 				if (hand_tiles[i] == last)
+				{
 					tiles.Add(hand_tiles[i]);
+					Debug.Log(string.Format("{0:x} = {1:x}", hand_tiles[i].id, last.id));
+				}
 			}
 			if (tiles.Count() > 1) return tiles;
 			else return new List<Tile>();
@@ -216,6 +220,11 @@ namespace Assets.Scripts.Util
 
 				for(int j = i + 1; j < hand_tiles.Count(); j++)
 				{
+					if (
+					hand_tiles[j].GetSpecial() != Special.King &&
+					hand_tiles[j].GetSpecial() != Special.None
+					) continue;
+
 					flag = false;
 					if (CanEat(last, hand_tiles[i], hand_tiles[j]))
 					{
