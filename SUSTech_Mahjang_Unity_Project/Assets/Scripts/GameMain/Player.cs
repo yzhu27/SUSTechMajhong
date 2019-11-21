@@ -33,7 +33,7 @@ namespace Assets.Scripts.GameMain
 		/// <summary>
 		/// 碰/吃/杠区
 		/// </summary>
-		public List<Tile> onDesk;
+		public List<List<Tile>> onDesk;
 
 		/// <summary>
 		/// 打出的牌
@@ -44,8 +44,9 @@ namespace Assets.Scripts.GameMain
 
 		public Player() 
 		{
-
-		}
+            hand = new List<Tile>();
+            onDesk = new List<List<Tile>>();
+        }
 
 		/// <summary>
 		/// 

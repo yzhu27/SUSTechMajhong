@@ -31,15 +31,16 @@ public class TileScript : MonoBehaviour
     /// <summary>
     /// represent whether the tile is clicked
     /// </summary>
-    public Tile tile = new Tile();
+    public Tile tile ;
     
     /// <summary>
     /// initial state of tile
     /// </summary>
     private move status = move.downwords;
 
-  
-    
+
+
+    public void setTile(Tile theTile) => tile = theTile;
 
     // Start is called before the first frame update
     void Start()
@@ -115,19 +116,7 @@ public class TileScript : MonoBehaviour
         status = move.downwords;
     }
 
-    public void AddTileFront(int TileId)
-    {
-        tile.setid(TileId);
-        string path = "TileFront/" + TileId.ToString();
-        Texture2D tex = (Texture2D)Resources.Load(path);
-        SpriteRenderer spr = GetComponentsInChildren<Transform>()[1].GetComponent<SpriteRenderer>();
-        Sprite sp = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-        spr.sprite = sp;
-        Transform tr = GetComponentsInChildren<Transform>()[1].GetComponent<Transform>();
-        float x = 2.9f;
-        float y = 3.4f;
-        tr.localScale = new Vector3(x / tex.width, y / tex.height, 1);
-    }
+    
 
     // Update is called once per frame
     void Update()

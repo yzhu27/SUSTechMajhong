@@ -46,7 +46,12 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		public int[] responsePlayer;
 
-		public PlayDesk() { }
+		public PlayDesk() {
+            self = new MainPlayer();
+            last = new Player();
+            opposite = new Player();
+            next = new Player();
+        }
 
 		/// <summary>
 		/// 开始一名玩家的回合

@@ -5,14 +5,17 @@ using Assets.Scripts.Util;
 using Assets.Scripts.GameMain;
 public class HandTileOthers : MonoBehaviour
 {
+
+    public Player myplayer ;
     private List<GameObject> handTile = new List<GameObject>();
-    private List<int> handTileId = new List<int>();
     [SerializeField]
     private float width = 0;
 
+
+    public void setPlayer(Player player) => myplayer = player;
     public void RemoveTile()
     {
-        handTileId.RemoveAt(0);
+        myplayer.hand.RemoveAt(0);
         Reconstruct();
         return;
     }
@@ -24,17 +27,18 @@ public class HandTileOthers : MonoBehaviour
 
     }
 
-    public void AddTile(int Tile)
+    public void AddTile(int TileId)
     {
 
-        handTileId.Add(Tile);
+        myplayer.hand.Add(new Tile(TileId));
+        myplayer.hand.Sort();
         Reconstruct();
     }
 
     private void Reconstruct()
     {
-        float length = handTileId.Count * width;
-        int bound = handTileId.Count;
+        float length = myplayer.hand.Count * width;
+        int bound = myplayer.hand.Count;
 
         foreach (GameObject tile in handTile)
         {
@@ -56,15 +60,8 @@ public class HandTileOthers : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AddTile(1);
-        AddTile(2);
-        AddTile(2);
-        AddTile(3);
-        AddTile(1);
-        AddTile(3);
-        AddTile(1);
-        Tile j = new Tile(0xf0230);
-        Debug.Log(Path.ImgPathOfTile("TileFront",j));
+        
+        
     }
 
     // Update is called once per frame

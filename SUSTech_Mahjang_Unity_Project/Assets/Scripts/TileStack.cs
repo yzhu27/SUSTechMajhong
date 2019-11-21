@@ -96,7 +96,7 @@ public class TileStack : MonoBehaviour
     void Start()
     {
 
-        AddTile(20);
+        AddTile(22);
         
     }
 

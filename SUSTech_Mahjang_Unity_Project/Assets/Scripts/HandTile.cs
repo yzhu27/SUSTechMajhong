@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Util;
+using Assets.Scripts.GameMain;
 
 public class HandTile : MonoBehaviour
 {
-    
-   
+
+    public MainPlayer myplayer ;
     private List<GameObject> handTile = new List<GameObject>();
-    private List<int> handTileId = new List<int>();
     [SerializeField]
-    private float width = 0; 
-    
+    private float width = 0;
+
+    public void setPlayer(MainPlayer player) => myplayer = player;
     public int RemoveTile()
     {
         int length = handTile.Count;
@@ -18,8 +20,8 @@ public class HandTile : MonoBehaviour
             
             if (handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile.IsChoosed() == true)
             {
-                handTileId.RemoveAt(i);
-                int id = handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile.getId();
+                int id = myplayer.hand[i].getId();
+                myplayer.hand.RemoveAt(i);
                 Reconstruct();
                 return id;
          }
@@ -35,18 +37,18 @@ public class HandTile : MonoBehaviour
 
     }
 
-    public void AddTile(int Tile)
+    public void AddTile(int TileId)
     {
-        
-        handTileId.Add(Tile);
-        handTileId.Sort();
+
+        myplayer.hand.Add(new Tile(TileId));
+        myplayer.hand.Sort();
         Reconstruct();
     }
 
     private void Reconstruct()
     {
-        float length = handTileId.Count * width;
-        int bound = handTileId.Count;
+        float length = myplayer.hand.Count * width;
+        int bound = myplayer.hand.Count;
         
         foreach (GameObject tile in handTile)
         {
@@ -58,7 +60,8 @@ public class HandTile : MonoBehaviour
         for (int i = 0; i < bound; i++)
         {
             GameObject instance =(GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Tile"));
-            instance.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("AddTileFront", handTileId[i]);
+            instance.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("setTile", myplayer.hand[i]);
+            instance.GetComponentsInChildren<Transform>()[2].GetComponent<AddTileFront>().SendMessage("addTileFront", Path.ImgPathOfTile("TileFront",myplayer.hand[i]));
             handTile.Add(instance);
             instance.transform.parent = transform;
             instance.transform.rotation = transform.rotation;
@@ -68,13 +71,7 @@ public class HandTile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AddTile(1);
-        AddTile(2);
-        AddTile(2);
-        AddTile(3);
-        AddTile(1);
-        AddTile(3);
-        AddTile(1);
+       
     }
 
     // Update is called once per frame
