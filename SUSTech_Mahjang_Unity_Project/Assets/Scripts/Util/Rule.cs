@@ -161,7 +161,7 @@ namespace Assets.Scripts.Util
 		/// <param name="last">被打出的牌</param>
 		/// <param name="hand_tiles">手牌</param>
 		/// <returns>可用于碰的牌，为空则没有可以碰的牌</returns>
-		static List<Tile> GetTouchableList(Tile last, List<Tile> hand_tiles)
+		public static List<Tile> GetTouchableList(Tile last, List<Tile> hand_tiles)
 		{
 			List<Tile> tiles = new List<Tile>();
 
@@ -181,9 +181,10 @@ namespace Assets.Scripts.Util
 		/// <param name="fix">已经选中的手牌</param>
 		/// <param name="hand_tiles">手牌</param>
 		/// <returns>可用于碰的牌，为空则没有可以碰的牌</returns>
-		static List<Tile> GetTouchableList(Tile last, Tile fix, List<Tile> hand_tiles)
+		public static List<Tile> GetTouchableList(Tile last, Tile fix, List<Tile> hand_tiles)
 		{
-			if (last != fix) return new List<Tile>();
+			
+            if (last != fix) return new List<Tile>();
 
 			List<Tile> tiles = new List<Tile>();
 
@@ -201,7 +202,7 @@ namespace Assets.Scripts.Util
 		/// <param name="last">被打出的牌</param>
 		/// <param name="hand_tiles">手牌</param>
 		/// <returns>可用于吃的牌，为空则没有可以吃的牌</returns>
-		static List<Tile> GetEatableList(Tile last, List<Tile> hand_tiles)
+		public static List<Tile> GetEatableList(Tile last, List<Tile> hand_tiles)
 		{
 			List<Tile> tiles = new List<Tile>();
 			bool flag;
@@ -241,7 +242,7 @@ namespace Assets.Scripts.Util
 		/// <param name="fix">已经选中的手牌</param>
 		/// <param name="hand_tiles">手牌</param>
 		/// <returns>可用于吃的牌，为空则没有可以吃的牌</returns>
-		static List<Tile> GetEatableList(Tile last, Tile fix, List<Tile> hand_tiles)
+		public static List<Tile> GetEatableList(Tile last, Tile fix, List<Tile> hand_tiles)
 		{
 			if (last.GetSpecial() != Special.None) return new List<Tile>();
 

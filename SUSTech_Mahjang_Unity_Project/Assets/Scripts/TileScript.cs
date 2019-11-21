@@ -68,11 +68,13 @@ public class TileScript : MonoBehaviour
         {
             tile.Unchoose();
             gameObject.GetComponent<MeshRenderer>().material = (Material)Resources.Load("commonTile");
+            GetComponentInParent<HandTile>().ChoosedTiles.Remove(tile);
         }
         else
         {
             tile.Choose();
             gameObject.GetComponent<MeshRenderer>().material = (Material)Resources.Load("lightingTile");
+            GetComponentInParent<HandTile>().ChoosedTiles.Add(tile);
         }
         Debug.Log("click down");
 

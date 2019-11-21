@@ -8,27 +8,82 @@ public class HandTile : MonoBehaviour
 {
 
     public MainPlayer myplayer ;
+    public List<Tile> ChoosedTiles = new List<Tile>();
     private List<GameObject> handTile = new List<GameObject>();
     [SerializeField]
     private float width = 0;
 
     public void setPlayer(MainPlayer player) => myplayer = player;
-    public int RemoveTile()
+
+    public void unlight()
     {
-        int length = handTile.Count;
-        for (int i=0; i < length; i++){
+        foreach(GameObject tile in handTile)
+        {
+            tile.GetComponentsInChildren<Transform>()[2].GetComponent<MeshRenderer>().material = (Material)Resources.Load("commonTile");
+        }
+        
+    }
+    public void lightup(Tile lastTile)
+    {
+
+        List < Tile >tiles;
+        if (ChoosedTiles.Count==0)
+        {
             
-            if (handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile.IsChoosed() == true)
-            {
-                int id = myplayer.hand[i].getId();
-                myplayer.hand.RemoveAt(i);
-                Reconstruct();
-                return id;
-         }
+            tiles = Rule.GetTouchableList(lastTile, myplayer.hand);
             
         }
-        return 0;
+        else
+        {
+             unlight();
+            Debug.Log(lastTile);
+            Debug.Log(ChoosedTiles[0]);
+            Debug.Log(lastTile == ChoosedTiles[0]);
+             tiles = Rule.GetTouchableList(lastTile, ChoosedTiles[0],myplayer.hand);
+             Debug.Log(tiles.Count);
+        }
+        
+        foreach (Tile tile in tiles)
+        {
+          
+            for(int i = 0; i < myplayer.hand.Count; i++)
+            {
+                if (myplayer.hand[i] == tile)
+                {
+                    handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<MeshRenderer>().material = (Material)Resources.Load("Touchable");
+                }
+            }
+            
+        }
     }
+    public List<Tile> RemoveTile()
+    {
+        //int length = handTile.Count;
+        //for (int i=0; i < length; i++){
+
+        //    if (handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile.IsChoosed() == true)
+        //    {
+        //        int id = myplayer.hand[i].getId();
+        //        myplayer.hand.RemoveAt(i);
+        //        Reconstruct();
+        //        return id;
+        // }
+
+        //}
+        //return 0;
+        List<Tile> tiles = ChoosedTiles;
+       
+        foreach (Tile tile in ChoosedTiles)
+        {
+            myplayer.hand.Remove(tile);
+        }
+        ChoosedTiles = new List<Tile>();
+        Reconstruct();
+        return tiles;
+
+    }
+
+    
 
    
 
