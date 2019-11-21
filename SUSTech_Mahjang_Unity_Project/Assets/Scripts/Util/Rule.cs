@@ -197,7 +197,48 @@ namespace Assets.Scripts.Util
 
 		static List<Tile> GetEatableList(Tile last, List<Tile> hand_tiles)
 		{
+			List<Tile> tiles = new List<Tile>();
+			bool flag;
 
+			for(int i = 0; i < hand_tiles.Count() - 1; i++)
+			{
+				if (
+					hand_tiles[i].GetSpecial() != Special.King &&
+					hand_tiles[i].GetSpecial() != Special.None
+				) continue;
+
+				for(int j = i + 1; j < hand_tiles.Count(); j++)
+				{
+					flag = false;
+					if (CanEat(last, hand_tiles[i], hand_tiles[j]))
+					{
+						flag = true;
+						if (!tiles.Exists(tile => tile.Equals(hand_tiles[j])))
+						{
+							tiles.Add(hand_tiles[j]);
+						}
+					}
+					if (flag && !tiles.Exists(tile => tile.Equals(hand_tiles[i])))
+					{
+						tiles.Add(hand_tiles[i]);
+					}
+				}
+			}
+			tiles.Sort();
+			return tiles;
+		}
+
+		static List<Tile> GetEatableList(Tile last, Tile fix, List<Tile> hand_tiles)
+		{
+			if (last.GetSpecial() != Special.None) return new List<Tile>();
+
+			List<Tile> tiles = new List<Tile>();
+
+			for (int i = 0; i < hand_tiles.Count(); i++)
+				if (CanEat(last, fix, hand_tiles[i]))
+					tiles.Add(hand_tiles[i]);
+
+			return tiles;
 		}
 	}
 }
