@@ -85,6 +85,14 @@ namespace Assets.Scripts.GameMain
 			this.choosed = false;
 		}
 
+        public int getId()
+        {
+            return this.id;
+        }
+        public void setid(int i)
+        {
+            this.id = i;
+        }
 		/// <summary>
 		/// 判断为同一张牌(包括unique)
 		/// </summary>
@@ -147,12 +155,18 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		public void Choose() => this.choosed = true;
 
-		/// <summary>
-		/// 是否被选中
-		/// </summary>
-		/// <returns>bool</returns>
-		public bool IsChoosed() => this.choosed;
+        public void Unchoose()
+        {
+            this.choosed = false;
+        }
 
-
+        /// <summary>
+        /// 是否被选中
+        /// </summary>
+        /// <returns>bool</returns>
+        public bool IsChoosed()
+		{
+			return this.choosed;
+		}
 	}
 }
