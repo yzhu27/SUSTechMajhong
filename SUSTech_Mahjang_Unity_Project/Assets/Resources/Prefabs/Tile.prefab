@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3090594209435407433}
+  - component: {fileID: 1285896689554366155}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -32,6 +33,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1285896689554366155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069587474913437274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62483f7d97b354a479dca3e3e3569acf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upDistance: 0.015
+  MoveSpeed: 5
+  isclick: 0
 --- !u!1 &3850726759925274876
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ public class HandTile : MonoBehaviour
         int length = handTile.Count;
         for (int i=0; i < length; i++){
             
-            if (handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<Tile>().isclick == true)
+            if (handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<Tile_ResponseMouse>().isclick == true)
             {
                 handTileId.RemoveAt(i);
             Reconstruct();
@@ -54,7 +54,7 @@ public class HandTile : MonoBehaviour
         for (int i = 0; i < bound; i++)
         {
             GameObject instance =(GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Tile"));
-            instance.GetComponentsInChildren<Transform>()[2].GetComponent<Tile>().SendMessage("AddTileFront", handTileId[i]);
+            instance.GetComponentsInChildren<Transform>()[2].GetComponent<Tile_ResponseMouse>().SendMessage("AddTileFront", handTileId[i]);
             handTile.Add(instance);
             instance.transform.parent = transform;
             instance.transform.rotation = transform.rotation;
