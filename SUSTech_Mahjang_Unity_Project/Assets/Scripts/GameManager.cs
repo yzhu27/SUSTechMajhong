@@ -34,13 +34,13 @@ public class GameManager : MonoBehaviour
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", handtile[i]);
         }
 
-        GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("lightup",new Tile(0xf0230));
+        
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("lightup", new Tile(0xf0230));
+        
     }
 }

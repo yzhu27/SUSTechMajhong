@@ -19,11 +19,11 @@ public class HandTile : MonoBehaviour
     {
         foreach(GameObject tile in handTile)
         {
-            tile.GetComponentsInChildren<Transform>()[2].GetComponent<MeshRenderer>().material = (Material)Resources.Load("commonTile");
+            tile.GetComponentsInChildren<Transform>()[2].GetComponent<Lightuptile>().SendMessage("lightup",1);
         }
         
     }
-    public void lightup(Tile lastTile)
+    public void lightupEatable(Tile lastTile)
     {
 
         List < Tile >tiles;
@@ -55,10 +55,49 @@ public class HandTile : MonoBehaviour
             {
                 if (myplayer.hand[i].Equals(tile))
                 {
-                    handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<MeshRenderer>().material = (Material)Resources.Load("Touchable");
+                    handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<Lightuptile>().SendMessage("lightup",3);
                 }
             }
             
+        }
+    }
+
+    public void lightupTouchable(Tile lastTile)
+    {
+
+        List<Tile> tiles;
+        if (ChoosedTiles.Count == 0)
+        {
+
+            tiles = Rule.GetTouchableList(lastTile, myplayer.hand);
+            Debug.Log(tiles.Count);
+        }
+        else if (ChoosedTiles.Count == 1)
+        {
+            unlight();
+            //Debug.Log(lastTile);
+            //Debug.Log(ChoosedTiles[0]);
+            //Debug.Log(lastTile == ChoosedTiles[0]);
+            tiles = Rule.GetTouchableList(lastTile, ChoosedTiles[0], myplayer.hand);
+            Debug.Log(tiles.Count);
+        }
+        else
+        {
+            unlight();
+            tiles = new List<Tile>();
+        }
+
+        foreach (Tile tile in tiles)
+        {
+
+            for (int i = 0; i < myplayer.hand.Count; i++)
+            {
+                if (myplayer.hand[i].Equals(tile))
+                {
+                    handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<Lightuptile>().SendMessage("lightup", 2);
+                }
+            }
+
         }
     }
     public List<Tile> RemoveTile()
