@@ -2,71 +2,16 @@
 
 namespace Assets.Scripts.GameMain
 {
-	/// <summary>
-	/// 特殊位，位于000X0000
-	/// </summary>
-	public enum Special
-	{
-		/// <summary>
-		/// 普通牌
-		/// </summary>
-		None = 0xf,
-		/// <summary>
-		/// 癞子
-		/// </summary>
-		King = 0x0,
-		/// <summary>
-		/// 校徽
-		/// </summary>
-		Logo = 0x1,
-		/// <summary>
-		/// 签到
-		/// </summary>
-		Sign = 0x2,
-		/// <summary>
-		/// 园
-		/// </summary>
-		Land = 0x3
-	}
-
-	/// <summary>
-	/// 园牌
-	/// </summary>
-	public enum Land
-	{
-		/// <summary>
-		/// 欣园
-		/// </summary>
-		Xin = 0x0,
-		/// <summary>
-		/// 荔园
-		/// </summary>
-		Lee = 0x1,
-		/// <summary>
-		/// 慧园
-		/// </summary>
-		Hui = 0x2,
-		/// <summary>
-		/// 创园
-		/// </summary>
-		Cng = 0x3,
-		/// <summary>
-		/// 智园
-		/// </summary>
-		Zhi = 0x4
-	}
-
+	
 	/// <summary>
 	/// 麻将牌
 	/// </summary>
 	public class Tile : IComparable<Tile>
 	{
-		
-
 		/// <summary>
 		/// 每张牌唯一确定的id，0表示unknown
 		/// </summary>
-		public int id;
+		public int id { get => id; private set => id = value; }
 
 		/// <summary>
 		/// 是否被选中
@@ -90,26 +35,38 @@ namespace Assets.Scripts.GameMain
 			this.choosed = false;
 		}
 
-        public int getId()
-        {
-            return this.id;
-        }
-        public void setid(int i)
-        {
-            this.id = i;
-        }
 		/// <summary>
 		/// 判断为同一张牌(包括unique)
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <returns></returns>
 		public override bool Equals(object obj) =>
-			obj.GetType() == typeof(Tile) &&
+			obj != null && obj.GetType() == typeof(Tile) &&
 			((Tile)obj).id == id;
 
-		public override int GetHashCode() => id;
+		public override int GetHashCode() => id.GetHashCode();
 
-		public override string ToString() => id.ToString();
+		public override string ToString()
+		{
+			switch (GetSpecial())
+			{
+				case Special.King:
+				case Special.Logo:
+					return string.Format("{0}({1})",
+						GetSpecial().ToString(), GetUnique());
+				case Special.Land:
+					return string.Format("{0}({1})",
+						GetLand().ToString(), GetUnique());
+				case Special.Sign:
+					return string.Format("{0}[{1}]({2})",
+						GetDepartment().ToString(), GetSpecial().ToString(), GetUnique());
+				case Special.None:
+					return string.Format("{0}[{1}]({2})",
+						GetDepartment().ToString(), GetSeq().ToString(), GetUnique());
+				default:
+					return "???";
+			}
+		}
 
 		public string ToString(string fmt) => id.ToString(fmt);
 
@@ -135,25 +92,31 @@ namespace Assets.Scripts.GameMain
 		/// 获取牌的种类
 		/// </summary>
 		/// <returns>种类</returns>
-		public Special GetSpecial() => (Special)((id & 0xf0000) >> 16);
+		public Special GetSpecial() => (Special)((id & 0xf0000) >> (int)Location.Special);
 
 		/// <summary>
 		/// 获取院系编号
 		/// </summary>
 		/// <returns></returns>
-		public int GetDepartment() => (id & 0xff00) >> 8;
+		public Department GetDepartment() => (Department)((id & 0xff00) >> (int)Location.Department);
 
 		/// <summary>
 		/// 获取普通牌的序号
 		/// </summary>
 		/// <returns>1~9</returns>
-		public int GetSeq() => (id & 0xf0) >> 4;
+		public int GetSeq() => (id & 0xf0) >> (int)Location.Sequence;
 
 		/// <summary>
 		/// 获取园牌园号
 		/// </summary>
 		/// <returns>园</returns>
 		public Land GetLand() => (Land)GetSeq();
+
+		/// <summary>
+		/// 获取unique编号
+		/// </summary>
+		/// <returns></returns>
+		public int GetUnique() => id & 0b11;
 
 		/// <summary>
 		/// 选中
@@ -176,5 +139,25 @@ namespace Assets.Scripts.GameMain
 		public void Unactive() => active = false;
 
 		public bool IsActive() => active;
+
+		public static bool operator <(Tile left, Tile right)
+		{
+			return left is null ? right is object : left.CompareTo(right) < 0;
+		}
+
+		public static bool operator <=(Tile left, Tile right)
+		{
+			return left is null || left.CompareTo(right) <= 0;
+		}
+
+		public static bool operator >(Tile left, Tile right)
+		{
+			return left is object && left.CompareTo(right) > 0;
+		}
+
+		public static bool operator >=(Tile left, Tile right)
+		{
+			return left is null ? right is null : left.CompareTo(right) >= 0;
+		}
 	}
 }

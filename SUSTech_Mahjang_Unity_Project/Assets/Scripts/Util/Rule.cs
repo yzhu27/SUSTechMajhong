@@ -43,11 +43,11 @@ namespace Assets.Scripts.Util
 					king_count++;
 				else if (tile.GetSpecial() == Special.None)
 				{   // Check department
-					if (department_flag && tile.GetDepartment() != department)
+					if (department_flag && (int)tile.GetDepartment() != department)
 						return false;
 					else if (!department_flag)
 					{
-						department = tile.GetDepartment();
+						department = (int)tile.GetDepartment();
 						department_flag = true;
 					}
 				}
@@ -148,9 +148,9 @@ namespace Assets.Scripts.Util
 		/// <returns>返回可以蓄杠的牌堆序号，若不能蓄杠则返回-1</returns>
 		static int CanAddRod(Tile hand_tile, List<List<Tile>> on_desk)
 		{
-			for (int i = 0; i < on_desk.Count(); i++)
+			for (int i = 0; i < on_desk.Count; i++)
 				if (
-					on_desk[i].Count() == 3 &&
+					on_desk[i].Count == 3 &&
 					CanRod(hand_tile, on_desk[i][0], on_desk[i][1], on_desk[i][2])
 					) return i;
 			return -1;
@@ -166,15 +166,14 @@ namespace Assets.Scripts.Util
 		{
 			List<Tile> tiles = new List<Tile>();
 
-			for(int i = 0; i < hand_tiles.Count(); i++)
+			for(int i = 0; i < hand_tiles.Count; i++)
 			{
 				if (hand_tiles[i] == last)
 				{
 					tiles.Add(hand_tiles[i]);
-					Debug.Log(string.Format("{0:x} = {1:x}", hand_tiles[i].id, last.id));
 				}
 			}
-			if (tiles.Count() > 1) return tiles;
+			if (tiles.Count > 1) return tiles;
 			else return new List<Tile>();
 		}
 
@@ -192,7 +191,7 @@ namespace Assets.Scripts.Util
 
 			List<Tile> tiles = new List<Tile>();
 
-			for(int i = 0; i < hand_tiles.Count(); i++)
+			for(int i = 0; i < hand_tiles.Count; i++)
 			{
 				if (hand_tiles[i] == last)
 					tiles.Add(hand_tiles[i]);
@@ -211,14 +210,14 @@ namespace Assets.Scripts.Util
 			List<Tile> tiles = new List<Tile>();
 			bool flag;
 
-			for(int i = 0; i < hand_tiles.Count() - 1; i++)
+			for(int i = 0; i < hand_tiles.Count - 1; i++)
 			{
 				if (
 					hand_tiles[i].GetSpecial() != Special.King &&
 					hand_tiles[i].GetSpecial() != Special.None
 				) continue;
 
-				for(int j = i + 1; j < hand_tiles.Count(); j++)
+				for(int j = i + 1; j < hand_tiles.Count; j++)
 				{
 					if (
 					hand_tiles[j].GetSpecial() != Special.King &&
@@ -257,7 +256,7 @@ namespace Assets.Scripts.Util
 
 			List<Tile> tiles = new List<Tile>();
 
-			for (int i = 0; i < hand_tiles.Count(); i++)
+			for (int i = 0; i < hand_tiles.Count; i++)
 				if (CanEat(last, fix, hand_tiles[i]))
 					tiles.Add(hand_tiles[i]);
 
