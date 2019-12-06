@@ -37,9 +37,15 @@ namespace Assets.Scripts.LocalServer
 		private int next;
 
 		/// <summary>
-		/// 
+		/// Tile pool is the stack where all players draw
+		/// tiles from, every game has one tile pool.
 		/// </summary>
-		/// <param name="departments"></param>
+		/// <param name="departments">
+		/// List of department of players' charactors,
+		/// there are 4 players in one game, so the
+		/// length of <paramref name="departments"/>
+		/// should be 4.
+		/// </param>
 		/// <exception cref="ArgumentException"/>
 		public TilePool(List<Department> departments)
 		{
@@ -89,18 +95,18 @@ namespace Assets.Scripts.LocalServer
 		/// <summary>
 		/// draw from a shuffled tile pool
 		/// </summary>
-		/// <returns><see cref="Tile"/> drawn, <c>null</c> if pool is empty</returns>
+		/// <returns>id of dwawn tile, -1 if pool is empty</returns>
 		/// <exception cref="AccessViolationException"/>
-		public Tile Draw()
+		public int Draw()
 		{
 			if (!shuffled)
 				throw new AccessViolationException("can't draw from unshuffled tile pool");
 			if (pool.Count > next)
 			{
-				return pool[next++];
+				return pool[next++].id;
 			}
 			else
-				return null;
+				return -1;
 		}
 
 		/// <summary>

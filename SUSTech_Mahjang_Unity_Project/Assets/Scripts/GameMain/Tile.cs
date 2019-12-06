@@ -9,7 +9,7 @@ namespace Assets.Scripts.GameMain
 	public class Tile : IComparable<Tile>
 	{
 		/// <summary>
-		/// 每张牌唯一确定的id，0表示unknown
+		/// 每张牌唯一确定的id
 		/// </summary>
 		public int id { get => id; private set => id = value; }
 
@@ -29,10 +29,13 @@ namespace Assets.Scripts.GameMain
 		/// 初始化，默认unknown
 		/// </summary>
 		/// <param name="id"><see cref="id"/></param>
-		public Tile(int id = 0)
+		/// <exception cref="ArgumentException"/>
+		public Tile(int id)
 		{
+			if (!IsCorrectID(id))
+				throw new ArgumentException(string.Format("{0:x} is not a correct tile id", id));
 			this.id = id;
-			this.choosed = false;
+			choosed = false;
 		}
 
 		/// <summary>
@@ -85,6 +88,26 @@ namespace Assets.Scripts.GameMain
 		public static bool operator !=(Tile tile_1, Tile tile_2) => !(tile_1 == tile_2);
 
 		public int CompareTo(Tile other) => id - other.id;
+
+		public static bool operator <(Tile left, Tile right)
+		{
+			return left is null ? right is object : left.CompareTo(right) < 0;
+		}
+
+		public static bool operator <=(Tile left, Tile right)
+		{
+			return left is null || left.CompareTo(right) <= 0;
+		}
+
+		public static bool operator >(Tile left, Tile right)
+		{
+			return left is object && left.CompareTo(right) > 0;
+		}
+
+		public static bool operator >=(Tile left, Tile right)
+		{
+			return left is null ? right is null : left.CompareTo(right) >= 0;
+		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -140,24 +163,27 @@ namespace Assets.Scripts.GameMain
 
 		public bool IsActive() => active;
 
-		public static bool operator <(Tile left, Tile right)
+		/////////////////////////////////////////////////////////////
+		
+		public static bool IsCorrectID(int id)
 		{
-			return left is null ? right is object : left.CompareTo(right) < 0;
-		}
-
-		public static bool operator <=(Tile left, Tile right)
-		{
-			return left is null || left.CompareTo(right) <= 0;
-		}
-
-		public static bool operator >(Tile left, Tile right)
-		{
-			return left is object && left.CompareTo(right) > 0;
-		}
-
-		public static bool operator >=(Tile left, Tile right)
-		{
-			return left is null ? right is null : left.CompareTo(right) >= 0;
+			if (id >> (int)Location.Zero != 0) return false;
+			switch((Special)((id & 0xf0000) >> (int)Location.Special))
+			{
+				case Special.King:
+				case Special.Logo:
+					return (id & 0xfff0) == 0;
+				case Special.Land:
+					return (id & 0xff00) == 0
+						&& Enum.IsDefined(typeof(Location),
+								(id & 0xf0) >> (int)Location.Land);
+				case Special.Sign:
+				case Special.None:
+					return Enum.IsDefined(typeof(Department),
+							(id & 0xff00) >> (int)Location.Department);
+				default:
+					return false;
+			}
 		}
 	}
 }

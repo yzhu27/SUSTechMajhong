@@ -12,3 +12,4 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:指定 IFormatProvider", Justification = "<挂起>", Scope = "member", Target = "~M:Assets.Scripts.LocalServer.TilePool.#ctor(System.Collections.Generic.List{Assets.Scripts.GameMain.Department})")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:指定 IFormatProvider", Justification = "<挂起>", Scope = "member", Target = "~M:Assets.Scripts.LocalServer.TilePool.PoolToString~System.String")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:请不要将文本作为本地化参数传递", Justification = "<挂起>", Scope = "member", Target = "~M:Assets.Scripts.LocalServer.TilePool.Draw")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:指定 IFormatProvider", Justification = "<挂起>", Scope = "member", Target = "~M:Assets.Scripts.GameMain.Tile.#ctor(System.Int32)")]
