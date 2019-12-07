@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 using Assets.Scripts.GameMain;
 using Assets.Scripts.Util;
@@ -77,7 +78,7 @@ namespace Assets.Scripts.LocalServer
 				Algorithm.Shuffle(all);
 			while (this.departments.Count < 4)
 			{
-				departments.Add(all[this.departments.Count]);
+				this.departments.Add(all[this.departments.Count]);
 			}
 			// generate tile pool
 			GenerateSpecial();
@@ -140,8 +141,8 @@ namespace Assets.Scripts.LocalServer
 
 			for (int i = 0; i < 4; i++)
 				pool.Add(tileFactory.GetTile(
-					(int)Special.King << (int)Location.Special +
-					i << (int)Location.Unique +
+					((int)Special.King << (int)Location.Special) +
+					(i << (int)Location.Unique) +
 					reserve
 				));
 		}
@@ -152,8 +153,8 @@ namespace Assets.Scripts.LocalServer
 
 			for (int i = 0; i < 4; i++)
 				pool.Add(tileFactory.GetTile(
-					(int)Special.Logo << (int)Location.Special +
-					i << (int)Location.Unique +
+					((int)Special.Logo << (int)Location.Special) +
+					(i << (int)Location.Unique) +
 					reserve
 				));
 		}
@@ -165,8 +166,8 @@ namespace Assets.Scripts.LocalServer
 			foreach (int department in departments)
 				for (int i = 0; i < 4; i++)
 					pool.Add(tileFactory.GetTile(
-						(int)Special.Sign << (int)Location.Special +
-						i << (int)Location.Unique +
+						((int)Special.Sign << (int)Location.Special) +
+						(i << (int)Location.Unique) +
 						reserve
 					));
 		}
@@ -178,9 +179,9 @@ namespace Assets.Scripts.LocalServer
 			foreach (int land in Enum.GetValues(typeof(Land)))
 				for (int i = 0; i < 4; i++)
 					pool.Add(tileFactory.GetTile(
-						(int)Special.Land << (int)Location.Special +
-						land << (int)Location.Land +
-						i << (int)Location.Unique +
+						((int)Special.Land << (int)Location.Special) +
+						(land << (int)Location.Land) +
+						(i << (int)Location.Unique) +
 						reserve
 					));
 		}
@@ -199,10 +200,10 @@ namespace Assets.Scripts.LocalServer
 				for (int i = 1; i < 10; i++)
 					for (int j = 0; j < 4; j++)
 						pool.Add(tileFactory.GetTile(
-							(int)Special.None << (int)Location.Special +
-							(int)department << (int)Location.Department +
-							i << (int)Location.Sequence +
-							j << (int)Location.Unique
+							((int)Special.None << (int)Location.Special) +
+							((int)department << (int)Location.Department) +
+							(i << (int)Location.Sequence) +
+							(j << (int)Location.Unique)
 						));
 		}
 	}

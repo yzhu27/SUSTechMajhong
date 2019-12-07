@@ -33,7 +33,7 @@ namespace Assets.Scripts.GameMain
 		public Tile(int id)
 		{
 			if (!IsCorrectID(id))
-				throw new ArgumentException(string.Format("{0:x} is not a correct tile id", id));
+				throw new ArgumentException(string.Format("0x{0:x} is not a correct tile id", id));
 			this.id = id;
 			choosed = false;
 		}
@@ -175,7 +175,7 @@ namespace Assets.Scripts.GameMain
 					return (id & 0xfff0) == 0;
 				case Special.Land:
 					return (id & 0xff00) == 0
-						&& Enum.IsDefined(typeof(Location),
+						&& Enum.IsDefined(typeof(Land),
 								(id & 0xf0) >> (int)Location.Land);
 				case Special.Sign:
 				case Special.None:
