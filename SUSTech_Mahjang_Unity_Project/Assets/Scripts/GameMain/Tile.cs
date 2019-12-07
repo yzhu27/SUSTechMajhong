@@ -11,7 +11,7 @@ namespace Assets.Scripts.GameMain
 		/// <summary>
 		/// 每张牌唯一确定的id
 		/// </summary>
-		public int id { get => id; private set => id = value; }
+		public int id { get ; private set; }
 
 		/// <summary>
 		/// 是否被选中
