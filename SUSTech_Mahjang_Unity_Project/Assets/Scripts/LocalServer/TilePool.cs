@@ -29,12 +29,13 @@ namespace Assets.Scripts.LocalServer
 		/// </summary>
 		public int remain { get => pool.Count - next; }
 
-		/// <summary>
-		/// whether pool is sorted or shuffled
-		/// </summary>
-		public bool shuffled { get => shuffled; private set => shuffled = value; }
+        /// <summary>
+        /// whether pool is sorted or shuffled
+        /// </summary>
+        //public bool shuffled { get => this.shuffled; private set => this.shuffled = value; }
+        public bool shuffled { get; private set; }
 
-		private int next;
+        private int next;
 
 		/// <summary>
 		/// Tile pool is the stack where all players draw

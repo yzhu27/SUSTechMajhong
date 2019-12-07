@@ -41,7 +41,7 @@ public class TileScript : MonoBehaviour
 
 
     public void setTile(Tile theTile) => tile = theTile;
-
+   
     // Start is called before the first frame update
     void Start()
     {
