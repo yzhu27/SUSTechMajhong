@@ -248,19 +248,37 @@ namespace Assets.Scripts.Util
 		/// </summary>
 		/// <param name="last">被打出的牌</param>
 		/// <param name="fix">已经选中的手牌</param>
-		/// <param name="hand_tiles">手牌</param>
+		/// <param name="hand_tile">手牌</param>
 		/// <returns>可用于吃的牌，为空则没有可以吃的牌</returns>
-		public static List<Tile> GetEatableList(Tile last, Tile fix, List<Tile> hand_tiles)
+		public static List<Tile> GetEatableList(Tile last, Tile fix, List<Tile> hand_tile)
 		{
 			if (last.GetSpecial() != Special.None) return new List<Tile>();
 
 			List<Tile> tiles = new List<Tile>();
 
-			for (int i = 0; i < hand_tiles.Count; i++)
-				if (CanEat(last, fix, hand_tiles[i]))
-					tiles.Add(hand_tiles[i]);
+			for (int i = 0; i < hand_tile.Count; i++)
+				if (CanEat(last, fix, hand_tile[i]))
+					tiles.Add(hand_tile[i]);
 
 			return tiles;
+		}
+
+		public static List<Tile> GetSelfRodableList(List<List<Tile>> on_dest, List<Tile> fix, List<Tile> hand_tile)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// 是否可以胡牌
+		/// <para>注意：这是不考虑角色技能和院系的基础判断函数，
+		/// 不要直接调用该函数，作为替代应使用</para>
+		/// </summary>
+		/// <param name="on_desk"></param>
+		/// <param name="hand_tiles"></param>
+		/// <returns></returns>
+		public static bool BasicCanWin(List<List<Tile>> on_desk, List<Tile> hand_tiles)
+		{
+			return false;
 		}
 	}
 }
