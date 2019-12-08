@@ -3,81 +3,51 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-
 using Assets.Scripts.GameMain;
+using Dist.SpringWebsocket;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Web
 {
 	class WebRequest
 	{
-		string serverUri;
-		PlayDesk clientPlayDesk;
-		int timeout;
+		private readonly Client client;
 
-		public WebRequest(string serverUri, PlayDesk clientPlayDesk, int timeout=1)
+		public WebRequest(Uri uri)
 		{
-			this.serverUri = serverUri;
-			this.clientPlayDesk = clientPlayDesk;
-			this.timeout = timeout;
-		}
-
-		IEnumerator Get(string method)
-		{
-			string uri = serverUri + method;
-			using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
+			client = new Client(uri.ToString(), new Receive(delegate (StompFrame frame)
 			{
-				webRequest.timeout = timeout;
-				// Request and wait for the desired page.
-				yield return webRequest.SendWebRequest();
-
-				string[] pages = uri.Split('/');
-				int page = pages.Length - 1;
-
-				if (webRequest.isNetworkError || webRequest.isHttpError)
-				{
-					Debug.Log(pages[page] + ": Error: " + webRequest.error);
-				}
-				else
-				{
-					Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
-				}
-			}
+				Debug.Log(frame.Code.ToString() + ":" + frame.Content);
+			}));
 		}
 
-		IEnumerator Post(string method, WWWForm form)
+		public void Connect()
 		{
-			string uri = serverUri + method;
-			using (UnityWebRequest www = UnityWebRequest.Post(uri, form))
+			Dictionary<string, string> headers = new Dictionary<string, string>();
+			headers.Add("login", "DistChen");
+			headers.Add("passcode", "pass");
+			this.client.Connect(headers, new Receive(delegate (StompFrame frame)
 			{
-				www.timeout = timeout;
-				yield return www.SendWebRequest();
-
-				if (www.isNetworkError || www.isHttpError)
-				{
-					Debug.Log(www.error);
-				}
-				else
-				{
-					Debug.Log("Form upload complete!\n" + form);
-				}
-			}
+				Debug.Log(frame.Code.ToString() + ":" + frame.Content);
+			}));
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public int Init()
+		public void Subscribe(string topic)
 		{
-			// TODO
-			return 0;
+			client.Subscribe(topic, new Receive(delegate (StompFrame frame)
+			{
+				Debug.Log(frame.Code.ToString() + ":" + frame.Content);
+			}));
 		}
 
-		public IEnumerator Play(GameMain.Tile tile)
+		public void Send(string topic, string content)
 		{
-			WWWForm form = new WWWForm();
-			form.AddField("hand_tile", tile.id);
-			yield return Post("play", form);
+			client.Send(topic, content);
+		}
+
+		public void UnSubscribe(string topic)
+		{
+			client.UnSubscribe(topic);
 		}
 
 	}

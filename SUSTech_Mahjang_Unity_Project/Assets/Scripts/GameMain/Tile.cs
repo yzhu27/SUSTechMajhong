@@ -13,6 +13,7 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		public int id { get ; private set; }
 
+		#region Private attributes
 		/// <summary>
 		/// 是否被选中
 		/// </summary>
@@ -22,8 +23,7 @@ namespace Assets.Scripts.GameMain
 		/// 是否被激活
 		/// </summary>
 		private bool active;
-
-		///////////////////////////////////////////////////////////////////////////////////
+		#endregion
 
 		/// <summary>
 		/// 初始化，默认unknown
@@ -38,6 +38,7 @@ namespace Assets.Scripts.GameMain
 			choosed = false;
 		}
 
+		#region Overrides
 		/// <summary>
 		/// 判断为同一张牌(包括unique)
 		/// </summary>
@@ -109,7 +110,7 @@ namespace Assets.Scripts.GameMain
 			return left is null ? right is null : left.CompareTo(right) >= 0;
 		}
 
-		////////////////////////////////////////////////////////////////////////////////////////////
+		#endregion
 
 		/// <summary>
 		/// 获取牌的种类
