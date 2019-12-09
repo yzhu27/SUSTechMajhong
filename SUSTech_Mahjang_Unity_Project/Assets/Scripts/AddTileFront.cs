@@ -8,7 +8,6 @@ public class AddTileFront : MonoBehaviour
     public void addTileFront(string path)
     {
 
-        Debug.Log(path);
         Texture2D tex = (Texture2D)Resources.Load(path);
         SpriteRenderer spr = GetComponentsInChildren<Transform>()[1].GetComponent<SpriteRenderer>();
         Sprite sp = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f));
