@@ -48,18 +48,22 @@ public class TileScript : MonoBehaviour
         up_position=transform.position;
         down_position=up_position;
         up_position+=new Vector3(0,upDistance,0);
+        
+
+        //GetComponentsInChildren<Transform>()[1].GetComponent< SpriteRenderer > ().sprite =Resources.Load("1");
+
+
     }
 
 
-    //float t1;
-    //float t2;
+    float t1;
+    float t2;
     private void /// <summary>
     /// Called while the mouse click down over the Collider
     /// </summary>
     /// 
     OnMouseDown()
     {
-
         if (tile.IsChoosed())
         {
             tile.Unchoose();
@@ -72,16 +76,14 @@ public class TileScript : MonoBehaviour
             gameObject.GetComponent<MeshRenderer>().material = (Material)Resources.Load("lightingTile");
             GetComponentInParent<HandTile>().ChoosedTiles.Add(tile);
         }
-
         Debug.Log("click down");
-        GetComponentInParent<HandTile>().RemoveSingleTile();
 
-        //t2 = Time.realtimeSinceStartup;
-        //if (t2 - t1 < 0.2)
-        //{
-        //    GetComponentInParent<HandTile>().RemoveTile();
-        //}
-        //t1 = t2;
+        t2 = Time.realtimeSinceStartup;
+        if (t2 - t1 < 0.2)
+        {
+            GetComponentInParent<HandTile>().RemoveTile();
+        }
+        t1 = t2;
         
     }
    
@@ -102,14 +104,9 @@ public class TileScript : MonoBehaviour
     /// Called every frame while the mouse is over the GUIElement or Collider.
     /// </summary>
     OnMouseEnter()
-    {
-        if (!tile.IsChoosed())
-        {
-            up_position = transform.position;
-            down_position = up_position;
-            up_position += new Vector3(0, upDistance, 0);
-            status = move.upwords;
-        }
+    {   
+        if(!tile.IsChoosed())
+        status = move.upwords;
     }
 
     private void /// <summary>
@@ -127,22 +124,22 @@ public class TileScript : MonoBehaviour
     void Update()
     {
         
-  //      if(tile.IsChoosed())
-  //      {
-  //          ///after clicking ,the tile will move upward more quickly
-  //          transform.position = Vector3.MoveTowards(transform.position, up_position, 2*MoveSpeed * Time.deltaTime);
-		//	gameObject.GetComponent<MeshRenderer>().material = (Material)Resources.Load("lightingTile");
-		//}
-  //      else if(status == move.upwords)
-  //      {
-  //          transform.position = Vector3.MoveTowards(transform.position, up_position, MoveSpeed * Time.deltaTime);
-  //          if(transform.position.y==up_position.y)
-  //              status=move.wait;
-  //      }else if(status == move.downwords)
-  //      {
-  //          transform.position = Vector3.MoveTowards(transform.position, down_position, MoveSpeed * Time.deltaTime);
-  //          if(transform.position.y==down_position.y)
-  //              status=move.wait;        
-  //      }
+        if(tile.IsChoosed())
+        {
+            ///after clicking ,the tile will move upward more quickly
+            transform.position = Vector3.MoveTowards(transform.position, up_position, 2*MoveSpeed * Time.deltaTime);
+			gameObject.GetComponent<MeshRenderer>().material = (Material)Resources.Load("lightingTile");
+		}
+        else if(status == move.upwords)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, up_position, MoveSpeed * Time.deltaTime);
+            if(transform.position.y==up_position.y)
+                status=move.wait;
+        }else if(status == move.downwords)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, down_position, MoveSpeed * Time.deltaTime);
+            if(transform.position.y==down_position.y)
+                status=move.wait;        
+        }
     }
 }

@@ -19,15 +19,14 @@ public class EatButton : MonoBehaviour
 
     public void MouseEnter()
     {
-        //GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("lightupEatable", new Tile(0xf0230));
+        GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("lightupEatable", new Tile(0xf0230));
     }
     public void MouseExit()
     {
-        //GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("unlight");
+        GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("unlight");
     }
     public void MouseClick()
     {
-        //GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile");
-        GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("lightupEatable", new Tile(0xf0230));
+        GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile");
     }
 }
