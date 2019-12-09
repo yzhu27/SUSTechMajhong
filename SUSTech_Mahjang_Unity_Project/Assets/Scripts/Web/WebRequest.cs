@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 using Assets.Scripts.GameMain;
 using Dist.SpringWebsocket;
 using System.Collections.Generic;
- 
+
 namespace Assets.Scripts.Web
 {
 	class WebRequest
