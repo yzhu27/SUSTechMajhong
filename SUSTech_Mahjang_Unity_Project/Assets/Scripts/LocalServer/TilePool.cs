@@ -126,8 +126,6 @@ namespace Assets.Scripts.LocalServer
 			return s;
 		}
 
-		#region Private methods
-
 		private int CalcReserve(int reserve_0, int reserve_1)
 		{
 			if (reserve_0 < 0 || reserve_0 > 3)
@@ -208,7 +206,5 @@ namespace Assets.Scripts.LocalServer
 							(j << (int)Location.Unique)
 						));
 		}
-
-		#endregion
 	}
 }
