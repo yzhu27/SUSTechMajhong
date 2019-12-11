@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Assets.Scripts.Web
@@ -74,8 +74,9 @@ namespace Assets.Scripts.Web
 			// \n
 			rtn += "\n";
 			// data
-			rtn += data + "\n";
-			// \0
+			if (data != "")
+				rtn += data;
+			// \u0000
 			rtn += "\u0000";
 			return rtn;
 		}

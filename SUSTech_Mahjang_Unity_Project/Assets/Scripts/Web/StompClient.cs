@@ -7,7 +7,7 @@ using System.Net.WebSockets;
 
 namespace Assets.Scripts.Web
 {
-	class StompClient
+	public class StompClient
 	{
 		private ClientWebSocket client;
 		private const string acceptVersion = "1.1,1.0";
@@ -16,8 +16,11 @@ namespace Assets.Scripts.Web
 		public StompClient(Uri uri)
 		{
 			client = new ClientWebSocket();
-			client.ConnectAsync(uri, CancellationToken);
+			Task c = client.ConnectAsync(uri, CancellationToken);
+			c.Wait();
 		}
+
+		
 
 		public async Task Connect()
 		{
@@ -27,13 +30,37 @@ namespace Assets.Scripts.Web
 			await SendWebSocket(msg);
 		}
 
+		public async Task DisConnect()
+		{
+			var msg = new StompFrame(ClientCommand.DISCONNECT);
+			Task t = SendWebSocket(msg);
+			t.Wait(1000);
+			await client.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken);
+		}
+
+		public async Task Subscribe(string dst)
+		{
+			var msg = new StompFrame(ClientCommand.SUBSCRIBE);
+			msg.AddHead("id", dst + "-" + 0);
+			msg.AddHead("destination", dst);
+			await SendWebSocket(msg);
+		}
+
+		public async Task Send(string dst, string content)
+		{
+			var msg = new StompFrame(ClientCommand.SEND);
+			msg.AddHead("destination", dst);
+			msg.AddHead("content-length", Encoding.UTF8.GetBytes(content).Length.ToString());
+			msg.data = content;
+			await SendWebSocket(msg);
+		}
 
 		private async Task SendWebSocket(StompFrame msg)
 		{
 			await client.SendAsync(
-				new ArraySegment<byte>(Encoding.Default.GetBytes(msg.ToString())),
+				new ArraySegment<byte>(Encoding.UTF8.GetBytes(msg.ToString())),
 				WebSocketMessageType.Text,
-				false,
+				true,
 				CancellationToken
 			);
 		}
