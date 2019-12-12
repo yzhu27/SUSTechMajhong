@@ -8,7 +8,7 @@ public class HandTile : MonoBehaviour
 {
 
     public MainPlayer myplayer ;
-    public List<Tile> ChoosedTiles = new List<Tile>();
+    //public List<Tile> ChoosedTiles = new List<Tile>();
     private List<GameObject> handTile = new List<GameObject>();
     private List<Vector3> positions = new List<Vector3>();
     [SerializeField]
@@ -27,11 +27,32 @@ public class HandTile : MonoBehaviour
         }
         
     }
-    public void lightupEatable(Tile lastTile)
+
+    public void StartPlay()
+    {
+        foreach (GameObject tile in handTile)
+        {
+            tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetPlayCardState");            
+        }
+
+    }
+
+    public void StartEat(Tile lastTile)
     {
 
-        List < Tile >tiles;
-		if (ChoosedTiles.Count == 0)
+        List<Tile> tiles = Rule.GetEatableList(lastTile, myplayer.hand);
+        foreach (GameObject tile in handTile)
+        {
+            if (tiles.Contains(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile))
+            {
+                tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetEatState");
+            }
+            else
+            {
+                tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
+            }
+        }
+        /*if (ChoosedTiles.Count == 0)
 		{
 
 			tiles = Rule.GetEatableList(lastTile, myplayer.hand);
@@ -40,37 +61,18 @@ public class HandTile : MonoBehaviour
 		else if (ChoosedTiles.Count == 1)
 		{
 			unlight();
-			//Debug.Log(lastTile);
-			//Debug.Log(ChoosedTiles[0]);
-			//Debug.Log(lastTile == ChoosedTiles[0]);
 			tiles = Rule.GetEatableList(lastTile, ChoosedTiles[0], myplayer.hand);
 			Debug.Log(tiles.Count);
-		}
-		else
-		{
-			unlight();
-			tiles = new List<Tile>();
-		}
-        
-        foreach (Tile tile in tiles)
-        {
-          
-            for(int i = 0; i < myplayer.hand.Count; i++)
-            {
-                if (myplayer.hand[i].Equals(tile))
-                {
-                    handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<Lightuptile>().SendMessage("lightup",3);
-                }
-            }
-            
-        }
+		}*/
+
+
     }
 
     public void lightupTouchable(Tile lastTile)
     {
 
-        List<Tile> tiles;
-        if (ChoosedTiles.Count == 0)
+       // List<Tile> tiles;
+        /*if (ChoosedTiles.Count == 0)
         {
 
             tiles = Rule.GetTouchableList(lastTile, myplayer.hand);
@@ -79,91 +81,51 @@ public class HandTile : MonoBehaviour
         else if (ChoosedTiles.Count == 1)
         {
             unlight();
-            //Debug.Log(lastTile);
-            //Debug.Log(ChoosedTiles[0]);
-            //Debug.Log(lastTile == ChoosedTiles[0]);
             tiles = Rule.GetTouchableList(lastTile, ChoosedTiles[0], myplayer.hand);
             Debug.Log(tiles.Count);
-        }
-        else
-        {
-            unlight();
-            tiles = new List<Tile>();
-        }
-
-        foreach (Tile tile in tiles)
-        {
-
-            for (int i = 0; i < myplayer.hand.Count; i++)
-            {
-                if (myplayer.hand[i].Equals(tile))
-                {
-                    handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<Lightuptile>().SendMessage("lightup", 2);
-                }
-            }
-
-        }
+        }*/
+        
     }
-    public Tile RemoveSingleTile()
+    public Tile RemoveSingleTile(Tile tile)
     {
-
-        List<Tile> tiles = ChoosedTiles;
-
-        foreach (Tile tile in ChoosedTiles)
+        myplayer.hand.Remove(tile);
+        foreach (GameObject obj in handTile)
         {
-            myplayer.hand.Remove(tile);
-            foreach (GameObject obj in handTile)
+            if (obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile == tile)
             {
-                if (obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile == tile)
-                {
-                    GameObject temp = obj;
-                    handTile.Remove(obj);
-                    Destroy(temp);
-                    GameObject.Find("lastTile").GetComponent<lastTile>().SetTile(tile);
-                    
-                    break;
-                }
+                GameObject temp = obj;
+                handTile.Remove(obj);
+                Destroy(temp);
+                GameObject.Find("lastTile").GetComponent<lastTile>().SetTile(tile);
+                break;
             }
         }
-        ChoosedTiles = new List<Tile>();
+        foreach (GameObject obj in handTile)
+        {
+            obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
+        }
         Reconstruct();
-        return tiles[0];
+        return tile;
 
     }
     public List<Tile> RemoveTile()
     {
-        //int length = handTile.Count;
-        //for (int i=0; i < length; i++){
 
-        //    if (handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile.IsChoosed() == true)
-        //    {
-        //        int id = myplayer.hand[i].getId();
-        //        myplayer.hand.RemoveAt(i);
-        //        Reconstruct();
-        //        return id;
-        // }
-
-        //}
-        //return 0;
-      
-
-        List<Tile> tiles = ChoosedTiles;
-       
-        foreach (Tile tile in ChoosedTiles)
+        List<Tile> tiles = new List<Tile>(); 
+        foreach (GameObject tile in handTile)
         {
-            myplayer.hand.Remove(tile);
-            foreach(GameObject obj in handTile)
+            if(!(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tileState is ProhibitState))
             {
-                if (obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile == tile)
-                {
-                    GameObject temp = obj;
-                    handTile.Remove(obj);
-                    Destroy(temp);
-                    break;
-                }
+                GameObject temp = tile;
+                Tile removed = tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile;
+                myplayer.hand.Remove(removed);
+                tiles.Add(removed);
+                handTile.Remove(tile);
+                Destroy(temp);
             }
+            
         }
-        ChoosedTiles = new List<Tile>();
+        
         Reconstruct();
         return tiles;
 

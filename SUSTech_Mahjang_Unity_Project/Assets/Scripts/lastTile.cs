@@ -8,6 +8,7 @@ public class lastTile : MonoBehaviour
 
     
     public GameObject theTile;
+    Tile lasttile;
     public void SetTile(Tile tile)
     {
         if(theTile == null)
@@ -17,7 +18,7 @@ public class lastTile : MonoBehaviour
             theTile.transform.rotation = transform.rotation;
             theTile.transform.position = transform.position;
         }
-        
+        lasttile = tile;
         theTile.GetComponentsInChildren<Transform>()[2].GetComponent<AddTileFront>().SendMessage("addTileFront", Path.ImgPathOfTile("TileFront",tile));
     }
     

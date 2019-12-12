@@ -17,6 +17,9 @@ public class Lightuptile : MonoBehaviour
             case 3:
                 gameObject.GetComponentInParent<MeshRenderer>().material = (Material)Resources.Load("eatable");
                 break;
+            case 4:
+                gameObject.GetComponentInParent<MeshRenderer>().material = (Material)Resources.Load("prohibited");
+                break;
         }
 
     }

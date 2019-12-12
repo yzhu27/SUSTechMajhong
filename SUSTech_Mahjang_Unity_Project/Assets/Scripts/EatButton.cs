@@ -5,6 +5,9 @@ using Assets.Scripts.GameMain;
 
 public class EatButton : MonoBehaviour
 {
+   
+    TouchBar.eatButton = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +31,6 @@ public class EatButton : MonoBehaviour
     public void MouseClick()
     {
         //GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile");
-        GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("lightupEatable", new Tile(0xf0230));
+        GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("StartEat", new Tile(0xf0230));
     }
 }

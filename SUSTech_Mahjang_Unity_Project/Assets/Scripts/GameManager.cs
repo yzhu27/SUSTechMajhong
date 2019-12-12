@@ -56,5 +56,9 @@ public class GameManager : MonoBehaviour
             GameObject.Find("HandTile (3)").GetComponent<HandTileOthers>().SendMessage("AddTile", tileFactory.GetTile(tilePool.Draw()));
         }
         t++;
+        if (t == 130)
+        {
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("StartPlay");
+        }
     }
 }
