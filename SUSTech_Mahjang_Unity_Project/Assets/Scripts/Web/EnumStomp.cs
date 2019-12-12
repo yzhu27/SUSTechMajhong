@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Web
 {
-	public enum ClientCommand
+	enum ClientCommand
 	{
 		SEND,
 		SUBSCRIBE,
@@ -18,7 +18,7 @@ namespace Assets.Scripts.Web
 		CONNECT,
 		DISCONNECT
 	}
-	public enum ServerCommand
+	enum ServerCommand
 	{
 		CONNECTED,
 		MESSAGE,

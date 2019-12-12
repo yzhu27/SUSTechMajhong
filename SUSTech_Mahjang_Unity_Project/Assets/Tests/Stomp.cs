@@ -15,22 +15,22 @@ namespace Tests
         [Test]
         public void Connect()
         {
-			Debug.Log("hey");
+
 			Task t = ConectTest();
 			t.Wait(10000);
         }
 
 		async Task ConectTest()
 		{
-			var client = new StompClient(new System.Uri("ws://10.21.63.106:8083/ws/websocket"));
-			await client.Connect();
-			await client.Subscribe("/topic/echo");
-			for (int i = 0; i < 10; i++)
-			{
-				//task = client.Send();
-				await client.Send("/app/echo", "{\"sender\":\"Unity\",\"type\":\"CHAT\",\"content\":\"ko no DIO da!!!\"}");
-			}
-			await client.DisConnect();
+			var client = new Web(new System.Uri("ws://10.21.63.106:8083/ws/websocket"));
+			await client.test();
+			//await client.Connect();
+			//client.Subscribe("/topic/echo");
+			//for (int i = 0; i < 10; i++)
+			//{
+			//	client.Send("/app/echo", "{\"sender\":\"Unity\",\"type\":\"CHAT\",\"content\":\"ko no DIO da!!!\"}");
+			//}
+			//await client.DisConnect();
 		}
 
         // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use

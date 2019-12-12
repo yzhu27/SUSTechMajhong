@@ -9,52 +9,108 @@ using UnityEngine;
 
 namespace Assets.Scripts.Web
 {
-	public class StompClient
+	delegate void OnMessageHandler(string msg);
+
+	class StompClient
 	{
-		private ArraySegment<Byte> receive;
-		private TimeSpan delay = TimeSpan.FromSeconds(5);
+		private Queue<StompFrame> sendList;
+		private Uri server;
+		private OnMessageHandler handler;
+
+		const int capacity = 4;
+		const int maxMessageSize = 1024;
+
 		private ClientWebSocket client;
 		private const string acceptVersion = "1.1,1.0";
 		private const string heartBeat = "0,0";
-		private CancellationToken cancellationToken = new System.Threading.CancellationToken(false);
 
-		public StompClient(Uri uri)
+		private bool connected;
+		private bool autoLog;
+
+		public StompClient(Uri uri, OnMessageHandler handler, bool auto_log = true)
 		{
+			server = uri;
+			this.handler = handler;
+			autoLog = auto_log;
+
+			sendList = new Queue<StompFrame>();
 			client = new ClientWebSocket();
-			Task c = client.ConnectAsync(uri, cancellationToken);
-			c.Wait(delay);
-			if (!c.IsCompleted)
-			{
-				throw new WebSocketException("Failed to establish websocket");
-			}
+			connected = false;
 		}
 
 		public async Task Connect()
 		{
+			if (connected)
+			{
+				Debug.LogWarning("Stomp client already connected");
+				return;
+			}
+			await client.ConnectAsync(server, CancellationToken.None);
+			Debug.Log("Websocket connected");
+
 			var msg = new StompFrame(ClientCommand.CONNECT);
 			msg.AddHead("accept-version", acceptVersion);
 			msg.AddHead("heart-beat", heartBeat);
-			await SendWebSocket(msg);
 
-			await HandleWebSocket(client);
+			sendList.Enqueue(msg);
+
+			_ = HandleWebSocket();
 		}
 
-		private async Task HandleWebSocket(WebSocket socket)
+		public async Task DisConnect()
 		{
-			const int maxMessageSize = 1024;
+			var msg = new StompFrame(ClientCommand.DISCONNECT);
+
+			sendList.Enqueue(msg);
+
+			await Task.Delay(TimeSpan.FromSeconds(1));
+			await client.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
+			connected = false;
+		}
+
+		public void Subscribe(string dst)
+		{
+			var msg = new StompFrame(ClientCommand.SUBSCRIBE);
+			msg.AddHead("id", dst + "-" + 0);
+			msg.AddHead("destination", dst);
+
+			sendList.Enqueue(msg);
+		}
+
+		public void Send(string dst, string content)
+		{
+			var msg = new StompFrame(ClientCommand.SEND);
+			msg.AddHead("destination", dst);
+			msg.AddHead("content-length", Encoding.UTF8.GetBytes(content).Length.ToString());
+			msg.data = content;
+
+			sendList.Enqueue(msg);
+		}
+
+		private async Task HandleWebSocket()
+		{
+			byte[] sendBuffer;
 			byte[] receiveBuffer = new byte[maxMessageSize];
 
-			while (socket.State == WebSocketState.Open)
+			while (client.State == WebSocketState.Open)
 			{
-				WebSocketReceiveResult receiveResult = await socket.ReceiveAsync(new ArraySegment<byte>(receiveBuffer), CancellationToken.None);
+				while (sendList.Count > 0 && connected)
+				{
+					string sendString = sendList.Dequeue().ToString();
+					sendBuffer = Encoding.UTF8.GetBytes(sendString);
+					await client.SendAsync(new ArraySegment<byte>(sendBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+					if (autoLog) Debug.Log("<== " + sendString);
+				}
+
+				WebSocketReceiveResult receiveResult = await client.ReceiveAsync(new ArraySegment<byte>(receiveBuffer), CancellationToken.None);
 
 				if (receiveResult.MessageType == WebSocketMessageType.Close)
 				{
-					await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+					await client.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
 				}
 				else if (receiveResult.MessageType == WebSocketMessageType.Binary)
 				{
-					await socket.CloseAsync(WebSocketCloseStatus.InvalidMessageType, "Cannot accept binary frame", CancellationToken.None);
+					await client.CloseAsync(WebSocketCloseStatus.InvalidMessageType, "Cannot accept binary frame", CancellationToken.None);
 				}
 				else
 				{
@@ -65,54 +121,20 @@ namespace Assets.Scripts.Web
 						if (count >= maxMessageSize)
 						{
 							string closeMessage = string.Format("Maximum message size: {0} bytes.", maxMessageSize);
-							await socket.CloseAsync(WebSocketCloseStatus.MessageTooBig, closeMessage, CancellationToken.None);
+							await client.CloseAsync(WebSocketCloseStatus.MessageTooBig, closeMessage, CancellationToken.None);
 							return;
 						}
 
-						receiveResult = await socket.ReceiveAsync(new ArraySegment<byte>(receiveBuffer, count, maxMessageSize - count), CancellationToken.None);
+						receiveResult = await client.ReceiveAsync(new ArraySegment<byte>(receiveBuffer, count, maxMessageSize - count), CancellationToken.None);
 						count += receiveResult.Count;
 					}
 
 					var receivedString = Encoding.UTF8.GetString(receiveBuffer, 0, count);
+					if (autoLog) Debug.Log("==> " + receivedString);
 
-					Debug.Log(receivedString);
+					handler(receivedString);
 				}
 			}
-		}
-
-		public async Task DisConnect()
-		{
-			var msg = new StompFrame(ClientCommand.DISCONNECT);
-			Task t = SendWebSocket(msg);
-			t.Wait(1000);
-			await client.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
-		}
-
-		public async Task Subscribe(string dst)
-		{
-			var msg = new StompFrame(ClientCommand.SUBSCRIBE);
-			msg.AddHead("id", dst + "-" + 0);
-			msg.AddHead("destination", dst);
-			await SendWebSocket(msg);
-		}
-
-		public async Task Send(string dst, string content)
-		{
-			var msg = new StompFrame(ClientCommand.SEND);
-			msg.AddHead("destination", dst);
-			msg.AddHead("content-length", Encoding.UTF8.GetBytes(content).Length.ToString());
-			msg.data = content;
-			await SendWebSocket(msg);
-		}
-
-		private async Task SendWebSocket(StompFrame msg)
-		{
-			await client.SendAsync(
-				new ArraySegment<byte>(Encoding.UTF8.GetBytes(msg.ToString())),
-				WebSocketMessageType.Text,
-				true,
-				CancellationToken.None
-			);
 		}
 	}
 }
