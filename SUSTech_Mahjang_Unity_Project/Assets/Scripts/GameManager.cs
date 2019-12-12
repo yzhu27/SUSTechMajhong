@@ -9,8 +9,12 @@ public class GameManager : MonoBehaviour
     public PlayDesk playDesk ;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     int t = 0;
     TilePool tilePool;
+=======
+    TilePool tilePool ;
+>>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
 =======
     TilePool tilePool ;
 >>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
@@ -50,7 +54,10 @@ public class GameManager : MonoBehaviour
         
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
 =======
 >>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
 
