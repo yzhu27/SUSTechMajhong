@@ -10,8 +10,12 @@ public class HandTile : MonoBehaviour
     public MainPlayer myplayer ;
     //public List<Tile> ChoosedTiles = new List<Tile>();
     private List<GameObject> handTile = new List<GameObject>();
+    private List<Vector3> positions = new List<Vector3>();
     [SerializeField]
     private float width = 0;
+    private float MoveSpeed = 0.05f;
+
+    private bool check = true;
 
     public void setPlayer(MainPlayer player) => myplayer = player;
 
@@ -131,42 +135,45 @@ public class HandTile : MonoBehaviour
 
    
 
-    public void AddTile(int[] Tiles)
+ 
+
+    public void AddTile(Tile tile)
     {
-
-    }
-
-    public void AddTile(int TileId)
-    {
-
-        myplayer.hand.Add(new Tile(TileId));
+        myplayer.hand.Add(tile);
         myplayer.hand.Sort();
         Reconstruct();
+        
+        GameObject instance = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Tile"));
+        instance.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("setTile",tile);
+        instance.GetComponentsInChildren<Transform>()[2].GetComponent<AddTileFront>().SendMessage("addTileFront", Path.ImgPathOfTile("TileFront", tile));
+        handTile.Add(instance);
+        instance.transform.parent = transform;
+        instance.transform.rotation = transform.rotation;
+        instance.transform.position = positions[myplayer.hand.IndexOf(tile)];
     }
 
     private void Reconstruct()
     {
         float length = myplayer.hand.Count * width;
         int bound = myplayer.hand.Count;
-        
-        foreach (GameObject tile in handTile)
-        {
-            Destroy(tile);
-            
-        }
-        handTile.Clear();
+        positions.Clear();
         
         for (int i = 0; i < bound; i++)
         {
-            GameObject instance =(GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Tile"));
-            instance.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("setTile", myplayer.hand[i]);
-            instance.GetComponentsInChildren<Transform>()[2].GetComponent<AddTileFront>().SendMessage("addTileFront", Path.ImgPathOfTile("TileFront",myplayer.hand[i]));
-            handTile.Add(instance);
-            instance.transform.parent = transform;
-            instance.transform.rotation = transform.rotation;
-            instance.transform.position = transform.position - transform.right * (length - width)*0.5f + transform.right * width *i;
+            positions.Add(transform.position - transform.right * (length - width)*0.5f + transform.right * width *i);
         }
+
+        check = false;
+        
+
     }
+
+    private Vector3 getposition(GameObject tile)
+    {
+        return positions[myplayer.hand.IndexOf(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile)];      
+    }
+
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -176,6 +183,20 @@ public class HandTile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        if (!check)
+        {
+            check = true;
+            foreach (GameObject tile in handTile)
+            {
+               
+                Vector3 temp = getposition(tile);
+                tile.transform.position = Vector3.MoveTowards(tile.transform.position, temp, 2 * MoveSpeed * Time.deltaTime);
+                if (tile.transform.position != temp)
+                {
+                    check = false;
+                }
+            }
+        }
+        
     }
 }

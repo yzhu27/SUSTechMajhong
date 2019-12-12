@@ -7,7 +7,8 @@ using Assets.Scripts.LocalServer;
 public class GameManager : MonoBehaviour
 {
     public PlayDesk playDesk ;
-    
+    TilePool tilePool ;
+    TileFactory tileFactory = new TileFactory();
     // Start is called before the first frame update
     void Start()
     {
@@ -31,21 +32,19 @@ public class GameManager : MonoBehaviour
         
         List<Department> departments = new List<Department>();
         departments.Add(Department.Math);
-        departments.Add(Department.Math);
-        departments.Add(Department.Math);
-        departments.Add(Department.Math);
-        TilePool tilePool = new TilePool(departments);
+        departments.Add(Department.Phy);
+        departments.Add(Department.Chem);
+        departments.Add(Department.Cse);
+        tilePool = new TilePool(departments);
         tilePool.Shuffle();
         //int[] handtile = { 0xf0230, 0xf0230 , 0xf0230 ,0x30000,0x20000,0xf0220,0xf0210,0x30000, 0x20000, 0xf0220, 0xf0210 ,0x10000, 0x10000 };
-        for (int i = 0; i < 13; i++)
-        {
-            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tilePool.Draw());
-        }
+        
 
         
 
     }
 
+    int t = 0;
     // Update is called once per frame
     void Update()
     {
