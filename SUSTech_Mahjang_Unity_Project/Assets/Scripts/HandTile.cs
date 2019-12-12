@@ -140,10 +140,7 @@ public class HandTile : MonoBehaviour
     public void AddTile(Tile tile)
     {
 <<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
->>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
 =======
 >>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
         myplayer.hand.Add(tile);
