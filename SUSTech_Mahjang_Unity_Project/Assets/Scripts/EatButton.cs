@@ -5,8 +5,6 @@ using Assets.Scripts.GameMain;
 
 public class EatButton : MonoBehaviour
 {
-   
-    TouchBar.eatButton = true;
 
     // Start is called before the first frame update
     void Start()

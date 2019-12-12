@@ -24,7 +24,6 @@ namespace Assets.Scripts.Web
 		private const string acceptVersion = "1.1,1.0";
 		private const string heartBeat = "0,0";
 
-		private bool connected;
 		private bool autoLog;
 
 		public StompClient(Uri uri, OnMessageHandler handler, bool auto_log = true)
@@ -35,12 +34,11 @@ namespace Assets.Scripts.Web
 
 			sendList = new Queue<StompFrame>();
 			client = new ClientWebSocket();
-			connected = false;
 		}
 
 		public async Task Connect()
 		{
-			if (connected)
+			if (client.State == WebSocketState.Open)
 			{
 				Debug.LogWarning("Stomp client already connected");
 				return;
@@ -52,7 +50,7 @@ namespace Assets.Scripts.Web
 			msg.AddHead("accept-version", acceptVersion);
 			msg.AddHead("heart-beat", heartBeat);
 
-			sendList.Enqueue(msg);
+			Enqueue(msg);
 
 			_ = HandleWebSocket();
 		}
@@ -61,11 +59,10 @@ namespace Assets.Scripts.Web
 		{
 			var msg = new StompFrame(ClientCommand.DISCONNECT);
 
-			sendList.Enqueue(msg);
+			Enqueue(msg);
 
 			await Task.Delay(TimeSpan.FromSeconds(1));
 			await client.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
-			connected = false;
 		}
 
 		public void Subscribe(string dst)
@@ -74,7 +71,7 @@ namespace Assets.Scripts.Web
 			msg.AddHead("id", dst + "-" + 0);
 			msg.AddHead("destination", dst);
 
-			sendList.Enqueue(msg);
+			Enqueue(msg);
 		}
 
 		public void Send(string dst, string content)
@@ -84,24 +81,38 @@ namespace Assets.Scripts.Web
 			msg.AddHead("content-length", Encoding.UTF8.GetBytes(content).Length.ToString());
 			msg.data = content;
 
-			sendList.Enqueue(msg);
+			Enqueue(msg);
 		}
 
-		private async Task HandleWebSocket()
+		private void Enqueue(StompFrame msg)
+		{
+			sendList.Enqueue(msg);
+			Debug.Log(sendList.Count + " messages in queue");
+		}
+
+		private async Task SendLoop()
 		{
 			byte[] sendBuffer;
-			byte[] receiveBuffer = new byte[maxMessageSize];
 
 			while (client.State == WebSocketState.Open)
 			{
-				while (sendList.Count > 0 && connected)
+				while (sendList.Count > 0)
 				{
 					string sendString = sendList.Dequeue().ToString();
 					sendBuffer = Encoding.UTF8.GetBytes(sendString);
 					await client.SendAsync(new ArraySegment<byte>(sendBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
 					if (autoLog) Debug.Log("<== " + sendString);
 				}
+				await Task.Delay(TimeSpan.FromSeconds(0.2));
+			}
+		}
 
+		private async Task ReceiveLoop()
+		{
+			byte[] receiveBuffer = new byte[maxMessageSize];
+
+			while (client.State == WebSocketState.Open)
+			{
 				WebSocketReceiveResult receiveResult = await client.ReceiveAsync(new ArraySegment<byte>(receiveBuffer), CancellationToken.None);
 
 				if (receiveResult.MessageType == WebSocketMessageType.Close)
@@ -135,6 +146,14 @@ namespace Assets.Scripts.Web
 					handler(receivedString);
 				}
 			}
+		}
+
+		private async Task HandleWebSocket()
+		{
+			Task send = SendLoop();
+			Task recv = ReceiveLoop();
+			await send;
+			await recv;
 		}
 	}
 }

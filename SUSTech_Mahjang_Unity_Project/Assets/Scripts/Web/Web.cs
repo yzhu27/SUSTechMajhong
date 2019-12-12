@@ -20,12 +20,18 @@ namespace Assets.Scripts.Web
 		{
 			await client.Connect();
 			client.Subscribe("/topic/echo");
-			for (int i = 0; i < 10; i++)
-			{
-				client.Send("/app/echo", "{\"sender\":\"Unity\",\"type\":\"CHAT\",\"content\":\"ko no DIO da!!!\"}");
-			}
-			await Task.Delay(TimeSpan.FromSeconds(5));
-			await client.DisConnect();
+			//for (int i = 0; i < 10; i++)
+			//{
+			//	client.Send("/app/echo", "{\"sender\":\"Unity\",\"type\":\"CHAT\",\"content\":\"ko no DIO da!!!\"}");
+			//	await Task.Delay(TimeSpan.FromSeconds(0.2));
+			//}
+			//await Task.Delay(TimeSpan.FromSeconds(5));
+			//await client.DisConnect();
+		}
+
+		public void test_send()
+		{
+			client.Send("/app/echo", "{\"sender\":\"Unity\",\"type\":\"CHAT\",\"content\":\"ko no DIO da!!!\"}");
 		}
 
 		public void OnMessage(string msg)
