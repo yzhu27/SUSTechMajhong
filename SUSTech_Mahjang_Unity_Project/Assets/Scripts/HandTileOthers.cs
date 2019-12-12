@@ -29,9 +29,13 @@ public class HandTileOthers : MonoBehaviour
 
     public void AddTile(Tile tile)
     {
+<<<<<<< HEAD
 
         myplayer.hand.Add(tile);
         myplayer.hand.Sort();
+=======
+        myplayer.hand.Add(tile);
+>>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
         Reconstruct();
     }
 
