@@ -7,12 +7,8 @@ using Assets.Scripts.LocalServer;
 public class GameManager : MonoBehaviour
 {
     public PlayDesk playDesk ;
-<<<<<<< HEAD
     int t = 0;
     TilePool tilePool;
-=======
-    TilePool tilePool ;
->>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
     TileFactory tileFactory = new TileFactory();
     // Start is called before the first frame update
     void Start()
@@ -44,15 +40,10 @@ public class GameManager : MonoBehaviour
         tilePool.Shuffle();
         //int[] handtile = { 0xf0230, 0xf0230 , 0xf0230 ,0x30000,0x20000,0xf0220,0xf0210,0x30000, 0x20000, 0xf0220, 0xf0210 ,0x10000, 0x10000 };
         
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
         
 
     }
 
-    int t = 0;
     // Update is called once per frame
     void Update()
     {
