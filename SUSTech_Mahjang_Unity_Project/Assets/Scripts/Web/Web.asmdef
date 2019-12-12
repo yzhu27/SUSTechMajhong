@@ -1,13 +1,13 @@
 {
-    "name": "Main",
-    "references": [
-        "GUID:3cc9273cf0d107346b57ad42a3207047"
-    ],
+    "name": "Web",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "websocket-sharp.dll"
+    ],
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": []

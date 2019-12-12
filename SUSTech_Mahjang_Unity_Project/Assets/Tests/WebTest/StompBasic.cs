@@ -14,9 +14,7 @@ namespace Tests
         [Test]
         public void StompBasicSimplePasses()
         {
-			Web w = new Web(new System.Uri("ws://10.21.63.106:8083/ws/websocket"));
-			Task t = w.test();
-			t.Wait(10000);
+			
         }
 
         // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
@@ -24,8 +22,7 @@ namespace Tests
         [UnityTest]
         public IEnumerator StompBasicWithEnumeratorPasses()
         {
-            // Use the Assert class to test conditions.
-            // Use yield to skip a frame.
+            
             yield return null;
         }
     }

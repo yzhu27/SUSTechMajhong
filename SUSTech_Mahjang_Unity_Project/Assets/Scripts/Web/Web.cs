@@ -13,20 +13,21 @@ namespace Assets.Scripts.Web
 		public Web(Uri uri, bool auto_log = true)
 		{
 			client = new StompClient(uri, OnMessage, true);
-			
 		}
 
-		public async Task test()
+		public void Connect()
 		{
-			await client.Connect();
+			client.Connect();
+		}
+
+		public void Disconnect()
+		{
+			client.DisConnect();
+		}
+
+		public void test_subs()
+		{
 			client.Subscribe("/topic/echo");
-			//for (int i = 0; i < 10; i++)
-			//{
-			//	client.Send("/app/echo", "{\"sender\":\"Unity\",\"type\":\"CHAT\",\"content\":\"ko no DIO da!!!\"}");
-			//	await Task.Delay(TimeSpan.FromSeconds(0.2));
-			//}
-			//await Task.Delay(TimeSpan.FromSeconds(5));
-			//await client.DisConnect();
 		}
 
 		public void test_send()
@@ -34,10 +35,16 @@ namespace Assets.Scripts.Web
 			client.Send("/app/echo", "{\"sender\":\"Unity\",\"type\":\"CHAT\",\"content\":\"ko no DIO da!!!\"}");
 		}
 
+		public void OnUpdate()
+		{
+			client.SendMessage();
+		}
+
 		public void OnMessage(string msg)
 		{
 			_ = new StompFrame(msg);
 		}
+
 
 	}
 }
