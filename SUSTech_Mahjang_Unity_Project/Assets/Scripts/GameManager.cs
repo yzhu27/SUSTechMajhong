@@ -6,15 +6,35 @@ using Assets.Scripts.Util;
 using Assets.Scripts.LocalServer;
 public class GameManager : MonoBehaviour
 {
-    public PlayDesk playDesk;
+    public PlayDesk playDesk ;
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+    int t = 0;
     TilePool tilePool;
-
+=======
+    TilePool tilePool ;
+>>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
+=======
+    TilePool tilePool ;
+>>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
+=======
+    TilePool tilePool ;
+>>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
+=======
+    TilePool tilePool ;
+>>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
+=======
+    TilePool tilePool ;
+>>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
     TileFactory tileFactory = new TileFactory();
     // Start is called before the first frame update
     void Start()
     {
         PlayDesk playDesk = new PlayDesk();
-
+        
         GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("setPlayer", playDesk.self);
         GameObject.Find("HandTile (1)").GetComponent<HandTileOthers>().SendMessage("setPlayer", playDesk.last);
         GameObject.Find("HandTile (2)").GetComponent<HandTileOthers>().SendMessage("setPlayer", playDesk.opposite);
@@ -22,7 +42,7 @@ public class GameManager : MonoBehaviour
 
         GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("setPlayer", playDesk.self);
         //GameObject.Find("OthersTile").GetComponentsInChildren<Transform>()[2].GetComponent<AddTileFront>().SendMessage("addTileFront", Path.ImgPathOfTile("TileFront", new Tile(0xf0230)));
-
+        
         //List<Tile> tiles = new List<Tile>();
         //tiles.Add(new Tile(0xf0230));
         //tiles.Add(new Tile(0xf0230));
@@ -30,7 +50,7 @@ public class GameManager : MonoBehaviour
         //tiles.Add(new Tile(0xf0230));
         //GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles",tiles);
         //GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
-
+        
         List<Department> departments = new List<Department>();
         departments.Add(Department.Math);
         departments.Add(Department.Phy);
@@ -39,14 +59,32 @@ public class GameManager : MonoBehaviour
         tilePool = new TilePool(departments);
         tilePool.Shuffle();
         //int[] handtile = { 0xf0230, 0xf0230 , 0xf0230 ,0x30000,0x20000,0xf0220,0xf0210,0x30000, 0x20000, 0xf0220, 0xf0210 ,0x10000, 0x10000 };
-    }
+        
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
+=======
+>>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
+=======
+>>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
+=======
+>>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
 
+>>>>>>> parent of e32f7c8... Merge branch 'master' of https://github.com/Tchao111/SUSTechMajhong
+        
+
+    }
 
     int t = 0;
     // Update is called once per frame
     void Update()
     {
-        if (t < 130 && t % 10 == 0)
+        if(t<130 && t % 10 == 0)
         {
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tileFactory.GetTile(tilePool.Draw()));
             GameObject.Find("HandTile (1)").GetComponent<HandTileOthers>().SendMessage("AddTile", tileFactory.GetTile(tilePool.Draw()));
