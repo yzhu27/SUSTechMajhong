@@ -136,10 +136,10 @@ public class HandTile : MonoBehaviour
 
     }
 
-    public void AddTile(int TileId)
+    public void AddTile(Tile tile)
     {
 
-        myplayer.hand.Add(new Tile(TileId));
+        myplayer.hand.Add(tile);
         myplayer.hand.Sort();
         Reconstruct();
     }
