@@ -19,7 +19,7 @@ public abstract class State
     }
     public virtual void OnMouseEnter(GameObject tile)
     {
-        Debug.Log("gg");
+        
     }
     public virtual void OnMouseExit(GameObject tile)
     {
