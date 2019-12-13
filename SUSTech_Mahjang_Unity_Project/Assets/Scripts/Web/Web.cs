@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Scripts.Web
 {
 	public class Web
 	{
 		private StompClient client;
+		private bool autoLog;
 
 		public Web(Uri uri, bool auto_log = true)
 		{
-			client = new StompClient(uri, OnMessage, true);
+			autoLog = auto_log;
+			client = new StompClient(uri, OnMessage, autoLog);
 		}
 
 		public void Connect()
 		{
 			client.Connect();
 		}
-
+		
 		public void Disconnect()
 		{
 			client.DisConnect();
@@ -35,14 +38,37 @@ namespace Assets.Scripts.Web
 			client.Send("/app/echo", "{\"sender\":\"Unity\",\"type\":\"CHAT\",\"content\":\"ko no DIO da!!!\"}");
 		}
 
+		/// <summary>
+		/// use in WebController OnUpdate
+		/// </summary>
 		public void OnUpdate()
 		{
 			client.SendMessage();
 		}
 
+		/// <summary>
+		/// message handler function
+		/// </summary>
+		/// <param name="msg">message received</param>
 		public void OnMessage(string msg)
 		{
-			_ = new StompFrame(msg);
+			var received = new StompFrame(msg);
+
+			if (autoLog)
+			{
+				switch (received.GetServerCommand())
+				{
+					case ServerCommand.CONNECTED:
+					case ServerCommand.MESSAGE:
+						Debug.Log("===> " + msg);
+						break;
+					case ServerCommand.ERROR:
+						Debug.LogWarning("===> " + msg);
+						break;
+					case ServerCommand.RECEIPT:
+						break;
+				}
+			}
 		}
 
 

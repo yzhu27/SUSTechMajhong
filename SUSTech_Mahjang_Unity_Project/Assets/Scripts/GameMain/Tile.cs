@@ -2,7 +2,6 @@
 
 namespace Assets.Scripts.GameMain
 {
-	
 	/// <summary>
 	/// 麻将牌
 	/// </summary>
@@ -12,11 +11,6 @@ namespace Assets.Scripts.GameMain
 		/// 每张牌唯一确定的id
 		/// </summary>
 		public int id { get ; private set; }
-
-		/// <summary>
-		/// 是否被选中
-		/// </summary>
-		private bool choosed;
 
 		/// <summary>
 		/// 是否被激活
@@ -35,7 +29,6 @@ namespace Assets.Scripts.GameMain
 			if (!IsCorrectID(id))
 				throw new ArgumentException(string.Format("0x{0:x} is not a correct tile id", id));
 			this.id = id;
-			choosed = false;
 		}
 
 		/// <summary>
@@ -140,19 +133,6 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		/// <returns></returns>
 		public int GetUnique() => id & 0b11;
-
-		/// <summary>
-		/// 选中
-		/// </summary>
-		public void Choose() => choosed = true;
-
-		public void Unchoose() => choosed = false;
-
-		/// <summary>
-		/// 是否被选中
-		/// </summary>
-		/// <returns>bool</returns>
-		public bool IsChoosed() => choosed;
 
 		/// <summary>
 		/// 激活

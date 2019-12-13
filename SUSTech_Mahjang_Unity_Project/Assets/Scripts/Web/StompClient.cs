@@ -47,11 +47,7 @@ namespace Assets.Scripts.Web
 
 			client.Send(msg.ToString());
 
-			client.OnMessage += (sender, e) =>
-			{
-				if (autoLog) Debug.Log("===> " + e.Data);
-				handler(e.Data);
-			};
+			client.OnMessage += (sender, e) => handler(e.Data);
 		}
 
 		public void DisConnect()

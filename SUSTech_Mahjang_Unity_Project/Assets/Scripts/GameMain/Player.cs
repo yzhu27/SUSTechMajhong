@@ -1,10 +1,15 @@
 ﻿using Assets.Scripts.Util;
-using Assets.Scripts.Util.Charactor;
+using Assets.Scripts.GameMain.Charactors;
 using System;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.GameMain
 {
+	/// <summary>
+	/// 获取最后一张被打出牌的委托
+	/// </summary>
+	/// <returns>最后打出的牌，若当前不在响应阶段则应返回null</returns>
+	public delegate Tile LastPlayedTile();
 
 	/// <summary>
 	/// 代表玩家的类，包含用户信息，角色和属于玩家的牌
@@ -14,32 +19,37 @@ namespace Assets.Scripts.GameMain
 		/// <summary>
 		/// 玩家对应用户
 		/// </summary>
-		public User user;
+		protected User user;
 
 		/// <summary>
 		/// 玩家所选角色
 		/// </summary>
-		public Charactor charactor;
+		protected Charactor charactor;
+
+		/// <summary>
+		/// 获取最后一张打出的牌的方法
+		/// </summary>
+		public LastPlayedTile lastPlayedTile { protected get; set; }
 
 		/// <summary>
 		/// 手牌
 		/// </summary>
-		public List<Tile> hand;
+		public List<Tile> hand { get; private set; }
 
 		/// <summary>
 		/// 暗牌
 		/// </summary>
-		public List<Tile> hiden;
+		public List<Tile> hiden { get; private set; }
 
 		/// <summary>
 		/// 碰/吃/杠区
 		/// </summary>
-		public List<List<Tile>> onDesk;
+		public List<List<Tile>> onDesk { get; private set; }
 
 		/// <summary>
 		/// 打出的牌
 		/// </summary>
-		public List<Tile> graveyard;
+		public List<Tile> graveyard { get; private set; }
 
 		// ------------------构造器----------------------
 
@@ -56,6 +66,8 @@ namespace Assets.Scripts.GameMain
 		public Player(User user)
 		{
 			this.user = user;
+			hand = new List<Tile>();
+			onDesk = new List<List<Tile>>();
 		}
 
 		/// <summary>
@@ -67,9 +79,21 @@ namespace Assets.Scripts.GameMain
 		{
 			this.user = user;
 			this.charactor = charactor;
+			hand = new List<Tile>();
+			onDesk = new List<List<Tile>>();
 		}
 
-		// ------------------一般-------------------------
+		// ------------------方法-------------------------
+
+		public string GetCharactorName() => charactor.name;
+
+		public uint GetCharactorId() => charactor.id;
+
+		// ------------------传入-------------------------
+
+		/**网络类会调用这些方法，加注释的
+		 * 部分请在脚本中实现并调用
+		 */
 
 		/// <summary>
 		/// 玩家发言
@@ -86,25 +110,40 @@ namespace Assets.Scripts.GameMain
 		/// <summary>
 		/// 抽牌
 		/// </summary>
-		public void Draw() { }
+		public void Draw()
+		{
+			hand.Add(null);
+			// call script what other player do here
+		}
 
 		/// <summary>
 		/// 换牌
 		/// </summary>
 		/// <param name="num">交换暗牌的数量</param>
-		public void Exchange(int num) { }
+		public void Exchange(int num)
+		{
+			// call script what other player do here
+		}
 
 		/// <summary>
 		/// 打出
 		/// </summary>
 		/// <param name="tile">打出的牌</param>
-		public void Play(Tile tile) { }
+		public void Play(Tile tile)
+		{
+			hand.RemoveAt(hand.Count - 1);
+			// call script what other player do here
+		}
 
 		/// <summary>
 		/// 自杠
 		/// </summary>
 		/// <param name="tile">cost癞子或校徽</param>
-		public void SelfRod(Tile tile) { }
+		public void SelfRod(Tile tile)
+		{
+			hand.RemoveAt(hand.Count - 1);
+			// call script what other player do here
+		}
 
 		/// <summary>
 		/// 自杠
@@ -113,28 +152,47 @@ namespace Assets.Scripts.GameMain
 		/// <param name="tile2">cost手牌2</param>
 		/// <param name="tile3">cost手牌3</param>
 		/// <param name="tile4">cost手牌4</param>
-		public void SelfRod(Tile tile1, Tile tile2, Tile tile3, Tile tile4) { }
+		public void SelfRod(Tile tile1, Tile tile2, Tile tile3, Tile tile4)
+		{
+			hand.RemoveRange(hand.Count - 4, 4);
+			// call script what other player do here
+		}
 
 		/// <summary>
 		/// 玩家胡牌，游戏结束
 		/// </summary>
-		public void Win() { }
-
-		// ------------------回合外操作------------------
+		public void Win()
+		{
+			// call script after someone win here
+		}
 
 		/// <summary>
 		/// 吃
 		/// </summary>
 		/// <param name="tile1">cost手牌1</param>
 		/// <param name="tile2">cost手牌2</param>
-		public void Eat(Tile tile1, Tile tile2) { }
+		public void Eat(Tile tile1, Tile tile2)
+		{
+			hand.RemoveAt(hand.Count - 1);
+			List<Tile> tiles = new List<Tile>() { tile1, tile2, lastPlayedTile() };
+			tiles.Sort();
+			onDesk.Add(tiles);
+			// call script what other player do here
+		}
 
 		/// <summary>
 		/// 碰
 		/// </summary>
 		/// <param name="tile1">cost手牌1</param>
 		/// <param name="tile2">cost手牌2</param>
-		public void Touch(Tile tile1, Tile tile2) { }
+		public void Touch(Tile tile1, Tile tile2)
+		{
+			hand.RemoveAt(hand.Count - 1);
+			List<Tile> tiles = new List<Tile>() { tile1, tile2, lastPlayedTile() };
+			tiles.Sort();
+			onDesk.Add(tiles);
+			// call script what other player do here
+		}
 
 		/// <summary>
 		/// 杠(专指回合外)
@@ -142,51 +200,13 @@ namespace Assets.Scripts.GameMain
 		/// <param name="tile1">cost手牌1</param>
 		/// <param name="tile2">cost手牌2</param>
 		/// <param name="tile3">cost手牌3</param>
-		public void Rod(Tile tile1, Tile tile2, Tile tile3) { }
-	}
-
-	public class MainPlayer : Player
-	{
-
-		/// <summary>
-		/// 当前客户端自身的玩家对象
-		/// </summary>
-		public MainPlayer() { }
-
-		/// <summary>
-		/// 抽牌
-		/// </summary>
-		/// <param name="tile">抽到的牌</param>
-		public void Draw(Tile tile) { }
-
-		/// <summary>
-		/// 获取所有被选中的牌
-		/// </summary>
-		/// <param name="type">种类，'h'手牌，'n'暗牌</param>
-		/// <exception cref="ArgumentException"/>
-		/// <returns></returns>
-		public List<Tile> GetChoosed(char type='h')
+		public void Rod(Tile tile1, Tile tile2, Tile tile3)
 		{
-			List<Tile> tiles = new List<Tile>();
-			switch (type)
-			{
-				case 'h':
-					foreach (Tile t in this.hand)
-						if (t.IsChoosed())
-							tiles.Add(t);
-					break;
-				case 'n':
-					foreach (Tile t in this.hiden)
-						if (t.IsChoosed())
-							tiles.Add(t);
-					break;
-				default:
-					throw new ArgumentException("Parameter \'type\' should be \'h\' or \'n\'.", type.ToString());
-			}
-
-			return tiles;
+			hand.RemoveAt(hand.Count - 1);
+			List<Tile> tiles = new List<Tile>() { tile1, tile2, tile3, lastPlayedTile() };
+			tiles.Sort();
+			onDesk.Add(tiles);
+			// call script what other player do here
 		}
-
 	}
-
 }

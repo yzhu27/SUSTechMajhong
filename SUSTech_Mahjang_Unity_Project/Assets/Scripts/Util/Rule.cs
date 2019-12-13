@@ -143,38 +143,39 @@ namespace Assets.Scripts.Util
 		/// <summary>
 		/// 是否可以蓄杠
 		/// </summary>
-		/// <param name="hand_tile">手牌</param>
+		/// <param name="tile">手牌</param>
 		/// <param name="on_desk">吃碰杠牌区</param>
-		/// <returns>返回可以蓄杠的牌堆序号，若不能蓄杠则返回-1</returns>
-		static int CanAddRod(Tile hand_tile, List<List<Tile>> on_desk)
+		/// <returns></returns>
+		static bool CanAddRod(Tile tile, List<List<Tile>> on_desk)
 		{
+			if (on_desk == null) return false;
 			for (int i = 0; i < on_desk.Count; i++)
 				if (
 					on_desk[i].Count == 3 &&
-					CanRod(hand_tile, on_desk[i][0], on_desk[i][1], on_desk[i][2])
-					) return i;
-			return -1;
+					CanRod(tile, on_desk[i][0], on_desk[i][1], on_desk[i][2])
+					) return true;
+			return false;
 		}
 
 		/// <summary>
 		/// 获取可以用于碰的手牌列表
 		/// </summary>
 		/// <param name="last">被打出的牌</param>
-		/// <param name="hand_tiles">手牌</param>
-		/// <returns>可用于碰的牌，为空则没有可以碰的牌</returns>
-		public static List<Tile> GetTouchableList(Tile last, List<Tile> hand_tiles)
+		/// <param name="hand_tile">手牌</param>
+		/// <returns>可用于碰的牌，为<c>null</c>则没有可以碰的牌</returns>
+		public static HashSet<Tile> GetTouchableTiles(Tile last, List<Tile> hand_tile)
 		{
-			List<Tile> tiles = new List<Tile>();
+			HashSet<Tile> tiles = new HashSet<Tile>();
 
-			for(int i = 0; i < hand_tiles.Count; i++)
+			for(int i = 0; i < hand_tile.Count; i++)
 			{
-				if (hand_tiles[i] == last)
+				if (hand_tile[i] == last)
 				{
-					tiles.Add(hand_tiles[i]);
+					tiles.Add(hand_tile[i]);
 				}
 			}
-			if (tiles.Count > 1) return tiles;
-			else return new List<Tile>();
+			if (tiles.Count >= 2) return tiles;
+			else return null;
 		}
 
 		/// <summary>
@@ -182,65 +183,67 @@ namespace Assets.Scripts.Util
 		/// </summary>
 		/// <param name="last">被打出的牌</param>
 		/// <param name="fix">已经选中的手牌</param>
-		/// <param name="hand_tiles">手牌</param>
-		/// <returns>可用于碰的牌，为空则没有可以碰的牌</returns>
-		public static List<Tile> GetTouchableList(Tile last, Tile fix, List<Tile> hand_tiles)
+		/// <param name="hand_tile">手牌</param>
+		/// <returns>可用于碰的牌，为<c>null</c>则没有可以碰的牌</returns>
+		public static HashSet<Tile> GetTouchableTiles(Tile last, Tile fix, List<Tile> hand_tile)
 		{
 			
-            if (last != fix) return new List<Tile>();
+            if (last != fix) return null;
 
-			List<Tile> tiles = new List<Tile>();
+			HashSet<Tile> tiles = new HashSet<Tile>();
 
-			for(int i = 0; i < hand_tiles.Count; i++)
+			for(int i = 0; i < hand_tile.Count; i++)
 			{
-				if (hand_tiles[i] == last)
-					tiles.Add(hand_tiles[i]);
+				if (hand_tile[i] == last && !hand_tile[i].Equals(fix))
+					tiles.Add(hand_tile[i]);
 			}
-			return tiles;
+			if (tiles.Count > 0)
+				return tiles;
+			else
+				return null;
 		}
 
 		/// <summary>
 		/// 获取可以用于吃的手牌列表
 		/// </summary>
 		/// <param name="last">被打出的牌</param>
-		/// <param name="hand_tiles">手牌</param>
-		/// <returns>可用于吃的牌，为空则没有可以吃的牌</returns>
-		public static List<Tile> GetEatableList(Tile last, List<Tile> hand_tiles)
+		/// <param name="hand_tile">手牌</param>
+		/// <returns>可用于吃的牌，为<c>null</c>则没有可以吃的牌</returns>
+		public static HashSet<Tile> GetEatableTiles(Tile last, List<Tile> hand_tile)
 		{
-			List<Tile> tiles = new List<Tile>();
+			HashSet<Tile> tiles = new HashSet<Tile>();
 			bool flag;
 
-			for(int i = 0; i < hand_tiles.Count - 1; i++)
+			for(int i = 0; i < hand_tile.Count - 1; i++)
 			{
 				if (
-					hand_tiles[i].GetSpecial() != Special.King &&
-					hand_tiles[i].GetSpecial() != Special.None
+					hand_tile[i].GetSpecial() != Special.King &&
+					hand_tile[i].GetSpecial() != Special.None
 				) continue;
 
-				for(int j = i + 1; j < hand_tiles.Count; j++)
+				for(int j = i + 1; j < hand_tile.Count; j++)
 				{
 					if (
-					hand_tiles[j].GetSpecial() != Special.King &&
-					hand_tiles[j].GetSpecial() != Special.None
+					hand_tile[j].GetSpecial() != Special.King &&
+					hand_tile[j].GetSpecial() != Special.None
 					) continue;
 
 					flag = false;
-					if (CanEat(last, hand_tiles[i], hand_tiles[j]))
+					if (CanEat(last, hand_tile[i], hand_tile[j]))
 					{
 						flag = true;
-						if (!tiles.Exists(tile => tile.Equals(hand_tiles[j])))
-						{
-							tiles.Add(hand_tiles[j]);
-						}
+						tiles.Add(hand_tile[j]);
 					}
-					if (flag && !tiles.Exists(tile => tile.Equals(hand_tiles[i])))
+					if (flag)
 					{
-						tiles.Add(hand_tiles[i]);
+						tiles.Add(hand_tile[i]);
 					}
 				}
 			}
-			tiles.Sort();
-			return tiles;
+			if (tiles.Count > 0)
+				return tiles;
+			else
+				return null;
 		}
 
 		/// <summary>
@@ -249,12 +252,12 @@ namespace Assets.Scripts.Util
 		/// <param name="last">被打出的牌</param>
 		/// <param name="fix">已经选中的手牌</param>
 		/// <param name="hand_tile">手牌</param>
-		/// <returns>可用于吃的牌，为空则没有可以吃的牌</returns>
-		public static List<Tile> GetEatableList(Tile last, Tile fix, List<Tile> hand_tile)
+		/// <returns>可用于吃的牌，为<c>null</c>则没有可以吃的牌</returns>
+		public static HashSet<Tile> GetEatableTiles(Tile last, Tile fix, List<Tile> hand_tile)
 		{
-			if (last.GetSpecial() != Special.None) return new List<Tile>();
+			if (last.GetSpecial() != Special.None) return null;
 
-			List<Tile> tiles = new List<Tile>();
+			HashSet<Tile> tiles = new HashSet<Tile>();
 
 			for (int i = 0; i < hand_tile.Count; i++)
 				if (CanEat(last, fix, hand_tile[i]))
@@ -263,20 +266,158 @@ namespace Assets.Scripts.Util
 			return tiles;
 		}
 
-		public static List<Tile> GetSelfRodableList(List<List<Tile>> on_dest, List<Tile> fix, List<Tile> hand_tile)
+		/// <summary>
+		/// 获取可以响应杠的手牌列表
+		/// </summary>
+		/// <param name="last">被打出的牌</param>
+		/// <param name="hand_tile">手牌</param>
+		/// <returns>可用于杠的牌，为<c>null</c>则没有可以杠的牌</returns>
+		public static HashSet<Tile> GetRodableTiles(Tile last, List<Tile> hand_tile)
 		{
-			throw new NotImplementedException();
+			HashSet<Tile> tiles = new HashSet<Tile>();
+
+			for (int i = 0; i < hand_tile.Count - 2; i++)
+			{
+				if (CanRod(last, hand_tile[i], hand_tile[i + 1], hand_tile[i + 2]))
+				{
+					tiles.Add(hand_tile[i]);
+					tiles.Add(hand_tile[i + 1]);
+					tiles.Add(hand_tile[i + 2]);
+				}
+			}
+			if (tiles.Count > 0) return tiles;
+			else return null;
+		}
+
+		/// <summary>
+		/// 获取可以响应杠的手牌列表
+		/// </summary>
+		/// <param name="last">被打出的牌</param>
+		/// <param name="fix">已经选中的手牌</param>
+		/// <param name="hand_tile">手牌</param>
+		/// <returns>可用于杠的牌，为<c>null</c>则没有可以杠的牌</returns>
+		public static HashSet<Tile> GetRodableTiles(Tile last, Tile fix, List<Tile> hand_tile)
+		{
+			if (fix != last) return null;
+
+			HashSet<Tile> tiles = new HashSet<Tile>();
+
+			for (int i = 0; i < hand_tile.Count - 1; i++)
+			{
+				if (!hand_tile[i].Equals(fix) && !hand_tile[i + 1].Equals(fix)
+					&& CanRod(last, fix, hand_tile[i], hand_tile[i + 1]))
+				{
+					tiles.Add(hand_tile[i]);
+					tiles.Add(hand_tile[i + 1]);
+				}
+			}
+			if (tiles.Count > 0) return tiles;
+			else return null;
+		}
+
+		/// <summary>
+		/// 获取可以响应杠的手牌列表
+		/// </summary>
+		/// <param name="last">被打出的牌</param>
+		/// <param name="fix_1">已经选中的手牌</param>
+		/// <param name="fix_2">已经选中的手牌</param>
+		/// <param name="hand_tile">手牌</param>
+		/// <returns>可用于杠的牌，为<c>null</c>则没有可以杠的牌</returns>
+		public static HashSet<Tile> GetRodableTiles(Tile last, Tile fix_1, Tile fix_2, List<Tile> hand_tile)
+		{
+			if (fix_1 != last || fix_2 != last) return null;
+
+			HashSet<Tile> tiles = new HashSet<Tile>();
+
+			for (int i = 0; i < hand_tile.Count; i++)
+			{
+				if (!hand_tile[i].Equals(fix_1) && !hand_tile[i].Equals(fix_2)
+					&& CanRod(last, fix_1, fix_2, hand_tile[i]))
+				{
+					tiles.Add(hand_tile[i]);
+				}
+			}
+			if (tiles.Count > 0) return tiles;
+			else return null;
+		}
+
+		/// <summary>
+		/// 获取可以自己回合杠的手牌列表
+		/// </summary>
+		/// <param name="on_desk">碰吃杠区</param>
+		/// <param name="hand_tile">手牌</param>
+		/// <returns>可用于杠的牌，为<c>null</c>则没有可以杠的牌</returns>
+		public static HashSet<Tile> GetSelfRodableTiles(List<List<Tile>> on_desk, List<Tile> hand_tile)
+		{
+			HashSet<Tile> tiles = new HashSet<Tile>();
+
+			// single hand tile
+			for (int i = 0; i < hand_tile.Count; i++)
+			{
+				if (CanRod(hand_tile[i]))
+					tiles.Add(hand_tile[i]);
+				else if (CanAddRod(hand_tile[i], on_desk))
+					tiles.Add(hand_tile[i]);
+			}
+
+			// 4 hand tiles
+			for (int i = 0; i < hand_tile.Count - 3; i++)
+			{
+				if (CanRod(hand_tile[i], hand_tile[i+1], hand_tile[i+2], hand_tile[i + 3]))
+				{
+					tiles.Add(hand_tile[i]);
+					tiles.Add(hand_tile[i + 1]);
+					tiles.Add(hand_tile[i + 2]);
+					tiles.Add(hand_tile[i + 3]);
+				}
+			}
+
+			if (tiles.Count > 0) return tiles;
+			else return null;
+		}
+
+		/// <summary>
+		/// 获取可以自己回合杠的手牌列表
+		/// </summary>
+		/// <param name="fix">已经选中的手牌</param>
+		/// <param name="hand_tile">手牌</param>
+		/// <returns></returns>
+		public static HashSet<Tile> GetSelfRodableTiles(List<List<Tile>> on_desk, List<Tile> fix, List<Tile> hand_tile)
+		{
+
+			if (fix == null || fix.Count == 0)
+			{
+				return GetSelfRodableTiles(on_desk, hand_tile);
+			}
+			else
+			{
+				List<Tile> temp = new List<Tile>(hand_tile);
+				temp.Remove(fix[0]);
+
+				if (fix.Count == 1)
+					return GetRodableTiles(fix[0], temp);
+
+				else if (fix.Count == 2)
+					return GetRodableTiles(fix[0], fix[1], temp);
+
+				else if (fix.Count == 3)
+					return GetRodableTiles(fix[0], fix[1], fix[2], temp);
+
+				else if (fix.Count == 4)
+					return null;
+
+				else
+					throw new ArgumentException("too many fix tiles on rod");
+			}
 		}
 
 		/// <summary>
 		/// 是否可以胡牌
-		/// <para>注意：这是不考虑角色技能和院系的基础判断函数，
-		/// 不要直接调用该函数，作为替代应使用</para>
 		/// </summary>
 		/// <param name="on_desk"></param>
-		/// <param name="hand_tiles"></param>
+		/// <param name="hand_tile"></param>
 		/// <returns></returns>
-		public static bool BasicCanWin(List<List<Tile>> on_desk, List<Tile> hand_tiles)
+		public static bool BasicCanWin(List<List<Tile>> on_desk, List<Tile> hand_tile)
 		{
 			return false;
 		}

@@ -40,7 +40,7 @@ public class HandTile : MonoBehaviour
     public void StartEat(Tile lastTile)
     {
 
-        List<Tile> tiles = Rule.GetEatableList(lastTile, myplayer.hand);
+        List<Tile> tiles = Rule.GetEatableTiles(lastTile, myplayer.hand);
         foreach (GameObject tile in handTile)
         {
             if (tiles.Contains(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile))
