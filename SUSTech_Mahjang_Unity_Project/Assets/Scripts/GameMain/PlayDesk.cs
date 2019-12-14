@@ -109,7 +109,7 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		public void OnResponse()
 		{
-			// script what happens to the playdesk after player plays a tile then responce begin
+			// script what happens to the playdesk after player plays a tile then Response begin
 		}
 
 		/// <summary>
@@ -126,12 +126,12 @@ namespace Assets.Scripts.GameMain
 		/// <summary>
 		/// 玩家被响应后回合结束时调用
 		/// </summary>
-		/// <param name="responce_player"></param>
-		public void OnFinish(Seat responce_player)
+		/// <param name="Response_player"></param>
+		public void OnFinish(Seat Response_player)
 		{
 			// script what happens to the playdesk when player resopnced a tile
 
-			gameState.OnFinish(responce_player);
+			gameState.OnFinish(Response_player);
 			OnStart();
 		}
 	}

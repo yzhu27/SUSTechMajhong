@@ -28,7 +28,7 @@ namespace Assets.Scripts.GameMain.Charactors
 		/// <param name="last">tile played by other player</param>
 		/// <param name="cache">a cache to avoid repeat calculations</param>
 		/// <returns></returns>
-		public HashSet<Action> GetAvailableResponces(Tile last, Dictionary<Action, HashSet<Tile>> cache)
+		public HashSet<Action> GetAvailableResponses(Tile last, Dictionary<Action, HashSet<Tile>> cache)
 		{
 			HashSet<Action> actions = new HashSet<Action>();
 			cache.Clear();
@@ -36,7 +36,7 @@ namespace Assets.Scripts.GameMain.Charactors
 			var eat = EatableTiles(last, null, self.hand);
 			var touch = TouchableTiles(last, null, self.hand);
 			var rod = RodableTiles(last, null, self.hand);
-			bool win = CanResponceWin(last);
+			bool win = CanResponseWin(last);
 
 			if (eat != null)
 			{
@@ -92,7 +92,7 @@ namespace Assets.Scripts.GameMain.Charactors
 			return actions;
 		}
 
-		public HashSet<Tile> GetAvailableResponceTilesByCache(Action action, Tile last, List<Tile> fix, HashSet<Tile> cache)
+		public HashSet<Tile> GetAvailableResponseTilesByCache(Action action, Tile last, List<Tile> fix, HashSet<Tile> cache)
 		{
 			var temp = new List<Tile>(cache);
 			temp.Sort();
@@ -106,7 +106,7 @@ namespace Assets.Scripts.GameMain.Charactors
 				case Action.Rod:
 					return RodableTiles(last, fix, temp);
 				default:
-					throw new ArgumentException(action.ToString() + " is not permitted in responce stage");
+					throw new ArgumentException(action.ToString() + " is not permitted in response stage");
 			}
 		}
 
@@ -123,7 +123,7 @@ namespace Assets.Scripts.GameMain.Charactors
 			}
 		}
 
-		#region On responce
+		#region On Response
 
 		private HashSet<Tile> EatableTiles(Tile last, List<Tile> fix, List<Tile> hand)
 		{
@@ -163,7 +163,7 @@ namespace Assets.Scripts.GameMain.Charactors
 				throw new ArgumentException("too many fix files to touch");
 		}
 
-		private bool CanResponceWin(Tile last)
+		private bool CanResponseWin(Tile last)
 		{
 			var temp = new List<Tile>(self.hand);
 			temp.Add(last);

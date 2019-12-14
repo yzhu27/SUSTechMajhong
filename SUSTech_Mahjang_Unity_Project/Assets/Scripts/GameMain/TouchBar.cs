@@ -32,7 +32,7 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		/// <param name="actions">
 		///		从<see cref="MainPlayer.GetActionsOnPlay"/>
-		///		或<see cref="MainPlayer.GetActionsOnResponce"/>
+		///		或<see cref="MainPlayer.GetActionsOnResponse"/>
 		///		获取的返回值
 		/// </param>
 		public void SetActions(HashSet<Action> actions)

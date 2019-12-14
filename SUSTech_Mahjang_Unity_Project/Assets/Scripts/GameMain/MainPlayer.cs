@@ -127,24 +127,24 @@ namespace Assets.Scripts.GameMain
 		/// 传入TouchBar即可更新按钮状态
 		/// </summary>
 		/// <returns></returns>
-		public HashSet<Action> GetActionsOnResponce()
+		public HashSet<Action> GetActionsOnResponse()
 		{
-			return charactor.GetAvailableResponces(playDesk.lastPlayedTile, cache);
+			return charactor.GetAvailableResponses(playDesk.lastPlayedTile, cache);
 		}
 
 		/// <summary>
-		/// 在调用<see cref="GetActionsOnResponce"/>
+		/// 在调用<see cref="GetActionsOnResponse"/>
 		/// 后可用，获取可用的牌
 		/// </summary>
 		/// <param name="action">要进行的行为</param>
 		/// <param name="fix">已选中的牌</param>
 		/// <returns>可用牌的集合，若为空返回空集合</returns>
 		/// <exception cref="ArgumentException"/>
-		public HashSet<Tile> GetResponceTiles(Action action, List<Tile> fix)
+		public HashSet<Tile> GetResponseTiles(Action action, List<Tile> fix)
 		{
 			if (!cache.ContainsKey(action))
-				throw new ArgumentException("responce " + action.ToString() + " is not available");
-			var res = charactor.GetAvailableResponceTilesByCache(action, playDesk.lastPlayedTile, fix, cache[action]);
+				throw new ArgumentException("Response " + action.ToString() + " is not available");
+			var res = charactor.GetAvailableResponseTilesByCache(action, playDesk.lastPlayedTile, fix, cache[action]);
 			if (res == null) return new HashSet<Tile>();
 			else return res;
 		}
