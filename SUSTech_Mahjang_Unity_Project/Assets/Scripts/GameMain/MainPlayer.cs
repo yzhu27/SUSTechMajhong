@@ -49,7 +49,7 @@ namespace Assets.Scripts.GameMain
 
 			List<Tile> tiles = new List<Tile>()
 			{
-				tile1, tile2, lastPlayedTile()
+				tile1, tile2, playDesk.lastPlayedTile
 			};
 			tiles.Sort();
 			onDesk.Add(tiles);
@@ -64,7 +64,7 @@ namespace Assets.Scripts.GameMain
 
 			List<Tile> tiles = new List<Tile>()
 			{
-				tile1, tile2, lastPlayedTile()
+				tile1, tile2, playDesk.lastPlayedTile
 			};
 			tiles.Sort();
 			onDesk.Add(tiles);
@@ -80,7 +80,7 @@ namespace Assets.Scripts.GameMain
 
 			List<Tile> tiles = new List<Tile>()
 			{
-				tile1, tile2, tile3, lastPlayedTile()
+				tile1, tile2, tile3, playDesk.lastPlayedTile
 			};
 			tiles.Sort();
 			onDesk.Add(tiles);
@@ -122,7 +122,7 @@ namespace Assets.Scripts.GameMain
 		/// <returns></returns>
 		public HashSet<Action> GetActionsOnResponce()
 		{
-			return charactor.GetAvailableResponces(lastPlayedTile(), cache);
+			return charactor.GetAvailableResponces(playDesk.lastPlayedTile, cache);
 		}
 
 		/// <summary>
@@ -134,6 +134,7 @@ namespace Assets.Scripts.GameMain
 		{
 			return charactor.GetAvailableActions(cache);
 		}
+
 
 	}
 }

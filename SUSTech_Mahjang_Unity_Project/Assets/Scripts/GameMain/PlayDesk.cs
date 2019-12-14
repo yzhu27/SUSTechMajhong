@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+
 namespace Assets.Scripts.GameMain
 {
 	/// <summary>
@@ -37,14 +38,21 @@ namespace Assets.Scripts.GameMain
 		public float responseTimeOut;
 
 		/// <summary>
-		/// 当前进行回合的玩家编号, 0:自己, 1:上家, 2:对家, 3:下家
+		/// 当前进行回合的玩家座次
 		/// </summary>
-		public int roundPlayer;
+		public Seat roundPlayer { get => gameState.turn; }
 
 		/// <summary>
-		/// 当前进行响应的玩家编号, 0:自己, 1:上家, 2:对家, 3:下家
+		/// 当前可进行响应的玩家座次
 		/// </summary>
-		public int[] responsePlayer;
+		public HashSet<Seat> responsePlayers;
+
+		/// <summary>
+		/// 最后被打出的牌(不处于响应阶段时为<c>null</c>)
+		/// </summary>
+		public Tile lastPlayedTile { get => gameState.lastPlayedTile; }
+
+		private GameState gameState;
 
 		public PlayDesk() {
             self = new MainPlayer();
@@ -54,15 +62,54 @@ namespace Assets.Scripts.GameMain
         }
 
 		/// <summary>
-		/// 开始一名玩家的回合
+		/// 玩家回合开始时被调用
 		/// </summary>
-		/// <param name="player">0:自己, 1:上家, 2:对家, 3:下家</param>
-		public void StartRound(int player) { }
+		public void OnStart()
+		{
+			// script what happens to the playdesk when player start round
+		}
 
 		/// <summary>
-		/// 开始响应
+		/// 玩家打出牌时被调用
 		/// </summary>
-		/// <param name="players">0:自己, 1:上家, 2:对家, 3:下家</param>
-		public void StartResponse(int[] players) { }
+		/// <param name="tile"></param>
+		public void OnPlay(Tile tile)
+		{
+			// script what happens to the playdesk before player plays a tile
+
+			gameState.OnPlay(tile);
+			OnResponse();
+		}
+
+		/// <summary>
+		/// 响应开始时被调用
+		/// </summary>
+		public void OnResponse()
+		{
+			// script what happens to the playdesk after player plays a tile then responce begin
+		}
+
+		/// <summary>
+		/// 玩家回合结束时被调用
+		/// </summary>
+		public void OnFinish()
+		{
+			// script what happens to the playdesk when round finished without being resopnced
+
+			gameState.OnFinish();
+			OnStart();
+		}
+
+		/// <summary>
+		/// 玩家被响应后回合结束时调用
+		/// </summary>
+		/// <param name="responce_player"></param>
+		public void OnFinish(Seat responce_player)
+		{
+			// script what happens to the playdesk when player resopnced a tile
+
+			gameState.OnFinish(responce_player);
+			OnStart();
+		}
 	}
 }

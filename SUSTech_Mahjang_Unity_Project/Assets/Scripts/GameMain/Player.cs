@@ -6,12 +6,6 @@ using System.Collections.Generic;
 namespace Assets.Scripts.GameMain
 {
 	/// <summary>
-	/// 获取最后一张被打出牌的委托
-	/// </summary>
-	/// <returns>最后打出的牌，若当前不在响应阶段则应返回null</returns>
-	public delegate Tile LastPlayedTile();
-
-	/// <summary>
 	/// 代表玩家的类，包含用户信息，角色和属于玩家的牌
 	/// </summary>
 	public class Player
@@ -27,9 +21,9 @@ namespace Assets.Scripts.GameMain
 		protected Charactor charactor;
 
 		/// <summary>
-		/// 获取最后一张打出的牌的方法
+		/// 玩家所在牌桌
 		/// </summary>
-		public LastPlayedTile lastPlayedTile { protected get; set; }
+		protected PlayDesk playDesk;
 
 		/// <summary>
 		/// 手牌
@@ -99,13 +93,19 @@ namespace Assets.Scripts.GameMain
 		/// 玩家发言
 		/// </summary>
 		/// <param name="content">内容</param>
-		public void Speak(string content) { }
+		public void Speak(string content)
+		{
+			// call script what player do here
+		}
 
 		/// <summary>
 		/// 播放技能特效
 		/// </summary>
 		/// <param name="id">技能id</param>
-		public void Skill(int id) { }
+		public void Skill(int id)
+		{
+			// call script what player do here
+		}
 
 		/// <summary>
 		/// 抽牌
@@ -174,7 +174,7 @@ namespace Assets.Scripts.GameMain
 		public void Eat(Tile tile1, Tile tile2)
 		{
 			hand.RemoveAt(hand.Count - 1);
-			List<Tile> tiles = new List<Tile>() { tile1, tile2, lastPlayedTile() };
+			List<Tile> tiles = new List<Tile>() { tile1, tile2, playDesk.lastPlayedTile };
 			tiles.Sort();
 			onDesk.Add(tiles);
 			// call script what other player do here
@@ -188,7 +188,7 @@ namespace Assets.Scripts.GameMain
 		public void Touch(Tile tile1, Tile tile2)
 		{
 			hand.RemoveAt(hand.Count - 1);
-			List<Tile> tiles = new List<Tile>() { tile1, tile2, lastPlayedTile() };
+			List<Tile> tiles = new List<Tile>() { tile1, tile2, playDesk.lastPlayedTile };
 			tiles.Sort();
 			onDesk.Add(tiles);
 			// call script what other player do here
@@ -203,7 +203,7 @@ namespace Assets.Scripts.GameMain
 		public void Rod(Tile tile1, Tile tile2, Tile tile3)
 		{
 			hand.RemoveAt(hand.Count - 1);
-			List<Tile> tiles = new List<Tile>() { tile1, tile2, tile3, lastPlayedTile() };
+			List<Tile> tiles = new List<Tile>() { tile1, tile2, tile3, playDesk.lastPlayedTile };
 			tiles.Sort();
 			onDesk.Add(tiles);
 			// call script what other player do here
