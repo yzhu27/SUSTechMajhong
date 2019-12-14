@@ -25,25 +25,27 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		protected PlayDesk playDesk;
 
+		public Seat seat { get => playDesk.GetSeat(this); }
+
 		/// <summary>
 		/// 手牌
 		/// </summary>
-		public List<Tile> hand { get; private set; }
+		public List<Tile> hand { get; protected set; }
 
 		/// <summary>
 		/// 暗牌
 		/// </summary>
-		public List<Tile> hiden { get; private set; }
+		public List<Tile> hiden { get; protected set; }
 
 		/// <summary>
 		/// 碰/吃/杠区
 		/// </summary>
-		public List<List<Tile>> onDesk { get; private set; }
+		public List<List<Tile>> onDesk { get; protected set; }
 
 		/// <summary>
 		/// 打出的牌
 		/// </summary>
-		public List<Tile> graveyard { get; private set; }
+		public List<Tile> graveyard { get; protected set; }
 
 		// ------------------构造器----------------------
 
@@ -132,7 +134,10 @@ namespace Assets.Scripts.GameMain
 		public void Play(Tile tile)
 		{
 			hand.RemoveAt(hand.Count - 1);
+
 			// call script what other player do here
+
+			playDesk.OnPlay(tile);
 		}
 
 		/// <summary>
@@ -142,6 +147,7 @@ namespace Assets.Scripts.GameMain
 		public void SelfRod(Tile tile)
 		{
 			hand.RemoveAt(hand.Count - 1);
+
 			// call script what other player do here
 		}
 
@@ -177,7 +183,10 @@ namespace Assets.Scripts.GameMain
 			List<Tile> tiles = new List<Tile>() { tile1, tile2, playDesk.lastPlayedTile };
 			tiles.Sort();
 			onDesk.Add(tiles);
+
 			// call script what other player do here
+
+			playDesk.OnFinish(seat);
 		}
 
 		/// <summary>
@@ -191,7 +200,10 @@ namespace Assets.Scripts.GameMain
 			List<Tile> tiles = new List<Tile>() { tile1, tile2, playDesk.lastPlayedTile };
 			tiles.Sort();
 			onDesk.Add(tiles);
+
 			// call script what other player do here
+
+			playDesk.OnFinish(seat);
 		}
 
 		/// <summary>
@@ -206,7 +218,10 @@ namespace Assets.Scripts.GameMain
 			List<Tile> tiles = new List<Tile>() { tile1, tile2, tile3, playDesk.lastPlayedTile };
 			tiles.Sort();
 			onDesk.Add(tiles);
+
 			// call script what other player do here
+
+			playDesk.OnFinish(seat);
 		}
 	}
 }

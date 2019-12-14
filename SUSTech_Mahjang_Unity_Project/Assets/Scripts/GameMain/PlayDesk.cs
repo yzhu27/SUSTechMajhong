@@ -61,6 +61,28 @@ namespace Assets.Scripts.GameMain
             next = new Player();
         }
 
+		public Seat GetSeat(Player player)
+		{
+			if (ReferenceEquals(player, self))
+			{
+				return Seat.Self;
+			}
+			else if (ReferenceEquals(player, next))
+			{
+				return Seat.Next;
+			}
+			else if (ReferenceEquals(player, opposite))
+			{
+				return Seat.Oppo;
+			}
+			else if (ReferenceEquals(player, last))
+			{
+				return Seat.Last;
+			}
+			else
+				throw new System.ArgumentException("player not found");
+		}
+
 		/// <summary>
 		/// 玩家回合开始时被调用
 		/// </summary>
