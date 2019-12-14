@@ -71,7 +71,7 @@ namespace Assets.Scripts.GameMain.Charactors
 			HashSet<Action> actions = new HashSet<Action>();
 			cache.Clear();
 
-			var rod = SelfRodableTiles(null);
+			var rod = SelfRodableTiles(null, self.hand);
 			bool win = CanWin();
 			bool swap = CanSwap();
 
@@ -90,6 +90,37 @@ namespace Assets.Scripts.GameMain.Charactors
 			}
 
 			return actions;
+		}
+
+		public HashSet<Tile> GetAvailableResponceTilesByCache(Action action, Tile last, List<Tile> fix, HashSet<Tile> cache)
+		{
+			var temp = new List<Tile>(cache);
+			temp.Sort();
+
+			switch (action)
+			{
+				case Action.Eat:
+					return EatableTiles(last, fix, temp);
+				case Action.Touch:
+					return TouchableTiles(last, fix, temp);
+				case Action.Rod:
+					return RodableTiles(last, fix, temp);
+				default:
+					throw new ArgumentException(action.ToString() + " is not permitted in responce stage");
+			}
+		}
+
+		public HashSet<Tile> GetAvailableActionTilesByCache(Action action, List<Tile> fix, HashSet<Tile> cache)
+		{
+			switch (action)
+			{
+				case Action.Rod:
+					var temp = new List<Tile>(cache);
+					temp.Sort();
+					return SelfRodableTiles(fix, temp);
+				default:
+					throw new ArgumentException(action.ToString() + " is not permitted in main stage");
+			}
 		}
 
 		#region On responce
@@ -144,9 +175,9 @@ namespace Assets.Scripts.GameMain.Charactors
 
 		#region On play
 
-		private HashSet<Tile> SelfRodableTiles(List<Tile> fix)
+		private HashSet<Tile> SelfRodableTiles(List<Tile> fix, List<Tile> hand)
 		{
-			return Rule.GetSelfRodableTiles(self.onDesk, fix, self.hand);
+			return Rule.GetSelfRodableTiles(self.onDesk, fix, hand);
 		}
 
 		private bool CanWin()

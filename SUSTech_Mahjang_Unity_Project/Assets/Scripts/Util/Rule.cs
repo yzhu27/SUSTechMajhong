@@ -420,6 +420,7 @@ namespace Assets.Scripts.Util
 		public static bool BasicCanWin(List<List<Tile>> on_desk, List<Tile> hand_tile)
 		{
 			return false;
+			// TODO
 		}
 	}
 }

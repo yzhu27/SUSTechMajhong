@@ -126,7 +126,24 @@ namespace Assets.Scripts.GameMain
 		}
 
 		/// <summary>
-		/// 出牌阶段开始时调用，获取可行的操作，
+		/// 在调用<see cref="GetActionsOnResponce"/>
+		/// 后可用，获取可用的牌
+		/// </summary>
+		/// <param name="action">要进行的行为</param>
+		/// <param name="fix">已选中的牌</param>
+		/// <returns>可用牌的集合，若为空返回空集合</returns>
+		/// <exception cref="ArgumentException"/>
+		public HashSet<Tile> GetResponceTiles(Action action, List<Tile> fix)
+		{
+			if (!cache.ContainsKey(action))
+				throw new ArgumentException("responce " + action.ToString() + " is not available");
+			var res = charactor.GetAvailableResponceTilesByCache(action, playDesk.lastPlayedTile, fix, cache[action]);
+			if (res == null) return new HashSet<Tile>();
+			else return res;
+		}
+
+		/// <summary>
+		/// 牌变动时调用，获取可行的操作，
 		/// 传入TouchBar即可更新按钮状态
 		/// </summary>
 		/// <returns></returns>
@@ -135,6 +152,22 @@ namespace Assets.Scripts.GameMain
 			return charactor.GetAvailableActions(cache);
 		}
 
-
+		/// <summary>
+		/// 在调用<see cref="GetActionsOnPlay"/>后可用，获取可用的牌
+		/// <para/>
+		/// 注意：<see cref="Action.Swap"/> 
+		/// 应由脚本自行判断，不要传入此方法
+		/// </summary>
+		/// <param name="action">要进行的行为</param>
+		/// <param name="fix">已选中的牌</param>
+		/// <returns>可用牌的集合，若为空返回空集合</returns>
+		public HashSet<Tile> GetActionTiles(Action action, List<Tile> fix)
+		{
+			if (!cache.ContainsKey(action))
+				throw new ArgumentException("Action " + action.ToString() + " is not available");
+			var res = charactor.GetAvailableActionTilesByCache(action, fix, cache[action]);
+			if (res == null) return new HashSet<Tile>();
+			else return res;
+		}
 	}
 }
