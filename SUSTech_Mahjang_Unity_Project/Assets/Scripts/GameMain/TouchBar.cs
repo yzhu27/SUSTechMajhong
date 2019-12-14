@@ -44,15 +44,7 @@ namespace Assets.Scripts.GameMain
 			swapButton = actions.Contains(Action.Swap);
 		}
 
-		#region Temp method for test
-
-		public void SetEatButton(bool value) => eatButton = value;
-		public void SetTouchButton(bool value) => touchButton = value;
-		public void SetRodButton(bool value) => rodButton = value;
-		public void SetWinButton(bool value) => winButton = value;
-		public void SetSwapButton(bool value) => swapButton = value;
-
-		#endregion
+		
 
 	}
 }

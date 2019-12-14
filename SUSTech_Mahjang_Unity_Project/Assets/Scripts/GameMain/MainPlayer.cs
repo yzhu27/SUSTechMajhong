@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Scripts.GameMain
 {
@@ -31,16 +32,16 @@ namespace Assets.Scripts.GameMain
 		{
 			hand.Add(tile);
 			hand.Sort();
-
-			// call script here
-		}
+            // call script here
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tile);
+        }
 
 		new public void Play(Tile tile)
 		{
 			hand.Remove(tile);
-
-			// call script here
-		}
+            // call script here
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveSingleTile", tile);
+        }
 
 		new public void Eat(Tile tile1, Tile tile2)
 		{
@@ -54,8 +55,9 @@ namespace Assets.Scripts.GameMain
 			tiles.Sort();
 			onDesk.Add(tiles);
 
-			// call script here
-		}
+            // call script here
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 });
+        }
 
 		new public void Touch(Tile tile1, Tile tile2)
 		{
@@ -69,8 +71,10 @@ namespace Assets.Scripts.GameMain
 			tiles.Sort();
 			onDesk.Add(tiles);
 
-			// call script here
-		}
+            // call script here
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 });
+            
+        }
 
 		new public void Rod(Tile tile1, Tile tile2, Tile tile3)
 		{
@@ -85,16 +89,18 @@ namespace Assets.Scripts.GameMain
 			tiles.Sort();
 			onDesk.Add(tiles);
 
-			// call script here
-		}
+            // call script here
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 ,tile3});
+        }
 
 		new public void SelfRod(Tile tile)
 		{
 			hand.Remove(tile);
 			onDesk.Add(new List<Tile>() { tile });
 
-			// call script here
-		}
+            // call script here
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveSingleTile",tile );
+        }
 
 		new public void SelfRod(Tile tile1, Tile tile2, Tile tile3, Tile tile4)
 		{
@@ -110,8 +116,9 @@ namespace Assets.Scripts.GameMain
 			tiles.Sort();
 			onDesk.Add(tiles);
 
-			// call script here
-		}
+            // call script here
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2,tile3,tile4 });
+        }
 
 		#endregion
 

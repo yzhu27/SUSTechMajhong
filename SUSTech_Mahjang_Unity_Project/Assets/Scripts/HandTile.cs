@@ -88,7 +88,7 @@ public class HandTile : MonoBehaviour
     }
     public Tile RemoveSingleTile(Tile tile)
     {
-        myplayer.hand.Remove(tile);
+        
         foreach (GameObject obj in handTile)
         {
             if (obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile == tile)
@@ -108,24 +108,26 @@ public class HandTile : MonoBehaviour
         return tile;
 
     }
-    public List<Tile> RemoveTile()
+    public List<Tile> RemoveTile(List<Tile> tiles)
     {
 
-        List<Tile> tiles = new List<Tile>(); 
-        foreach (GameObject tile in handTile)
-        {
-            if(!(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tileState is ProhibitState))
+        foreach (Tile tile in tiles){
+            foreach (GameObject obj in handTile)
             {
-                GameObject temp = tile;
-                Tile removed = tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile;
-                myplayer.hand.Remove(removed);
-                tiles.Add(removed);
-                handTile.Remove(tile);
-                Destroy(temp);
+                if (obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile == tile)
+                {
+                    GameObject temp = obj;
+                    handTile.Remove(obj);
+                    Destroy(temp);
+                    GameObject.Find("lastTile").GetComponent<lastTile>().SetTile(tile);
+                    break;
+                }
             }
-            
         }
-        
+        foreach (GameObject obj in handTile)
+        {
+            obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
+        }
         Reconstruct();
         return tiles;
 
@@ -139,10 +141,7 @@ public class HandTile : MonoBehaviour
 
     public void AddTile(Tile tile)
     {
-        myplayer.hand.Add(tile);
-        myplayer.hand.Sort();
-        Reconstruct();
-        
+        Reconstruct();       
         GameObject instance = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Tile"));
         instance.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("setTile",tile);
         instance.GetComponentsInChildren<Transform>()[2].GetComponent<AddTileFront>().SendMessage("addTileFront", Path.ImgPathOfTile("TileFront", tile));
