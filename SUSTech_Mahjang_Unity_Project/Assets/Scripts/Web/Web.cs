@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Newtonsoft.Json;
 
 namespace Assets.Scripts.Web
 {
@@ -69,6 +70,8 @@ namespace Assets.Scripts.Web
 						break;
 				}
 			}
+
+			// var j = JsonConvert.DeserializeObject(received.data);
 		}
 
 
