@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
          tilePool.Shuffle();
         //int[] handtile = { 0xf0230, 0xf0230 , 0xf0230 ,0x30000,0x20000,0xf0220,0xf0210,0x30000, 0x20000, 0xf0220, 0xf0210 ,0x10000, 0x10000 };
 
-
+       // Debug.Log(tilePool.PoolToString());
 
 
     }
@@ -71,9 +71,9 @@ public class GameManager : MonoBehaviour
              GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("StartPlay");
          }*/
 
-        /* if (t < 130 && t % 10 == 0)
+         if (t < 130 && t % 10 == 0)
          {
-
+            playDesk.self.Draw(tileFactory.GetTile(tilePool.Draw()));
              playDesk.self.AddHidden(tileFactory.GetTile(tilePool.Draw()));
 
 
@@ -82,8 +82,8 @@ public class GameManager : MonoBehaviour
          if (t == 130)
          {
              GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("ShowHide");
-         }*/
+         }
 
-        //Debug.Log(tileFactory.GetTile(tilePool.Draw()));
+        
     }
 }

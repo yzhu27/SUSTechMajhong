@@ -32,7 +32,7 @@ namespace Assets.Scripts.GameMain
 		{
 			hand.Add(tile);
 			hand.Sort();
-            Debug.Log("us");
+            
             // call script here
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tile);
         }

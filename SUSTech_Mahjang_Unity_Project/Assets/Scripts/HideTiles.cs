@@ -11,7 +11,7 @@ public class HideTiles : MonoBehaviour
     private List<GameObject> hidenTile = new List<GameObject>();
     private List<Vector3> positions = new List<Vector3>();
     [SerializeField]
-    private float width = 0;
+    private float width = 0.025f;
     private float MoveSpeed = 0.05f;
 
     private bool check = true;

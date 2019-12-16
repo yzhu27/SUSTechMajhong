@@ -25,11 +25,13 @@ public class HideState : State
     }
     public override void OnMouseEnter(GameObject tile)
     {
-        tile.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        tile.transform.rotation = Quaternion.Euler(180f, 0f, 0f);
+        tile.transform.position += upDistance;
     }
     public override void OnMouseExit(GameObject tile)
     {
-        tile.transform.rotation = Quaternion.Euler(180f, 0f, 0f);
+        tile.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+        tile.transform.position -= upDistance;
     }
 
 
