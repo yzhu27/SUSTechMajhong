@@ -54,6 +54,7 @@ namespace Assets.Scripts.GameMain
             hand = new List<Tile>();
             hiden = new List<Tile>();
             onDesk = new List<List<Tile>>();
+            
         }
 
 		/// <summary>

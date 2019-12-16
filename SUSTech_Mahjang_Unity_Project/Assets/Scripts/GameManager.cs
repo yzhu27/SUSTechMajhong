@@ -71,19 +71,21 @@ public class GameManager : MonoBehaviour
              GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("StartPlay");
          }*/
 
-         if (t < 130 && t % 10 == 0)
-         {
-            playDesk.self.Draw(tileFactory.GetTile(tilePool.Draw()));
-             playDesk.self.AddHidden(tileFactory.GetTile(tilePool.Draw()));
+        /*if (t < 130 && t % 10 == 0)
+        {
+           playDesk.self.Draw(tileFactory.GetTile(tilePool.Draw()));
+            playDesk.self.AddHidden(tileFactory.GetTile(tilePool.Draw()));
 
 
-         }
-         t++;
-         if (t == 130)
-         {
-             GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("ShowHide");
-         }
+        }
+        t++;
+        if (t == 130)
+        {
+            GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("ShowHide");
+           GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("StartPlay");
+       }*/
 
+        tilePool.Draw();
         
     }
 }

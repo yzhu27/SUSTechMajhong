@@ -39,8 +39,8 @@ public class HandTile : MonoBehaviour
 
     public void StartEat(Tile lastTile)
     {
-
-       /* List<Tile> tiles = Rule.GetEatableTiles(lastTile, myplayer.hand);
+        myplayer.GetActionsOnPlay();
+        HashSet<Tile> tiles = myplayer.GetActionTiles(Action.Eat, ChoosedTiles);
         foreach (GameObject tile in handTile)
         {
             if (tiles.Contains(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile))
@@ -51,7 +51,7 @@ public class HandTile : MonoBehaviour
             {
                 tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
             }
-        }*/
+        }
         /*if (ChoosedTiles.Count == 0)
 		{
 
