@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EatState: State
+public class SwapState : State
 {
 
     private bool choosed;
-    public EatState(Vector3 position) : base(position)
+    public SwapState(Vector3 position) : base(position)
     {
         choosed = false;
     }
@@ -31,12 +31,9 @@ public class EatState: State
     }
     public override void OnMouseExit(GameObject tile)
     {
-        if(!choosed)
-        tile.transform.position = downPosition;
+        if (!choosed)
+            tile.transform.position = downPosition;
     }
-    public override void Lightup(GameObject tile)
-    {
-        tile.GetComponentInParent<Lightuptile>().SendMessage("lightup", 3);
-    }
+    
 
 }

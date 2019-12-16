@@ -52,6 +52,7 @@ namespace Assets.Scripts.GameMain
 		public Player() 
 		{
             hand = new List<Tile>();
+            hiden = new List<Tile>();
             onDesk = new List<List<Tile>>();
         }
 
@@ -63,7 +64,8 @@ namespace Assets.Scripts.GameMain
 		{
 			this.user = user;
 			hand = new List<Tile>();
-			onDesk = new List<List<Tile>>();
+            hiden = new List<Tile>();
+            onDesk = new List<List<Tile>>();
 		}
 
 		/// <summary>
@@ -114,7 +116,7 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		public void Draw()
 		{
-			hand.Add(null);
+            hand.Add(null);
 			// call script what other player do here
 		}
 

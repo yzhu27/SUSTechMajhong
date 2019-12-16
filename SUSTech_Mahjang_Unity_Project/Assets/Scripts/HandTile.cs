@@ -8,7 +8,7 @@ public class HandTile : MonoBehaviour
 {
 
     public MainPlayer myplayer ;
-    //public List<Tile> ChoosedTiles = new List<Tile>();
+    public List<Tile> ChoosedTiles = new List<Tile>();
     private List<GameObject> handTile = new List<GameObject>();
     private List<Vector3> positions = new List<Vector3>();
     [SerializeField]

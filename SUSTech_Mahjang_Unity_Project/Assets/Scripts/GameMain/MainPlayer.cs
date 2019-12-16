@@ -32,6 +32,7 @@ namespace Assets.Scripts.GameMain
 		{
 			hand.Add(tile);
 			hand.Sort();
+            Debug.Log("us");
             // call script here
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tile);
         }
@@ -120,6 +121,13 @@ namespace Assets.Scripts.GameMain
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2,tile3,tile4 });
         }
 
+        public void AddHidden(Tile tile)
+        {
+            hiden.Add(tile);
+            hiden.Sort();
+            // call script here
+            GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("AddTile", tile);
+        }
 		#endregion
 
 		/// <summary>
