@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EatState: State
+public class HideState : State
 {
 
     private bool choosed;
-    public EatState(Vector3 position) : base(position)
+    public HideState(Vector3 position) : base(position)
     {
         choosed = false;
     }
 
     public override void OnMouseDown(GameObject tile)
     {
-        if (choosed)
+       /* if (choosed)
         {
             choosed = false;
             GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Remove(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile);
@@ -21,22 +21,17 @@ public class EatState: State
         {
             choosed = true;
             GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Add(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile);
-        }
+        }*/
     }
     public override void OnMouseEnter(GameObject tile)
     {
-        upPosition = tile.transform.position + upDistance;
-        downPosition = tile.transform.position;
-        tile.transform.position = upPosition;
+        tile.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
     }
     public override void OnMouseExit(GameObject tile)
     {
-        if(!choosed)
-        tile.transform.position = downPosition;
-    }
-    public override void Lightup(GameObject tile)
-    {
-        tile.GetComponentInParent<Lightuptile>().SendMessage("lightup", 3);
+        tile.transform.rotation = Quaternion.Euler(180f, 0f, 0f);
     }
 
+
 }
+

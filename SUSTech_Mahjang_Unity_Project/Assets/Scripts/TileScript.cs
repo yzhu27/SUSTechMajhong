@@ -32,6 +32,18 @@ public class TileScript : MonoBehaviour
         Lightup();
     }
 
+    public void SetHideState()
+    {
+        tileState = new HideState(transform.position);
+        Lightup();
+    }
+
+    public void SetSwapState()
+    {
+        tileState = new SwapState(transform.position);
+        Lightup();
+    }
+
     public void setTile(Tile theTile) => tile = theTile;
    
     // Start is called before the first frame update
