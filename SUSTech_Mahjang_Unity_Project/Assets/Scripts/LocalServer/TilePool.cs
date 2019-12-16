@@ -164,12 +164,11 @@ namespace Assets.Scripts.LocalServer
 			int reserve = CalcReserve(reserve_0, reserve_1);
 
 			foreach (int department in departments)
-				for (int i = 0; i < 4; i++)
-					pool.Add(tileFactory.GetTile(
-						((int)Special.Sign << (int)Location.Special) +
-						(i << (int)Location.Unique) +
-						reserve
-					));
+				pool.Add(tileFactory.GetTile(
+					((int)Special.Sign << (int)Location.Special) +
+					((int)department << (int)Location.Department) +
+					reserve
+				));
 		}
 
 		private void GenerateLand(int reserve_0 = 0, int reserve_1 = 0)
