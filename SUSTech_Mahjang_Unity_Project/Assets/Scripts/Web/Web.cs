@@ -8,10 +8,14 @@ using Newtonsoft.Json;
 
 namespace Assets.Scripts.Web
 {
+	
+
 	public class Web
 	{
 		private StompClient client;
 		private bool autoLog;
+
+		private Dictionary<string, Delegate> callBackDict;
 
 		public Web(Uri uri, bool auto_log = true)
 		{
@@ -29,6 +33,8 @@ namespace Assets.Scripts.Web
 			client.DisConnect();
 		}
 
+		#region Test
+
 		public void test_subs()
 		{
 			client.Subscribe("/topic/echo");
@@ -38,6 +44,8 @@ namespace Assets.Scripts.Web
 		{
 			client.Send("/app/echo", "{\"sender\":\"Unity\",\"type\":\"CHAT\",\"content\":\"ko no DIO da!!!\"}");
 		}
+
+		#endregion
 
 		/// <summary>
 		/// use in WebController OnUpdate
