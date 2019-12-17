@@ -11,7 +11,7 @@ public class PlayCardState : State
 
     public override void OnMouseDown(GameObject tile)
     {
-        tile.GetComponentInParent<HandTile>().RemoveSingleTile(tile.GetComponent<TileScript>().tile);
+        tile.GetComponentInParent<HandTile>().myplayer.Play(tile.GetComponent<TileScript>().tile);
     }
     public override void OnMouseEnter(GameObject tile)
     {

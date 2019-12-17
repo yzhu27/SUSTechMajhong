@@ -19,11 +19,11 @@ public class HandTile : MonoBehaviour
 
     public void setPlayer(MainPlayer player) => myplayer = player;
 
-    public void unlight()
+    public void StartProhibit()
     {
         foreach(GameObject tile in handTile)
         {
-            tile.GetComponentsInChildren<Transform>()[2].GetComponent<Lightuptile>().SendMessage("lightup",1);
+            tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitState");
         }
         
     }
@@ -33,6 +33,15 @@ public class HandTile : MonoBehaviour
         foreach (GameObject tile in handTile)
         {
             tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetPlayCardState");            
+        }
+
+    }
+
+    public void StartSwap()
+    {
+        foreach (GameObject tile in handTile)
+        {
+            tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetSwapState");
         }
 
     }
@@ -169,6 +178,7 @@ public class HandTile : MonoBehaviour
 
     private Vector3 getposition(GameObject tile)
     {
+       
         return positions[myplayer.hand.IndexOf(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile)];      
     }
 
@@ -189,8 +199,9 @@ public class HandTile : MonoBehaviour
             {
                
                 Vector3 temp = getposition(tile);
+                Vector3 tempp = tile.transform.position;
                 tile.transform.position = Vector3.MoveTowards(tile.transform.position, temp, 2 * MoveSpeed * Time.deltaTime);
-                if (tile.transform.position != temp)
+                if (tile.transform.position != tempp)
                 {
                     check = false;
                 }

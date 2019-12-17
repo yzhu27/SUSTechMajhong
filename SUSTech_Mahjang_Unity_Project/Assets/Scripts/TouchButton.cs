@@ -17,17 +17,9 @@ public class TouchButton : MonoBehaviour
         
     }
 
-    public void MouseEnter()
-    {
-        GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("lightupTouchable", new Tile(0xf0230));
-    }
-    public void MouseExit()
-    {
-        GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("unlight");
-    }
     public void MouseClick()
     {
-        GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile");
+        
     }
 
 }

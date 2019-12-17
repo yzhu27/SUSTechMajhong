@@ -1,11 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Assets.Scripts.GameMain;
 
-public class EatButton : MonoBehaviour
+public class WinButton : MonoBehaviour
 {
-
     // Start is called before the first frame update
     void Start()
     {
@@ -18,9 +16,8 @@ public class EatButton : MonoBehaviour
         
     }
 
-  
     public void MouseClick()
     {
-        
+
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoorCharactor : MonoBehaviour
+public class PassButton : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,5 +14,10 @@ public class PoorCharactor : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void MouseClick()
+    {
+
     }
 }

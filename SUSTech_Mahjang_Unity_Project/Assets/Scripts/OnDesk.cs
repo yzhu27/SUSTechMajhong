@@ -35,7 +35,7 @@ public class OnDesk : MonoBehaviour
     void Start()
     {
         position = transform.position ;
-        Debug.Log(position);
+
     }
 
     // Update is called once per frame

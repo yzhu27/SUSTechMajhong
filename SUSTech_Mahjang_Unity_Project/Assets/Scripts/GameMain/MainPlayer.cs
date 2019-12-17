@@ -43,6 +43,7 @@ namespace Assets.Scripts.GameMain
 		{
 			hand.Remove(tile);
             // call script here
+            Debug.Log(tile);
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveSingleTile", tile);
         }
 

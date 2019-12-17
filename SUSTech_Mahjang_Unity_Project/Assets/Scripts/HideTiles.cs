@@ -129,8 +129,9 @@ public class HideTiles : MonoBehaviour
             {
 
                 Vector3 temp = getposition(tile);
+                Vector3 tempp = tile.transform.position;
                 tile.transform.position = Vector3.MoveTowards(tile.transform.position, temp, 2 * MoveSpeed * Time.deltaTime);
-                if (tile.transform.position != temp)
+                if (tile.transform.position != tempp)
                 {
                     check = false;
                 }
