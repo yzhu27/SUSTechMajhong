@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8c5805db-8159-4c53-b978-1e78a893fca4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/ooadproject.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/ooadproject/controller/RoomController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/ooadproject/controller/RoomController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/ooadproject/util/PlayDesk.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/ooadproject/util/PlayDesk.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/ooadproject/util/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/ooadproject/util/Player.class" afterDir="false" />
-    </list>
+    <list default="true" id="8c5805db-8159-4c53-b978-1e78a893fca4" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -102,7 +95,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/controller/RoomController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="329">
-              <caret line="313" column="17" lean-forward="true" selection-start-line="313" selection-start-column="17" selection-end-line="313" selection-end-column="17" />
+              <caret line="313" selection-start-line="313" selection-end-line="314" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -357,14 +350,14 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1576683958980" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1576684248099" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
@@ -478,7 +471,7 @@
       <workItem from="1576570014197" duration="873000" />
       <workItem from="1576585082245" duration="20487000" />
       <workItem from="1576672809755" duration="57000" />
-      <workItem from="1576672894903" duration="9804000" />
+      <workItem from="1576672894903" duration="10210000" />
     </task>
     <task id="LOCAL-00001" summary="2019.12.18 18：51 Andy Commit">
       <created>1576666321154</created>
@@ -491,13 +484,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="179156000" />
+    <option name="totallyTimeSpent" value="179562000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="98" y="0" width="1445" height="830" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23287672" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23287672" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -507,7 +500,7 @@
       <window_info id="Learn" order="7" />
       <window_info id="Web" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.042979944" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3452722" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.41547278" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.397711" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -579,7 +572,28 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
           </value>
         </entry>
       </map>
@@ -935,7 +949,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/controller/RoomController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="329">
-          <caret line="313" column="17" lean-forward="true" selection-start-line="313" selection-start-column="17" selection-end-line="313" selection-end-column="17" />
+          <caret line="313" selection-start-line="313" selection-end-line="314" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
