@@ -1,53 +1,75 @@
 package com.example.ooadproject.util;
 
 import com.example.ooadproject.bean.RequestMessage;
+import com.example.ooadproject.bean.ResponseMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.util.*;
 
 public class PlayDesk {
 
-//    public static void main(String[] args) {
-//        PlayDesk temp =new PlayDesk();
-//        Player a = new Player();
-//        a.setUsername("a");
-//        Player b = new Player();
-//        b.setUsername("b");
-//        Player c = new Player();
-//        c.setUsername("c");
-//        Player d = new Player();
-//        d.setUsername("d");
-//        temp.getPlayerslist().add(a);
-//        temp.getPlayerslist().add(b);
-//        temp.getPlayerslist().add(c);
-//        temp.getPlayerslist().add(d);
-//
-//        temp.initial();
-//        System.out.println("---------------------");
-//        System.out.println(temp.tilePool.getRemain());
-//        System.out.println("---------------------");
-//        for(Player p : temp.getPlayerslist()){
-//            System.out.println(p.getUsername()+":");
-//            System.out.println(p.playerTilesToString());
-//            System.out.println("---------------------");
-//        }
-//        System.out.println("---------------------");
-//
-//
-//
-//    }
+    public static void main(String[] args) {
+        PlayDesk temp = new PlayDesk();
+        Player a = new Player();
+        a.setUsername("a");
+        Player b = new Player();
+        b.setUsername("b");
+        Player c = new Player();
+        c.setUsername("c");
+        Player d = new Player();
+        d.setUsername("d");
+        temp.getPlayerslist().add(a);
+        temp.getPlayerslist().add(b);
+        temp.getPlayerslist().add(c);
+        temp.getPlayerslist().add(d);
+
+        temp.initial();
+        String room = "1";
+        System.out.println(temp.getCurrentPlayer());
+        temp.startTimer(room);
+        try{
+            Thread.sleep(6000);
+            temp.cancelTimer();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        System.out.println(temp.getCurrentPlayer());
+
+
+
+    }
 
     private List<Player> playerslist;
     //private List<Tile.Department> department;
     private TilePool tilePool;
+
     private String currentPlayer;
+    private int playTile;
     private int roundNum;
+
     private List<RequestMessage> roundOperationResponseList;
+
+    private Timer timer;
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
 
     public PlayDesk() {
         this.playerslist = new ArrayList<>();
         //this.department = new ArrayList<>();
         this.roundOperationResponseList = new ArrayList<>();
-        this.roundNum=0;
+        this.roundNum = 0;
+
+    }
+
+    public int getPlayTile() {
+        return playTile;
+    }
+
+    public void setPlayTile(int playTile) {
+        this.playTile = playTile;
     }
 
     public void setCurrentPlayer(String currentPlayer) {
@@ -74,11 +96,36 @@ public class PlayDesk {
         return currentPlayer;
     }
 
+    public void startTimer(String room) {
+        this.timer = new Timer();
 
+        this.timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                for (int i = 0; i < playerslist.size(); i++) {
+                    if (playerslist.get(i).getUsername() == getCurrentPlayer()) {
+                        int index = (i + 1) % 4;
+                        String currentPlayer = playerslist.get(index).getUsername();
+                        setCurrentPlayer(currentPlayer);
+                        System.out.println(getCurrentPlayer());
+                        messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "CurrentPlayer", currentPlayer));
+                        break;
+                    }
+                }
+                timer.cancel();
 
-    public int playerDraw(String name){
-        for(Player player:this.getPlayerslist()){
-            if(name.equals(player.getUsername())){
+            }
+        }, 5000);
+
+    }
+
+    public void cancelTimer() {
+        this.timer.cancel();
+    }
+
+    public int playerDraw(String name) {
+        for (Player player : this.getPlayerslist()) {
+            if (name.equals(player.getUsername())) {
                 int temp = this.tilePool.Draw();
                 player.getPlayerTiles().add(new Tile(temp));
                 return temp;
@@ -106,9 +153,9 @@ public class PlayDesk {
         this.currentPlayer = playerslist.get(seed.nextInt(4)).getUsername();
 
 
-
         //
     }
+
 
 
 }
