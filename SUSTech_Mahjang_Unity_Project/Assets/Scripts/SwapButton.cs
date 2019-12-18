@@ -29,7 +29,12 @@ public class SwapButton : MonoBehaviour
         else
         {
             clicked = false;
-
+            if(GameObject.Find("HideTiles").GetComponent<HideTiles>().ChoosedTiles.Count == 1 && GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Count == 1)
+            {
+                GameObject.Find("HideTiles").GetComponent<HideTiles>().myplayer.Swap(GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles[0], GameObject.Find("HideTiles").GetComponent<HideTiles>().ChoosedTiles[0]);
+                GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Clear();
+                GameObject.Find("HideTiles").GetComponent<HideTiles>().ChoosedTiles.Clear();
+            }
         }
     }
 }

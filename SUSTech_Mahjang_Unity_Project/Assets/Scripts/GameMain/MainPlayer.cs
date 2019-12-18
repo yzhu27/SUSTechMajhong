@@ -34,8 +34,9 @@ namespace Assets.Scripts.GameMain
 		{
 			hand.Add(tile);
 			hand.Sort();
-            
+
             // call script here
+            GameObject.Find("TileStack").GetComponent<TileStack>().SendMessage("RemoveTile");
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tile);
         }
 
@@ -43,8 +44,8 @@ namespace Assets.Scripts.GameMain
 		{
 			hand.Remove(tile);
             // call script here
-            Debug.Log(tile);
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveSingleTile", tile);
+            GameObject.Find("lastTile").GetComponent<lastTile>().SetTile(tile);
         }
 
 		new public void Eat(Tile tile1, Tile tile2)
@@ -131,14 +132,34 @@ namespace Assets.Scripts.GameMain
             // call script here
             GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("AddTile", tile);
         }
-		#endregion
 
-		/// <summary>
-		/// 响应阶段开始时调用，获取可行的操作，
-		/// 传入TouchBar即可更新按钮状态
+        /// <summary>
+		/// tile1 来自于 手牌 , tile2 来自于 暗牌
 		/// </summary>
 		/// <returns></returns>
-		public HashSet<Action> GetActionsOnResponse()
+        public void Swap(Tile tile1, Tile tile2)
+        {           
+            hiden.Add(tile1);
+            hand.Add(tile2);
+            hiden.Remove(tile2);
+            hand.Remove(tile1);
+            hiden.Sort();
+            hand.Sort();
+
+            // call script here
+            GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("RemoveSingleTile", tile2);
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveSingleTile", tile1);
+            GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("AddTile", tile1);
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tile2);
+        }
+        #endregion
+
+        /// <summary>
+        /// 响应阶段开始时调用，获取可行的操作，
+        /// 传入TouchBar即可更新按钮状态
+        /// </summary>
+        /// <returns></returns>
+        public HashSet<Action> GetActionsOnResponse()
 		{
 			return charactor.GetAvailableResponses(playDesk.lastPlayedTile, cache);
 		}

@@ -23,7 +23,7 @@ public class HandTile : MonoBehaviour
     {
         foreach(GameObject tile in handTile)
         {
-            tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitState");
+            tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
         }
         
     }
@@ -105,7 +105,6 @@ public class HandTile : MonoBehaviour
                 GameObject temp = obj;
                 handTile.Remove(obj);
                 Destroy(temp);
-                GameObject.Find("lastTile").GetComponent<lastTile>().SetTile(tile);
                 break;
             }
         }
@@ -128,7 +127,6 @@ public class HandTile : MonoBehaviour
                     GameObject temp = obj;
                     handTile.Remove(obj);
                     Destroy(temp);
-                    GameObject.Find("lastTile").GetComponent<lastTile>().SetTile(tile);
                     break;
                 }
             }

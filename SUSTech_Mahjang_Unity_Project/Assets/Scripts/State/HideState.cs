@@ -12,26 +12,34 @@ public class HideState : State
 
     public override void OnMouseDown(GameObject tile)
     {
-       /* if (choosed)
+        if (choosed)
         {
             choosed = false;
-            GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Remove(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile);
+            GameObject.Find("HideTiles").GetComponent<HideTiles>().ChoosedTiles.Remove(tile.GetComponent<TileScript>().tile);
         }
         else
         {
             choosed = true;
-            GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Add(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile);
-        }*/
+            GameObject.Find("HideTiles").GetComponent<HideTiles>().ChoosedTiles.Add(tile.GetComponent<TileScript>().tile);
+        }
     }
     public override void OnMouseEnter(GameObject tile)
     {
-        tile.transform.rotation = Quaternion.Euler(180f, 0f, 0f);
-        tile.transform.position += upDistance - new Vector3(0f, 0.001f, 0f);
+        if (!choosed)
+        {
+            tile.transform.rotation = Quaternion.Euler(180f, 0f, 0f);
+            tile.transform.position += upDistance - new Vector3(0f, 0.001f, 0f);
+        }
+       
     }
     public override void OnMouseExit(GameObject tile)
     {
-        tile.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
-        tile.transform.position -= upDistance - new Vector3(0f,0.001f,0f);
+        if (!choosed)
+        {
+            tile.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+            tile.transform.position -= upDistance - new Vector3(0f, 0.001f, 0f);
+        }
+            
     }
 
 

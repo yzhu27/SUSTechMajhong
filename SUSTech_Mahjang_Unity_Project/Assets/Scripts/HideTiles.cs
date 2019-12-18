@@ -17,6 +17,14 @@ public class HideTiles : MonoBehaviour
     private bool check = true;
     public void setPlayer(MainPlayer player) => myplayer = player;
 
+    public void StartProhibit()
+    {
+        foreach (GameObject tile in hidenTile)
+        {
+            tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
+        }
+
+    }
     public void ShowHide()
     {
         foreach (GameObject tile in hidenTile)
@@ -35,7 +43,6 @@ public class HideTiles : MonoBehaviour
                 GameObject temp = obj;
                 hidenTile.Remove(obj);
                 Destroy(temp);
-                GameObject.Find("lastTile").GetComponent<lastTile>().SetTile(tile);
                 break;
             }
         }
@@ -59,7 +66,6 @@ public class HideTiles : MonoBehaviour
                     GameObject temp = obj;
                     hidenTile.Remove(obj);
                     Destroy(temp);
-                    GameObject.Find("lastTile").GetComponent<lastTile>().SetTile(tile);
                     break;
                 }
             }
