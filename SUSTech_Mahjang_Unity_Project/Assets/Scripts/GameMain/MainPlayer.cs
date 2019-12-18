@@ -20,7 +20,7 @@ namespace Assets.Scripts.GameMain
 		/// <summary>
 		/// 当前客户端自身的玩家对象
 		/// </summary>
-		public MainPlayer() {
+		public MainPlayer(PlayDesk playDesk) : base (playDesk) {
             cache = new Dictionary<Action, HashSet<Tile>>();
         }
 
@@ -34,8 +34,9 @@ namespace Assets.Scripts.GameMain
 		{
 			hand.Add(tile);
 			hand.Sort();
-            
+
             // call script here
+            GameObject.Find("TileStack").GetComponent<TileStack>().SendMessage("RemoveTile");
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tile);
         }
 
@@ -43,8 +44,9 @@ namespace Assets.Scripts.GameMain
 		{
 			hand.Remove(tile);
             // call script here
-            Debug.Log(tile);
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveSingleTile", tile);
+            GameObject.Find("lastTile").GetComponent<lastTile>().SetTile(tile);
+
         }
 
 		new public void Eat(Tile tile1, Tile tile2)
@@ -61,6 +63,7 @@ namespace Assets.Scripts.GameMain
 
             // call script here
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 });
+            GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
         }
 
 		new public void Touch(Tile tile1, Tile tile2)
@@ -77,7 +80,7 @@ namespace Assets.Scripts.GameMain
 
             // call script here
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 });
-            
+            GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
         }
 
 		new public void Rod(Tile tile1, Tile tile2, Tile tile3)
@@ -95,15 +98,18 @@ namespace Assets.Scripts.GameMain
 
             // call script here
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 ,tile3});
+            GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
         }
 
 		new public void SelfRod(Tile tile)
 		{
 			hand.Remove(tile);
-			onDesk.Add(new List<Tile>() { tile });
+            List<Tile> tiles = new List<Tile>() { tile };
+            onDesk.Add(tiles);
 
             // call script here
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveSingleTile",tile );
+            GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
         }
 
 		new public void SelfRod(Tile tile1, Tile tile2, Tile tile3, Tile tile4)
@@ -112,16 +118,14 @@ namespace Assets.Scripts.GameMain
 			hand.Remove(tile2);
 			hand.Remove(tile3);
 			hand.Remove(tile4);
-
-			List<Tile> tiles = new List<Tile>()
-			{
-				tile1, tile2, tile3, tile4
-			};
-			tiles.Sort();
-			onDesk.Add(tiles);
+            List<Tile> tiles = new List<Tile>() { tile1, tile2, tile3, tile4 };
+            tiles.Sort();
+            onDesk.Add(tiles);
 
             // call script here
-            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2,tile3,tile4 });
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", tiles);
+            GameObject.Find("OnDesk").GetComponent<OnDesk>().upward =false;
+            GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
         }
 
         public void AddHidden(Tile tile)
@@ -131,14 +135,34 @@ namespace Assets.Scripts.GameMain
             // call script here
             GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("AddTile", tile);
         }
-		#endregion
 
-		/// <summary>
-		/// 响应阶段开始时调用，获取可行的操作，
-		/// 传入TouchBar即可更新按钮状态
+        /// <summary>
+		/// tile1 来自于 手牌 , tile2 来自于 暗牌
 		/// </summary>
 		/// <returns></returns>
-		public HashSet<Action> GetActionsOnResponse()
+        public void Swap(Tile tile1, Tile tile2)
+        {           
+            hiden.Add(tile1);
+            hand.Add(tile2);
+            hiden.Remove(tile2);
+            hand.Remove(tile1);
+            hiden.Sort();
+            hand.Sort();
+
+            // call script here
+            GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("RemoveSingleTile", tile2);
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveSingleTile", tile1);
+            GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("AddTile", tile1);
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tile2);
+        }
+        #endregion
+
+        /// <summary>
+        /// 响应阶段开始时调用，获取可行的操作，
+        /// 传入TouchBar即可更新按钮状态
+        /// </summary>
+        /// <returns></returns>
+        public HashSet<Action> GetActionsOnResponse()
 		{
 			return charactor.GetAvailableResponses(playDesk.lastPlayedTile, cache);
 		}

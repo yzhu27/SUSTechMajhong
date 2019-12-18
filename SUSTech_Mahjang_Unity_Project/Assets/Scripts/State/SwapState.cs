@@ -25,12 +25,12 @@ public class SwapState : State
     }
     public override void OnMouseEnter(GameObject tile)
     {
-        if (!choosed)
-        {
+        if (!choosed) {
             upPosition = tile.transform.position + upDistance;
             downPosition = tile.transform.position;
             tile.transform.position = upPosition;
-        }            
+        }
+            
     }
     public override void OnMouseExit(GameObject tile)
     {

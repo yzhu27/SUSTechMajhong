@@ -478,7 +478,7 @@ GameObject:
   - component: {fileID: 388224016}
   - component: {fileID: 388224017}
   m_Layer: 0
-  m_Name: TileStack (1)
+  m_Name: TileStack (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -492,7 +492,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 388224015}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.4, y: 0, z: 0.2}
+  m_LocalPosition: {x: -0.3, y: 0, z: 0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1366617639}
@@ -555,6 +555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b52d03c90200254d9415cb19c207c1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  upward: 1
 --- !u!1 &514882858
 GameObject:
   m_ObjectHideFlags: 0
@@ -709,7 +710,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 521533543}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.2, y: 0, z: -0.4}
+  m_LocalPosition: {x: -0.27, y: 0, z: -0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1366617639}
@@ -1095,7 +1096,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 812899542}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 270, y: 91, z: -0}
+  m_LocalPosition: {x: 270, y: 176, z: 0}
   m_LocalScale: {x: 829.5903, y: 823.5903, z: 823.5903}
   m_Children:
   - {fileID: 1738038556}
@@ -1353,7 +1354,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 870119316}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.2, y: 0, z: 0.4}
+  m_LocalPosition: {x: 0.27, y: 0, z: 0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1366617639}
@@ -2029,7 +2030,7 @@ GameObject:
   - component: {fileID: 1106618472}
   - component: {fileID: 1106618473}
   m_Layer: 0
-  m_Name: OnDesk (1)
+  m_Name: OnDesk (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2061,6 +2062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b52d03c90200254d9415cb19c207c1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  upward: 1
 --- !u!1 &1145719722
 GameObject:
   m_ObjectHideFlags: 0
@@ -2108,7 +2110,7 @@ GameObject:
   - component: {fileID: 1186503011}
   - component: {fileID: 1186503012}
   m_Layer: 0
-  m_Name: OnDesk (3)
+  m_Name: OnDesk (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2140,6 +2142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b52d03c90200254d9415cb19c207c1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  upward: 1
 --- !u!1 &1219908073
 GameObject:
   m_ObjectHideFlags: 0
@@ -2330,7 +2333,7 @@ GameObject:
   - component: {fileID: 1338055967}
   - component: {fileID: 1338055968}
   m_Layer: 0
-  m_Name: HandTile (1)
+  m_Name: HandTile (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2374,7 +2377,7 @@ GameObject:
   - component: {fileID: 1350565689}
   - component: {fileID: 1350565690}
   m_Layer: 0
-  m_Name: HandTile (3)
+  m_Name: HandTile (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2472,7 +2475,7 @@ GameObject:
   - component: {fileID: 1390258347}
   - component: {fileID: 1390258348}
   m_Layer: 0
-  m_Name: lastTile (3)
+  m_Name: lastTile (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2822,6 +2825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b52d03c90200254d9415cb19c207c1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  upward: 1
 --- !u!1 &1703596329
 GameObject:
   m_ObjectHideFlags: 0
@@ -3498,7 +3502,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1881606573}
   m_Layer: 0
-  m_Name: lastTile (1)
+  m_Name: lastTile (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3750,7 +3754,7 @@ GameObject:
   - component: {fileID: 2126182819}
   - component: {fileID: 2126182820}
   m_Layer: 0
-  m_Name: TileStack (3)
+  m_Name: TileStack (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3764,7 +3768,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2126182818}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.4, y: 0, z: -0.2}
+  m_LocalPosition: {x: 0.3, y: 0, z: -0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1366617639}

@@ -10,7 +10,7 @@ public class TileStack : MonoBehaviour
     
     
     private List<TwoTiles> Tiles = new List<TwoTiles>();
-    
+    public static int Globalpointer = 0;
     
     class TwoTiles
     {
@@ -41,17 +41,24 @@ public class TileStack : MonoBehaviour
             
         }
 
-        public void RemoveTile()
+        public bool RemoveTile()
         {
             if (pointer == 1)
             {
                 Destroy(downTile);
                 pointer--;
+                return true;
             }
-            else
+            else if(pointer == 2)
             {
                 Destroy(upTile);
                 pointer--;
+                return true;
+            }
+            else
+            {
+                Globalpointer++;
+                return false;
             }
         }
     }
@@ -85,19 +92,27 @@ public class TileStack : MonoBehaviour
         return;
     }
    
-    public void RemoveTile(int i)
+   /* public void RemoveTile(int i)
     {
 
         Tiles[i].RemoveTile();       
         return;
+    }*/
+    public void RemoveTile()
+    {
+
+        if (!Tiles[Globalpointer].RemoveTile()){
+            RemoveTile();
+        }
+       
     }
-    
+
     // Start is called before the first frame update
     void Start()
     {
 
         AddTile(22);
-        
+       
     }
 
     // Update is called once per frame
