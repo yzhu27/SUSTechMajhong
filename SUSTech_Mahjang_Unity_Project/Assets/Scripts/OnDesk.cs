@@ -7,13 +7,13 @@ public class OnDesk : MonoBehaviour
 {
 
     public Player myplayer;
+    public bool upward = true;
     Vector3 position;
     public void setPlayer(Player player) => myplayer = player;
      
     public void AddTiles(List<Tile> tiles )
     {
-        bool upward = true;
-      
+       
         int length = tiles.Count;
         //myplayer.onDesk.Add(tiles);
         GameObject instance;
@@ -30,6 +30,7 @@ public class OnDesk : MonoBehaviour
             }
         }
         position += transform.forward * 0.04f;
+        upward = true;
     }
     // Start is called before the first frame update
     void Start()

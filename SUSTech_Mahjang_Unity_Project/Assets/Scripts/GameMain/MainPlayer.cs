@@ -62,6 +62,7 @@ namespace Assets.Scripts.GameMain
 
             // call script here
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 });
+            GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
         }
 
 		new public void Touch(Tile tile1, Tile tile2)
@@ -78,7 +79,7 @@ namespace Assets.Scripts.GameMain
 
             // call script here
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 });
-            
+            GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
         }
 
 		new public void Rod(Tile tile1, Tile tile2, Tile tile3)
@@ -96,15 +97,18 @@ namespace Assets.Scripts.GameMain
 
             // call script here
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 ,tile3});
+            GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
         }
 
 		new public void SelfRod(Tile tile)
 		{
 			hand.Remove(tile);
-			onDesk.Add(new List<Tile>() { tile });
+            List<Tile> tiles = new List<Tile>() { tile };
+            onDesk.Add(tiles);
 
             // call script here
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveSingleTile",tile );
+            GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
         }
 
 		new public void SelfRod(Tile tile1, Tile tile2, Tile tile3, Tile tile4)
@@ -113,16 +117,14 @@ namespace Assets.Scripts.GameMain
 			hand.Remove(tile2);
 			hand.Remove(tile3);
 			hand.Remove(tile4);
-
-			List<Tile> tiles = new List<Tile>()
-			{
-				tile1, tile2, tile3, tile4
-			};
-			tiles.Sort();
-			onDesk.Add(tiles);
+            List<Tile> tiles = new List<Tile>() { tile1, tile2, tile3, tile4 };
+            tiles.Sort();
+            onDesk.Add(tiles);
 
             // call script here
-            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2,tile3,tile4 });
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", tiles);
+            GameObject.Find("OnDesk").GetComponent<OnDesk>().upward =false;
+            GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
         }
 
         public void AddHidden(Tile tile)

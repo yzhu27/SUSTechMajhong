@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
         
         GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("setPlayer", playDesk.self);
 
-        List<Tile> tiles = new List<Tile>();
+        /*List<Tile> tiles = new List<Tile>();
         tiles.Add(new Tile(0xf0230));
         tiles.Add(new Tile(0xf0230));
         tiles.Add(new Tile(0xf0230));
@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         GameObject.Find("OnDesk (2)").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
         GameObject.Find("OnDesk (2)").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
         GameObject.Find("OnDesk (3)").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
-        GameObject.Find("OnDesk (3)").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
+        GameObject.Find("OnDesk (3)").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);*/
          List<Department> departments = new List<Department>();
          departments.Add(Department.Math);
          departments.Add(Department.Phy);

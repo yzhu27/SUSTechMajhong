@@ -13,25 +13,12 @@ public class HandTileOthers : MonoBehaviour
 
 
     public void setPlayer(Player player) => myplayer = player;
-    public void RemoveTile()
-    {   
-        Reconstruct();
-    }
-
-
-
-
-
-    public void AddTile()
-    {     
-        Reconstruct();
-    }
+ 
 
     private void Reconstruct()
     {
         float length = myplayer.hand.Count * width;
         int bound = myplayer.hand.Count;
-        Debug.Log(length);
         foreach (GameObject tile in handTile)
         {
             Destroy(tile);

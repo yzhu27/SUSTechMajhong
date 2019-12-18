@@ -118,11 +118,10 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		public void Draw()
 		{
-            hand.Add(new Tile(0x00000000));
-            Debug.Log(hand.Count);
+            hand.Add(null);
             // call script what other player do here
             GameObject.Find("TileStack ("+(int)seat+")").GetComponent<TileStack>().SendMessage("RemoveTile");
-            GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("AddTile");
+            GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
         }
 
 		/// <summary>
@@ -142,9 +141,9 @@ namespace Assets.Scripts.GameMain
 		{
 			hand.RemoveAt(hand.Count - 1);
 
-			// call script what other player do here
-
-			playDesk.OnPlay(tile);
+            // call script what other player do here
+            GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
+            playDesk.OnPlay(tile);
 		}
 
 		/// <summary>
@@ -154,9 +153,12 @@ namespace Assets.Scripts.GameMain
 		public void SelfRod(Tile tile)
 		{
 			hand.RemoveAt(hand.Count - 1);
-
-			// call script what other player do here
-		}
+            List<Tile> tiles = new List<Tile>() { tile };
+            onDesk.Add(tiles);
+            // call script what other player do here
+            GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
+            GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().SendMessage("AddTiles",tiles);
+        }
 
 		/// <summary>
 		/// 自杠
@@ -168,8 +170,14 @@ namespace Assets.Scripts.GameMain
 		public void SelfRod(Tile tile1, Tile tile2, Tile tile3, Tile tile4)
 		{
 			hand.RemoveRange(hand.Count - 4, 4);
-			// call script what other player do here
-		}
+            List<Tile> tiles = new List<Tile>() { tile1, tile2,tile3,tile4 };
+            tiles.Sort();
+            onDesk.Add(tiles);
+            // call script what other player do here
+            GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
+            GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().upward = false;
+            GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
+        }
 
 		/// <summary>
 		/// 玩家胡牌，游戏结束
@@ -191,9 +199,10 @@ namespace Assets.Scripts.GameMain
 			tiles.Sort();
 			onDesk.Add(tiles);
 
-			// call script what other player do here
-
-			playDesk.OnFinish(seat);
+            // call script what other player do here
+            GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
+            GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
+            playDesk.OnFinish(seat);
 		}
 
 		/// <summary>
@@ -208,9 +217,10 @@ namespace Assets.Scripts.GameMain
 			tiles.Sort();
 			onDesk.Add(tiles);
 
-			// call script what other player do here
-
-			playDesk.OnFinish(seat);
+            // call script what other player do here
+            GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
+            GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
+            playDesk.OnFinish(seat);
 		}
 
 		/// <summary>
@@ -226,9 +236,10 @@ namespace Assets.Scripts.GameMain
 			tiles.Sort();
 			onDesk.Add(tiles);
 
-			// call script what other player do here
-
-			playDesk.OnFinish(seat);
+            // call script what other player do here
+            GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
+            GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
+            playDesk.OnFinish(seat);
 		}
 	}
 }
