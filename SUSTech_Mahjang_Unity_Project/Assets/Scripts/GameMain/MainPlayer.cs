@@ -20,7 +20,7 @@ namespace Assets.Scripts.GameMain
 		/// <summary>
 		/// 当前客户端自身的玩家对象
 		/// </summary>
-		public MainPlayer() {
+		public MainPlayer(PlayDesk playDesk) : base (playDesk) {
             cache = new Dictionary<Action, HashSet<Tile>>();
         }
 

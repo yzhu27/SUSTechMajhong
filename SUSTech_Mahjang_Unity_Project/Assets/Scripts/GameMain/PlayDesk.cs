@@ -55,10 +55,10 @@ namespace Assets.Scripts.GameMain
 		private GameState gameState;
 
 		public PlayDesk() {
-            self = new MainPlayer();
-            last = new Player();
-            opposite = new Player();
-            next = new Player();
+            self = new MainPlayer(this);
+            last = new Player(this);
+            opposite = new Player(this);
+            next = new Player(this);
         }
 
 		public Seat GetSeat(Player player)

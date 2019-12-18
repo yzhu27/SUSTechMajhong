@@ -2,7 +2,7 @@
 using Assets.Scripts.GameMain.Charactors;
 using System;
 using System.Collections.Generic;
-
+using UnityEngine;
 namespace Assets.Scripts.GameMain
 {
 	/// <summary>
@@ -49,12 +49,13 @@ namespace Assets.Scripts.GameMain
 
 		// ------------------构造器----------------------
 
-		public Player() 
+		public Player(PlayDesk playDesk) 
 		{
             hand = new List<Tile>();
             hiden = new List<Tile>();
             onDesk = new List<List<Tile>>();
             charactor = new EmptyCharactor(this);
+            this.playDesk = playDesk;
         }
 
 		/// <summary>
@@ -117,9 +118,12 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		public void Draw()
 		{
-            hand.Add(null);
-			// call script what other player do here
-		}
+            hand.Add(new Tile(0x00000000));
+            Debug.Log(hand.Count);
+            // call script what other player do here
+            GameObject.Find("TileStack ("+(int)seat+")").GetComponent<TileStack>().SendMessage("RemoveTile");
+            GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("AddTile");
+        }
 
 		/// <summary>
 		/// 换牌

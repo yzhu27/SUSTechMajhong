@@ -15,16 +15,15 @@ public class GameManager : MonoBehaviour
         
         
         GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("setPlayer", playDesk.self);
-        GameObject.Find("HandTile (1)").GetComponent<HandTileOthers>().SendMessage("setPlayer", playDesk.last);
+        GameObject.Find("HandTile (1)").GetComponent<HandTileOthers>().SendMessage("setPlayer", playDesk.next);
         GameObject.Find("HandTile (2)").GetComponent<HandTileOthers>().SendMessage("setPlayer", playDesk.opposite);
-        GameObject.Find("HandTile (3)").GetComponent<HandTileOthers>().SendMessage("setPlayer", playDesk.next);
+        GameObject.Find("HandTile (3)").GetComponent<HandTileOthers>().SendMessage("setPlayer", playDesk.last);
 
         GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("setPlayer", playDesk.self);
-        GameObject.Find("OnDesk (1)").GetComponent<OnDesk>().SendMessage("setPlayer", playDesk.last);
+        GameObject.Find("OnDesk (1)").GetComponent<OnDesk>().SendMessage("setPlayer", playDesk.next);
         GameObject.Find("OnDesk (2)").GetComponent<OnDesk>().SendMessage("setPlayer", playDesk.opposite);
-        GameObject.Find("OnDesk (3)").GetComponent<OnDesk>().SendMessage("setPlayer", playDesk.next);
-        //GameObject.Find("OthersTile").GetComponentsInChildren<Transform>()[2].GetComponent<AddTileFront>().SendMessage("addTileFront", Path.ImgPathOfTile("TileFront", new Tile(0xf0230)));
-
+        GameObject.Find("OnDesk (3)").GetComponent<OnDesk>().SendMessage("setPlayer", playDesk.last);
+        
         GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("setPlayer", playDesk.self);
 
         List<Tile> tiles = new List<Tile>();
@@ -73,9 +72,11 @@ public class GameManager : MonoBehaviour
 
         if (t < 130 && t % 10 == 0)
         {
-           playDesk.self.Draw(tileFactory.GetTile(tilePool.Draw()));
+            playDesk.self.Draw(tileFactory.GetTile(tilePool.Draw()));
             playDesk.self.AddHidden(tileFactory.GetTile(tilePool.Draw()));
-
+            playDesk.last.Draw();
+            playDesk.next.Draw();
+            playDesk.opposite.Draw();
 
         }
         t++;
