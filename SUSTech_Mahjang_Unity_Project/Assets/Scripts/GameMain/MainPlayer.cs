@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.GameMain
 {
@@ -162,9 +163,9 @@ namespace Assets.Scripts.GameMain
         /// 传入TouchBar即可更新按钮状态
         /// </summary>
         /// <returns></returns>
-        public HashSet<Action> GetActionsOnResponse()
+        public void GetActionsOnResponse()
 		{
-			return charactor.GetAvailableResponses(playDesk.lastPlayedTile, cache);
+            SetActions(charactor.GetAvailableResponses(playDesk.lastPlayedTile, cache));
 		}
 
 		/// <summary>
@@ -189,9 +190,9 @@ namespace Assets.Scripts.GameMain
 		/// 传入TouchBar即可更新按钮状态
 		/// </summary>
 		/// <returns></returns>
-		public HashSet<Action> GetActionsOnPlay()
+		public void GetActionsOnPlay()
 		{
-			return charactor.GetAvailableActions(cache);
+            SetActions(charactor.GetAvailableActions(cache));
 		}
 
 		/// <summary>
@@ -211,5 +212,15 @@ namespace Assets.Scripts.GameMain
 			if (res == null) return new HashSet<Tile>();
 			else return res;
 		}
-	}
+
+        public void SetActions(HashSet<Action> actions)
+        {
+            GameObject.Find("Button_Eat").GetComponent<Button>().interactable = actions.Contains(Action.Eat);
+            GameObject.Find("Button_Touch").GetComponent<Button>().interactable = actions.Contains(Action.Touch);
+            GameObject.Find("Button_Rod").GetComponent<Button>().interactable = actions.Contains(Action.Rod);
+            GameObject.Find("Button_Win").GetComponent<Button>().interactable = actions.Contains(Action.Win);
+            GameObject.Find("Button_Swap").GetComponent<Button>().interactable = actions.Contains(Action.Swap);
+
+        }
+    }
 }
