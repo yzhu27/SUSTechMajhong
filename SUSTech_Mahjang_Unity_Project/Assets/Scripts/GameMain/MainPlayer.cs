@@ -46,6 +46,7 @@ namespace Assets.Scripts.GameMain
             // call script here
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveSingleTile", tile);
             GameObject.Find("lastTile").GetComponent<lastTile>().SetTile(tile);
+
         }
 
 		new public void Eat(Tile tile1, Tile tile2)

@@ -143,6 +143,7 @@ namespace Assets.Scripts.GameMain
 
             // call script what other player do here
             GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
+            GameObject.Find("lastTile (" + (int)seat + ")").GetComponent<lastTile>().SendMessage("SetTile",tile);
             playDesk.OnPlay(tile);
 		}
 
