@@ -39,11 +39,12 @@ namespace Assets.Scripts.Web
 			}
 			// add data
 			i++;
-			while(list[i] != "\u0000")
+			while(list[i][list[i].Length - 1] != '\u0000')
 			{
 				data += list[i] + "\n";
 				i++;
 			}
+            data += list[i];
 		}
 
 		public void AddHead(string key, string value)

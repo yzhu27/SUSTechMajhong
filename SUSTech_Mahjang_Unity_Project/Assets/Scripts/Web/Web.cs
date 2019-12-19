@@ -41,19 +41,28 @@ namespace Assets.Scripts.Web
 			client.SendMessage();
 		}
 
+        public void SingleTest(string user_name, string room)
+        {
+            Login(user_name);
+            JoinRoom(room);
+            client.Send("/app/room.addUserSingleTest", JsonConvert.SerializeObject(new SendMessage(
+                user_name, room, "")));
+            userName = user_name;
+            this.room = room;
+            client.Subscribe("/topic/echo", (string msg) => { Debug.Log(msg); });
+            client.Send("/app/echo", JsonConvert.SerializeObject( new SendMessage(user_name, room, "HI", "???")));
+        }
+
+
 		public void Login(string user_name)
 		{
-			client.Subscribe("/user/" + user_name + "/chat", Debug.Log);
+			client.Subscribe("/user/" + user_name + "/chat", (string msg) => { Debug.Log(msg); });
 			userName = user_name;
 		}
 
 		public void JoinRoom(string room_name)
 		{
-			string json = JsonConvert.SerializeObject(new SendMessage(
-				userName, room, ""));
-			client.Send("/app/room.adduser", json);
-
-			client.Subscribe("/topic/" + room_name, Debug.Log);
+			client.Subscribe("/topic/" + room_name, (string msg) => { Debug.Log(msg); });
 			room = room_name;
 		}
 

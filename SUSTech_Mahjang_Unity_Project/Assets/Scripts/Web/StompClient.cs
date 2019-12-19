@@ -14,7 +14,6 @@ namespace Assets.Scripts.Web
 	class StompClient
 	{
 		private Queue<StompFrame> sendList;
-		private OnMessageHandler handler;
 
 		private WebSocket client;
 		private Dictionary<string, OnMessageHandler> subscribes;
@@ -25,11 +24,11 @@ namespace Assets.Scripts.Web
 
 		public StompClient(Uri uri, bool auto_log = true)
 		{
-			handler = Distributer;
 			autoLog = auto_log;
 
 			sendList = new Queue<StompFrame>();
 			client = new WebSocket(uri.ToString());
+            subscribes = new Dictionary<string, OnMessageHandler>();
 		}
 
 		public void Connect()
@@ -48,7 +47,7 @@ namespace Assets.Scripts.Web
 
 			client.Send(msg.ToString());
 
-			client.OnMessage += (sender, e) => handler(e.Data);
+			client.OnMessage += (sender, e) => Distributer(e.Data);
 		}
 
 		public void DisConnect()
@@ -100,21 +99,23 @@ namespace Assets.Scripts.Web
 		private void Distributer(string msg)
 		{
 			StompFrame stomp = new StompFrame(msg);
-			if (autoLog)
-			{
-				switch (stomp.GetServerCommand())
-				{
-					case ServerCommand.CONNECTED:
-					case ServerCommand.MESSAGE:
-						Debug.Log("===> " + msg);
-						break;
-					case ServerCommand.ERROR:
-						Debug.LogWarning("===> " + msg);
-						break;
-					case ServerCommand.RECEIPT:
-						break;
-				}
-			}
+            if (autoLog)
+            {
+                switch (stomp.GetServerCommand())
+                {
+                    case ServerCommand.CONNECTED:
+                    case ServerCommand.MESSAGE:
+                        Debug.Log("===> " + msg);
+                        break;
+                    case ServerCommand.ERROR:
+                        Debug.LogWarning("===> " + msg);
+                        break;
+                    case ServerCommand.RECEIPT:
+                        break;
+                    default:
+                        break;
+                }
+            }
 			subscribes[stomp.GetHead("destination")](stomp.data);
 		}
 	}

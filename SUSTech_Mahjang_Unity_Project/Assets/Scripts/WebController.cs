@@ -10,7 +10,7 @@ public class WebController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-		w = new Web(new System.Uri("ws://10.21.63.106:20000/ws/websocket"));
+		w = new Web(new System.Uri("ws://10.21.34.58:20000/ws/websocket"));
 		w.Connect();
     }
 
@@ -27,7 +27,6 @@ public class WebController : MonoBehaviour
 
 	public void TestClick()
 	{
-		w.Login("a");
-		w.JoinRoom("1");
+        w.SingleTest("a", "1");
 	}
 }
