@@ -17,14 +17,15 @@ namespace Assets.Scripts.Web
 		private OnMessageHandler handler;
 
 		private WebSocket client;
+		private Dictionary<string, OnMessageHandler> subscribes;
 		private const string acceptVersion = "1.1,1.0";
 		private const string heartBeat = "0,0";
 
 		private bool autoLog;
 
-		public StompClient(Uri uri, OnMessageHandler handler, bool auto_log = true)
+		public StompClient(Uri uri, bool auto_log = true)
 		{
-			this.handler = handler;
+			handler = Distributer;
 			autoLog = auto_log;
 
 			sendList = new Queue<StompFrame>();
@@ -69,13 +70,14 @@ namespace Assets.Scripts.Web
 			}
 		}
 
-		public void Subscribe(string dst)
+		public void Subscribe(string dst, OnMessageHandler handler)
 		{
 			var msg = new StompFrame(ClientCommand.SUBSCRIBE);
 			msg.AddHead("id", dst + "-" + 0);
 			msg.AddHead("destination", dst);
 
 			Enqueue(msg);
+			subscribes.Add(dst, handler);
 		}
 
 		public void Send(string dst, string content)
@@ -93,6 +95,27 @@ namespace Assets.Scripts.Web
 			sendList.Enqueue(msg);
 			if (autoLog)
 				Debug.Log(sendList.Count + " messages in queue");
+		}
+
+		private void Distributer(string msg)
+		{
+			StompFrame stomp = new StompFrame(msg);
+			if (autoLog)
+			{
+				switch (stomp.GetServerCommand())
+				{
+					case ServerCommand.CONNECTED:
+					case ServerCommand.MESSAGE:
+						Debug.Log("===> " + msg);
+						break;
+					case ServerCommand.ERROR:
+						Debug.LogWarning("===> " + msg);
+						break;
+					case ServerCommand.RECEIPT:
+						break;
+				}
+			}
+			subscribes[stomp.GetHead("destination")](stomp.data);
 		}
 	}
 }

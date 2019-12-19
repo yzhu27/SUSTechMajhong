@@ -12,7 +12,6 @@ public class WebController : MonoBehaviour
     {
 		w = new Web(new System.Uri("ws://10.21.63.106:20000/ws/websocket"));
 		w.Connect();
-		w.test_subs();
     }
 
     // Update is called once per frame
@@ -28,6 +27,7 @@ public class WebController : MonoBehaviour
 
 	public void TestClick()
 	{
-		w.test_send();
+		w.Login("a");
+		w.JoinRoom("1");
 	}
 }

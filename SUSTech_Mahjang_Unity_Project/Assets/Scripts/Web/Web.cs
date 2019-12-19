@@ -8,19 +8,19 @@ using Newtonsoft.Json;
 
 namespace Assets.Scripts.Web
 {
-	
+	public delegate void WebCallBack(bool succeed, string msg);
 
 	public class Web
 	{
 		private StompClient client;
 		private bool autoLog;
-
-		private Dictionary<string, Delegate> callBackDict;
+		private string userName;
+		private string room;
 
 		public Web(Uri uri, bool auto_log = true)
 		{
 			autoLog = auto_log;
-			client = new StompClient(uri, OnMessage, autoLog);
+			client = new StompClient(uri, autoLog);
 		}
 
 		public void Connect()
@@ -33,20 +33,6 @@ namespace Assets.Scripts.Web
 			client.DisConnect();
 		}
 
-		#region Test
-
-		public void test_subs()
-		{
-			client.Subscribe("/topic/echo");
-		}
-
-		public void test_send()
-		{
-			client.Send("/app/echo", "{\"sender\":\"Unity\",\"type\":\"CHAT\",\"content\":\"ko no DIO da!!!\"}");
-		}
-
-		#endregion
-
 		/// <summary>
 		/// use in WebController OnUpdate
 		/// </summary>
@@ -55,33 +41,21 @@ namespace Assets.Scripts.Web
 			client.SendMessage();
 		}
 
-		/// <summary>
-		/// message handler function
-		/// </summary>
-		/// <param name="msg">message received</param>
-		public void OnMessage(string msg)
+		public void Login(string user_name)
 		{
-			var received = new StompFrame(msg);
-
-			if (autoLog)
-			{
-				switch (received.GetServerCommand())
-				{
-					case ServerCommand.CONNECTED:
-					case ServerCommand.MESSAGE:
-						Debug.Log("===> " + msg);
-						break;
-					case ServerCommand.ERROR:
-						Debug.LogWarning("===> " + msg);
-						break;
-					case ServerCommand.RECEIPT:
-						break;
-				}
-			}
-
-			// var j = JsonConvert.DeserializeObject(received.data);
+			client.Subscribe("/user/" + user_name + "/chat", Debug.Log);
+			userName = user_name;
 		}
 
+		public void JoinRoom(string room_name)
+		{
+			string json = JsonConvert.SerializeObject(new SendMessage(
+				userName, room, ""));
+			client.Send("/app/room.adduser", json);
+
+			client.Subscribe("/topic/" + room_name, Debug.Log);
+			room = room_name;
+		}
 
 	}
 }
