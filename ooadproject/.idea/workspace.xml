@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8c5805db-8159-4c53-b978-1e78a893fca4" name="Default Changelist" comment="" />
+    <list default="true" id="8c5805db-8159-4c53-b978-1e78a893fca4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/ooadproject/controller/RoomController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/ooadproject/controller/RoomController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/ooadproject/util/PlayDesk$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/ooadproject/util/PlayDesk$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/ooadproject/util/PlayDesk.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/ooadproject/util/PlayDesk.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/index.html" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,49 +31,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/PlayDesk.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="482">
-              <caret line="159" selection-start-line="159" selection-end-line="159" />
+            <state relative-caret-position="20">
+              <caret line="166" column="76" lean-forward="true" selection-start-line="166" selection-start-column="76" selection-end-line="166" selection-end-column="76" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1750#1751#0" expanded="true" />
-                <element signature="e#1781#1782#0" expanded="true" />
-                <element signature="e#1826#1827#0" expanded="true" />
-                <element signature="e#1866#1867#0" expanded="true" />
+                <element signature="e#1776#1777#0" expanded="true" />
+                <element signature="e#1805#1806#0" expanded="true" />
+                <element signature="e#1846#1847#0" expanded="true" />
+                <element signature="e#1882#1883#0" expanded="true" />
+                <element signature="e#1865#1866#0" expanded="true" />
+                <element signature="e#1911#1912#0" expanded="true" />
+                <element signature="e#1928#1929#0" expanded="true" />
                 <element signature="e#1978#1979#0" expanded="true" />
+                <element signature="e#2022#2023#0" expanded="true" />
                 <element signature="e#2056#2057#0" expanded="true" />
+                <element signature="e#2123#2124#0" expanded="true" />
                 <element signature="e#2172#2173#0" expanded="true" />
+                <element signature="e#2204#2205#0" expanded="true" />
                 <element signature="e#2235#2236#0" expanded="true" />
+                <element signature="e#2280#2281#0" expanded="true" />
                 <element signature="e#2320#2321#0" expanded="true" />
+                <element signature="e#2360#2361#0" expanded="true" />
                 <element signature="e#2396#2397#0" expanded="true" />
-                <element signature="e#2160#2900#0" expanded="true" />
-                <element signature="e#2899#2900#0" expanded="true" />
+                <element signature="e#3289#3290#0" expanded="true" />
                 <element signature="e#3324#3325#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/bean/ChatMessage.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-              <folding>
-                <element signature="e#264#265#0" expanded="true" />
-                <element signature="e#291#292#0" expanded="true" />
-                <element signature="e#336#337#0" expanded="true" />
-                <element signature="e#368#369#0" expanded="true" />
-                <element signature="e#402#403#0" expanded="true" />
-                <element signature="e#432#433#0" expanded="true" />
-                <element signature="e#478#479#0" expanded="true" />
-                <element signature="e#516#517#0" expanded="true" />
-                <element signature="e#549#550#0" expanded="true" />
-                <element signature="e#578#579#0" expanded="true" />
-                <element signature="e#622#623#0" expanded="true" />
-                <element signature="e#658#659#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -76,26 +66,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
-              <caret line="118" lean-forward="true" selection-start-line="118" selection-end-line="118" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#501#502#0" expanded="true" />
-                <element signature="e#533#534#0" expanded="true" />
-                <element signature="e#587#588#0" expanded="true" />
-                <element signature="e#629#630#0" expanded="true" />
-                <element signature="e#963#964#0" expanded="true" />
-                <element signature="e#997#998#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/controller/RoomController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="313" selection-start-line="313" selection-end-line="314" />
+            <state relative-caret-position="-1022">
+              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -104,10 +76,57 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/Tile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="17" lean-forward="true" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+            <state relative-caret-position="324">
+              <caret line="139" column="5" selection-start-line="136" selection-start-column="4" selection-end-line="139" selection-end-column="5" />
+              <folding>
+                <element signature="e#951#952#0" expanded="true" />
+                <element signature="e#987#988#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/controller/RoomController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="213">
+              <caret line="184" column="88" selection-start-line="184" selection-start-column="88" selection-end-line="184" selection-end-column="88" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/OoadprojectApplication.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+              <folding>
+                <element signature="e#257#258#0" expanded="true" />
+                <element signature="e#321#322#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/static/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="64" column="65" selection-start-line="64" selection-start-column="65" selection-end-line="64" selection-end-column="65" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/static/main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="130">
+              <caret line="58" selection-start-line="58" selection-end-line="59" />
             </state>
           </provider>
         </entry>
@@ -116,50 +135,9 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/JsonUtil.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="306">
-              <caret line="21" column="3" selection-start-line="21" selection-start-column="3" selection-end-line="21" selection-end-column="3" />
+              <caret line="21" selection-start-line="21" selection-end-line="22" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/service/ChatService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="11" selection-start-line="11" selection-end-line="12" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/TileFactory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="18" selection-start-line="18" selection-end-line="19" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#180#181#0" expanded="true" />
-                <element signature="e#224#225#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/TilePool.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="61" selection-start-line="61" selection-end-line="62" />
-              <folding>
-                <element signature="e#726#727#0" expanded="true" />
-                <element signature="e#760#761#0" expanded="true" />
-                <element signature="e#790#791#0" expanded="true" />
-                <element signature="e#831#832#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -168,8 +146,23 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/bean/RequestMessage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+            <state relative-caret-position="17">
+              <caret line="9" selection-start-line="9" selection-end-line="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/TilePool.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-357">
+              <caret line="72" column="11" lean-forward="true" selection-start-line="72" selection-start-column="11" selection-end-line="72" selection-end-column="11" />
+              <folding>
+                <element signature="e#726#727#0" expanded="true" />
+                <element signature="e#760#761#0" expanded="true" />
+                <element signature="e#790#791#0" expanded="true" />
+                <element signature="e#831#832#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -215,8 +208,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/listener/WebSocketEventListener.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/config/WebSocketConfig.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
-        <option value="$PROJECT_DIR$/src/main/resources/static/index.html" />
-        <option value="$PROJECT_DIR$/src/main/resources/static/main.js" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/HexUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/TileFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/TilePool.java" />
@@ -224,16 +215,18 @@
         <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/Timer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/TimerTask.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/TimerUtil.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/PlayDesk.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/Player.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/static/index.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/static/main.js" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/controller/RoomController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/PlayDesk.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="122" />
-    <option name="width" value="1807" />
-    <option name="height" value="1038" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="121" />
+    <option name="width" value="1808" />
+    <option name="height" value="1039" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -310,6 +303,15 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="ooadproject" type="462c0819:PsiDirectoryNode" />
+              <item name="redis" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ooadproject" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ooadproject" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ooadproject" type="462c0819:PsiDirectoryNode" />
               <item name="service" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -350,7 +352,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1576684248099" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1576829554947" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -383,7 +385,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.PlayDesk">
+  <component name="RunManager" selected="Spring Boot.OoadprojectApplication">
     <configuration name="PlayDesk" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.ooadproject.util.PlayDesk" />
       <module name="ooadproject" />
@@ -471,7 +473,8 @@
       <workItem from="1576570014197" duration="873000" />
       <workItem from="1576585082245" duration="20487000" />
       <workItem from="1576672809755" duration="57000" />
-      <workItem from="1576672894903" duration="10210000" />
+      <workItem from="1576672894903" duration="10261000" />
+      <workItem from="1576764443707" duration="10267000" />
     </task>
     <task id="LOCAL-00001" summary="2019.12.18 18：51 Andy Commit">
       <created>1576666321154</created>
@@ -484,13 +487,12 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="179562000" />
+    <option name="totallyTimeSpent" value="189880000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="98" y="0" width="1445" height="830" extended-state="0" />
-    <editor active="true" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23287672" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21983914" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -500,8 +502,8 @@
       <window_info id="Learn" order="7" />
       <window_info id="Web" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3452722" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.41547278" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.34419262" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.89660054" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.397711" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -729,27 +731,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/HexUtil.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/bean/ResponseMessage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-69">
-          <caret line="13" column="31" lean-forward="true" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
-          <folding>
-            <element signature="e#387#388#0" expanded="true" />
-            <element signature="e#416#417#0" expanded="true" />
-            <element signature="e#446#447#0" expanded="true" />
-            <element signature="e#473#474#0" expanded="true" />
-            <element signature="e#506#507#0" expanded="true" />
-            <element signature="e#536#537#0" expanded="true" />
-            <element signature="e#581#582#0" expanded="true" />
-            <element signature="e#617#618#0" expanded="true" />
-            <element signature="e#656#657#0" expanded="true" />
-            <element signature="e#688#689#0" expanded="true" />
-            <element signature="e#733#734#0" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/redis/RedisListenerHandle.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="448">
@@ -757,13 +738,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="64" column="50" selection-start-line="64" selection-start-column="50" selection-end-line="64" selection-end-column="50" />
         </state>
       </provider>
     </entry>
@@ -784,59 +758,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1071">
-          <caret line="63" column="1" selection-start-line="63" selection-start-column="1" selection-end-line="63" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/TimerTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/TimerUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="1" lean-forward="true" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/OoadprojectApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="12" selection-start-line="12" selection-end-line="13" />
-          <folding>
-            <element signature="e#257#258#0" expanded="true" />
-            <element signature="e#321#322#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/Tile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="139" column="5" selection-start-line="136" selection-start-column="4" selection-end-line="139" selection-end-column="5" />
-          <folding>
-            <element signature="e#951#952#0" expanded="true" />
-            <element signature="e#987#988#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/service/ChatService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="11" selection-start-line="11" selection-end-line="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/TimerTask.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/TimerUtil.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/bean/ChatMessage.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -858,36 +781,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/bean/RequestMessage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="11" column="17" lean-forward="true" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/TilePool.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="61" selection-start-line="61" selection-end-line="62" />
-          <folding>
-            <element signature="e#726#727#0" expanded="true" />
-            <element signature="e#760#761#0" expanded="true" />
-            <element signature="e#790#791#0" expanded="true" />
-            <element signature="e#831#832#0" expanded="true" />
-          </folding>
+          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/TileFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
+        <state relative-caret-position="255">
           <caret line="18" selection-start-line="18" selection-end-line="19" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -897,10 +800,117 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/bean/ResponseMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="13" column="31" lean-forward="true" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
+          <folding>
+            <element signature="e#387#388#0" expanded="true" />
+            <element signature="e#416#417#0" expanded="true" />
+            <element signature="e#446#447#0" expanded="true" />
+            <element signature="e#473#474#0" expanded="true" />
+            <element signature="e#506#507#0" expanded="true" />
+            <element signature="e#536#537#0" expanded="true" />
+            <element signature="e#581#582#0" expanded="true" />
+            <element signature="e#617#618#0" expanded="true" />
+            <element signature="e#656#657#0" expanded="true" />
+            <element signature="e#688#689#0" expanded="true" />
+            <element signature="e#733#734#0" expanded="true" />
+            <element signature="e#771#772#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/service/ChatService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" selection-start-line="11" selection-end-line="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/JsonUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
-          <caret line="21" column="3" selection-start-line="21" selection-start-column="3" selection-end-line="21" selection-end-column="3" />
+          <caret line="21" selection-start-line="21" selection-end-line="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/Tile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="139" column="5" selection-start-line="136" selection-start-column="4" selection-end-line="139" selection-end-column="5" />
+          <folding>
+            <element signature="e#951#952#0" expanded="true" />
+            <element signature="e#987#988#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/OoadprojectApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+          <folding>
+            <element signature="e#257#258#0" expanded="true" />
+            <element signature="e#321#322#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="64" column="65" selection-start-line="64" selection-start-column="65" selection-end-line="64" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="58" selection-start-line="58" selection-end-line="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/bean/RequestMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="9" selection-start-line="9" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/controller/RoomController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="184" column="88" selection-start-line="184" selection-start-column="88" selection-end-line="184" selection-end-column="88" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/TilePool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-357">
+          <caret line="72" column="11" lean-forward="true" selection-start-line="72" selection-start-column="11" selection-end-line="72" selection-end-column="11" />
+          <folding>
+            <element signature="e#726#727#0" expanded="true" />
+            <element signature="e#760#761#0" expanded="true" />
+            <element signature="e#790#791#0" expanded="true" />
+            <element signature="e#831#832#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1022">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -909,49 +919,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/PlayDesk.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
-          <caret line="159" selection-start-line="159" selection-end-line="159" />
+        <state relative-caret-position="20">
+          <caret line="166" column="76" lean-forward="true" selection-start-line="166" selection-start-column="76" selection-end-line="166" selection-end-column="76" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1750#1751#0" expanded="true" />
-            <element signature="e#1781#1782#0" expanded="true" />
-            <element signature="e#1826#1827#0" expanded="true" />
-            <element signature="e#1866#1867#0" expanded="true" />
+            <element signature="e#1776#1777#0" expanded="true" />
+            <element signature="e#1805#1806#0" expanded="true" />
+            <element signature="e#1846#1847#0" expanded="true" />
+            <element signature="e#1882#1883#0" expanded="true" />
+            <element signature="e#1865#1866#0" expanded="true" />
+            <element signature="e#1911#1912#0" expanded="true" />
+            <element signature="e#1928#1929#0" expanded="true" />
             <element signature="e#1978#1979#0" expanded="true" />
+            <element signature="e#2022#2023#0" expanded="true" />
             <element signature="e#2056#2057#0" expanded="true" />
+            <element signature="e#2123#2124#0" expanded="true" />
             <element signature="e#2172#2173#0" expanded="true" />
+            <element signature="e#2204#2205#0" expanded="true" />
             <element signature="e#2235#2236#0" expanded="true" />
+            <element signature="e#2280#2281#0" expanded="true" />
             <element signature="e#2320#2321#0" expanded="true" />
+            <element signature="e#2360#2361#0" expanded="true" />
             <element signature="e#2396#2397#0" expanded="true" />
-            <element signature="e#2160#2900#0" expanded="true" />
-            <element signature="e#2899#2900#0" expanded="true" />
+            <element signature="e#3289#3290#0" expanded="true" />
             <element signature="e#3324#3325#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="118" lean-forward="true" selection-start-line="118" selection-end-line="118" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#501#502#0" expanded="true" />
-            <element signature="e#533#534#0" expanded="true" />
-            <element signature="e#587#588#0" expanded="true" />
-            <element signature="e#629#630#0" expanded="true" />
-            <element signature="e#963#964#0" expanded="true" />
-            <element signature="e#997#998#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/controller/RoomController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="313" selection-start-line="313" selection-end-line="314" />
-          <folding>
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -967,7 +958,6 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
@@ -1015,6 +1005,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

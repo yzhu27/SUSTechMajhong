@@ -55,6 +55,10 @@ function onConnected() {
     )
 
 }
+function test() {
+
+
+}
 function getPlayer(){
     stompClient.send("/app/room.getPlayer",
         {},

@@ -142,7 +142,92 @@ public class RoomController {
         }
 
     }
+    @MessageMapping("/room.addUserSingleTest")
+    public void addUserTest(@Payload RequestMessage requestMessage,StompHeaderAccessor headerAccessor){
+        try{
+            LOGGER.info("receive message");
+            String sender = requestMessage.getSender();
+            String room = requestMessage.getRoom();
+            headerAccessor.getSessionAttributes().put("username", requestMessage.getSender());
+            userlist.put(sender,room);
+            PlayDesk temp = new PlayDesk();
+            Player a = new Player();
+            a.setUsername(sender);
+            temp.getPlayerslist().add(a);
+            messagingTemplate.convertAndSendToUser(sender,"/chat",new ResponseMessage("Server","Accept-room.addUser",""));
+            Player b = new Player();
+            b.setUsername("b");
+            temp.getPlayerslist().add(b);
+            Player c = new Player();
+            c.setUsername("c");
+            temp.getPlayerslist().add(c);
+            Player d = new Player();
+            d.setUsername("d");
+            temp.getPlayerslist().add(d);
+            messagingTemplate.convertAndSend("/topic/"+room,new ResponseMessage("Server","PlayerSeqNum",sender+","+0+" "+"b,1 "+"c,2 "+"d,3"));
+            for(Player player:temp.getPlayerslist()){
+                player.setReady(true);
+            }
+            messagingTemplate.convertAndSend("/topic/"+room,new ResponseMessage("Server", "Game-Start", "all-ready"));
+            temp.initial();
+            for (Player player : temp.getPlayerslist()) {
+                if(player.getUsername().equals(sender)){
+                    ResponseMessage responseMessage = new ResponseMessage();
+                    responseMessage.setSender("Server");
+                    responseMessage.setType("PlayerTiles");
+                    String content = "";
+                    for (Tile tile : player.getPlayerTiles()) {
+                        content = content + tile.getId() + ",";
+                    }
+                    responseMessage.setContent(content);
+                    messagingTemplate.convertAndSendToUser(player.getUsername(), "/chat", responseMessage);
+                    responseMessage.setType("DarkTiles");
+                    responseMessage.setContent("" + player.getDarkTiles().get(0).getId());
+                    messagingTemplate.convertAndSendToUser(player.getUsername(), "/chat", responseMessage);
+                }
+            }
+            ResponseMessage responseMessage = new ResponseMessage();
+            responseMessage.setSender("Server");
+            responseMessage.setType("CurrentPlayer");
+            responseMessage.setContent(temp.getCurrentPlayer());
+            messagingTemplate.convertAndSend("/topic/" + room, responseMessage);
+            responseMessage.setType("PlayerDraw");
+            responseMessage.setContent("" + temp.playerDraw(temp.getCurrentPlayer()));
+            messagingTemplate.convertAndSendToUser(temp.getCurrentPlayer(), "/chat", responseMessage);
 
+
+        }catch (Exception e){
+            LOGGER.info(e.getMessage());
+        }
+    }
+    @MessageMapping("/room.nextSingleTest")
+    public void next(@Payload RequestMessage requestMessage){
+        try{
+            String sender = requestMessage.getSender();
+            String room = requestMessage.getRoom();
+            PlayDesk temp = roomlist.get(room);
+            if(!sender.equals(temp.getCurrentPlayer())){
+                if(temp.getStates()==1){
+                    temp.playerDraw(temp.getCurrentPlayer());
+                    for(Player player:temp.getPlayerslist()){
+                        if(player.getUsername().equals(temp.getCurrentPlayer())){
+                            Tile playIt = player.getPlayerTiles().get(0);
+                            player.getPlayerTiles().remove(0);
+                            messagingTemplate.convertAndSend("/topic/"+room,new ResponseMessage(player.getUsername(),"Accept-Play",playIt.getId()+""));
+                            temp.setPlayTile(playIt.getId());
+                            temp.setStates(2);
+                        }
+                    }
+                }else{
+                    temp.startTimer(room);
+                }
+            }else {
+                messagingTemplate.convertAndSendToUser(sender,"/chat",new ResponseMessage("Server","Reject-next","this is your round"));
+            }
+        }catch (Exception e){
+            LOGGER.info(e.getMessage());
+        }
+    }
     @MessageMapping("/room.addUser")
     public void addUser(@Payload RequestMessage requestMessage) {
         try {
@@ -313,6 +398,7 @@ public class RoomController {
                     messagingTemplate.convertAndSendToUser(player.getUsername(), "/chat", responseMessage);
                 }
             }
+            temp.startTimer(room);
         } else {
             ResponseMessage responseMessage = new ResponseMessage();
             responseMessage.setSender("Server");
@@ -330,6 +416,7 @@ public class RoomController {
         String type = requestMessage.getType();
         String content = requestMessage.getContent();
         PlayDesk temp = roomlist.get(room);
+        temp.cancelTimer();
         if (!sender.equals(temp.getCurrentPlayer())) {
             temp.getRoundOperationResponseList().add(requestMessage);
             if (temp.getRoundOperationResponseList().size() == 1) {
