@@ -25,6 +25,8 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		protected PlayDesk playDesk;
 
+		public string name { get => user.name; }
+
 		public Seat seat { get => playDesk.GetSeat(this); }
 
 		/// <summary>
@@ -55,6 +57,7 @@ namespace Assets.Scripts.GameMain
             hiden = new List<Tile>();
             onDesk = new List<List<Tile>>();
             charactor = new EmptyCharactor(this);
+			graveyard = new List<Tile>();
             this.playDesk = playDesk;
         }
 
@@ -62,12 +65,15 @@ namespace Assets.Scripts.GameMain
 		/// 
 		/// </summary>
 		/// <param name="user">该玩家对应的用户</param>
-		public Player(User user)
+		public Player(User user, PlayDesk playDesk)
 		{
 			this.user = user;
 			hand = new List<Tile>();
             hiden = new List<Tile>();
             onDesk = new List<List<Tile>>();
+			graveyard = new List<Tile>();
+			charactor = new EmptyCharactor(this);
+			this.playDesk = playDesk;
 		}
 
 		/// <summary>

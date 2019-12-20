@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Assets.Scripts.GameMain
 {
@@ -7,6 +10,12 @@ namespace Assets.Scripts.GameMain
 	/// </summary>
 	public class PlayDesk
 	{
+		private bool handTileSetted;
+		private bool hidenTileSetted;
+
+		public bool prepareFinished { get; private set; }
+		public bool canStart { get => prepareFinished && handTileSetted && hidenTileSetted; }
+
 		/// <summary>
 		/// 自己
 		/// </summary>
@@ -54,12 +63,94 @@ namespace Assets.Scripts.GameMain
 
 		private GameState gameState;
 
-		public PlayDesk() {
-            self = new MainPlayer(this);
-            last = new Player(this);
-            opposite = new Player(this);
-            next = new Player(this);
-        }
+		public PlayDesk()
+		{
+			prepareFinished = false;
+			handTileSetted = false;
+			hidenTileSetted = false;
+		}
+
+		public void SetPlayers(Dictionary<Seat, Player> players)
+		{
+			int self_seat = -1;
+			int first_player = -1;
+
+			foreach (KeyValuePair<Seat, Player> pair in players)
+			{
+				if (pair.Value is MainPlayer)
+				{
+					self_seat = (int)pair.Key;
+				}
+			}
+
+			if (self_seat < 0)
+				throw new System.Exception("Can't find MainPlayer");
+
+			foreach (KeyValuePair<Seat, Player> pair in players)
+			{
+				if(pair.Key == 0)
+				{
+					first_player = (int)pair.Key;
+				}
+				switch(((int)pair.Key + 4 - self_seat) % 4)
+				{
+					case 0:
+						self = (MainPlayer)pair.Value;
+						break;
+					case 1:
+						next = pair.Value;
+						break;
+					case 2:
+						opposite = pair.Value;
+						break;
+					case 3:
+						last = pair.Value;
+						break;
+					default:
+						throw new System.Exception("WTF");
+				}
+			}
+
+			Assert.IsNotNull(self, "player self setted");
+			Assert.IsNotNull(next, "player next setted");
+			Assert.IsNotNull(opposite, "player oppo setted");
+			Assert.IsNotNull(last, "player last setted");
+
+			gameState = new GameState((Seat)first_player);
+
+			prepareFinished = true;
+		}
+
+		public IEnumerator SetInitTiles(List<Tile> tiles)
+		{
+			Debug.Log("here");
+
+			while (!prepareFinished)
+				yield return null;
+
+			foreach(Tile tile in tiles)
+			{
+				self.Draw(tile);
+				next.Draw();
+				opposite.Draw();
+				last.Draw();
+				yield return new WaitForSeconds(0.2f);
+			}
+			handTileSetted = true;
+		}
+
+		public IEnumerator SetInitHiden(List<Tile> tiles)
+		{
+			while (!prepareFinished)
+				yield return null;
+
+			foreach (Tile tile in tiles)
+			{
+				self.AddHidden(tile);
+				yield return new WaitForSeconds(0.2f);
+			}
+			hidenTileSetted = true;
+		}
 
 		public Seat GetSeat(Player player)
 		{

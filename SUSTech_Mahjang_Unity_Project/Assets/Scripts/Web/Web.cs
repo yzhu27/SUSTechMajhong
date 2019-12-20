@@ -16,11 +16,12 @@ namespace Assets.Scripts.Web
 		private bool autoLog;
 		private string userName;
 		private string room;
+		
 
-		public Web(Uri uri, bool auto_log = true)
+		public Web(Uri uri, Dictionary<string, WebCallBack> autoCallBackDict, bool auto_log = true)
 		{
 			autoLog = auto_log;
-			client = new StompClient(uri, autoLog);
+			client = new StompClient(uri, autoCallBackDict, autoLog);
 		}
 
 		public void Connect()
@@ -49,10 +50,7 @@ namespace Assets.Scripts.Web
                 user_name, room, "")));
             userName = user_name;
             this.room = room;
-            client.Subscribe("/topic/echo", (string msg) => { Debug.Log(msg); });
-            client.Send("/app/echo", JsonConvert.SerializeObject( new SendMessage(user_name, room, "HI", "???")));
         }
-
 
 		public void Login(string user_name)
 		{

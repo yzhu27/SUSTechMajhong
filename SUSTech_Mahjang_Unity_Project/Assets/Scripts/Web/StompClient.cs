@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using WebSocketSharp;
+using Newtonsoft.Json;
 
 namespace Assets.Scripts.Web
 {
@@ -22,13 +23,17 @@ namespace Assets.Scripts.Web
 
 		private bool autoLog;
 
-		public StompClient(Uri uri, bool auto_log = true)
+		private readonly Dictionary<string, WebCallBack> autoCallBackDict;
+
+		public StompClient(Uri uri, Dictionary<string, WebCallBack> autoCallBackDict, bool auto_log = true)
 		{
 			autoLog = auto_log;
 
 			sendList = new Queue<StompFrame>();
 			client = new WebSocket(uri.ToString());
             subscribes = new Dictionary<string, OnMessageHandler>();
+
+			this.autoCallBackDict = autoCallBackDict;
 		}
 
 		public void Connect()
@@ -116,7 +121,17 @@ namespace Assets.Scripts.Web
                         break;
                 }
             }
-			subscribes[stomp.GetHead("destination")](stomp.data);
+
+			if (stomp.GetServerCommand() == ServerCommand.MESSAGE)
+			{
+				ReceiveMessage receive = JsonConvert.DeserializeObject<ReceiveMessage>(stomp.data);
+				WebCallBack webCallBack;
+
+				if (autoCallBackDict.TryGetValue(receive.type, out webCallBack))
+					webCallBack(true, receive.content);
+				else
+					subscribes[stomp.GetHead("destination")](stomp.data);
+			}
 		}
 	}
 }

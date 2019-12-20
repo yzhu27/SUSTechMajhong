@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Web
 {
-	class ReceiveMessage
+	public class ReceiveMessage
 	{
 		public string sender { get; set; }
 		public string type { get; set; }

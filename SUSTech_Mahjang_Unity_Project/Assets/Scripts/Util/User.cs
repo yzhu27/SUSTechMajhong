@@ -7,6 +7,8 @@ namespace Assets.Scripts.Util
 	/// </summary>
 	public class User
 	{
-		public int uid;
+		public string name;
+
+		public User(string name) => this.name = name;
 	}
 }
