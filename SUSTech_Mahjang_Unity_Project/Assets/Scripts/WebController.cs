@@ -31,7 +31,8 @@ public class WebController : MonoBehaviour
 		else if (setInitHiden != null)
 		{
 			StartCoroutine(AutoCallBacks.playDesk.SetInitHiden(setInitHiden));
-		}
+            setInitHiden = null;
+        }
     }
 
 	private void OnDestroy()

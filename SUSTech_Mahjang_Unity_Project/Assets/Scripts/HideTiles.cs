@@ -38,7 +38,7 @@ public class HideTiles : MonoBehaviour
 
         foreach (GameObject obj in hidenTile)
         {
-            if (obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile == tile)
+            if (obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile.id == tile.id)
             {
                 GameObject temp = obj;
                 hidenTile.Remove(obj);
@@ -61,7 +61,7 @@ public class HideTiles : MonoBehaviour
         {
             foreach (GameObject obj in hidenTile)
             {
-                if (obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile == tile)
+                if (obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile.id == tile.id)
                 {
                     GameObject temp = obj;
                     hidenTile.Remove(obj);
@@ -115,6 +115,7 @@ public class HideTiles : MonoBehaviour
 
     private Vector3 getposition(GameObject tile)
     {
+        
         return positions[myplayer.hiden.IndexOf(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile)];
     }
 

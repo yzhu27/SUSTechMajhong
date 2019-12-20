@@ -147,7 +147,7 @@ namespace Assets.Scripts.GameMain
 			foreach (Tile tile in tiles)
 			{
 				self.AddHidden(tile);
-				yield return new WaitForSeconds(0.2f);
+				yield return new WaitForSeconds(10f);
 			}
 			hidenTileSetted = true;
 		}

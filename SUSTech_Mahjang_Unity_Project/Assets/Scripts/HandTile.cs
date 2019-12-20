@@ -100,7 +100,9 @@ public class HandTile : MonoBehaviour
         
         foreach (GameObject obj in handTile)
         {
-            if (obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile == tile)
+            Debug.Log(obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile);
+            Debug.Log(tile);
+            if (obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile.id == tile.id)
             {
                 GameObject temp = obj;
                 handTile.Remove(obj);
@@ -122,7 +124,7 @@ public class HandTile : MonoBehaviour
         foreach (Tile tile in tiles){
             foreach (GameObject obj in handTile)
             {
-                if (obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile == tile)
+                if (obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile.id == tile.id)
                 {
                     GameObject temp = obj;
                     handTile.Remove(obj);
@@ -176,7 +178,8 @@ public class HandTile : MonoBehaviour
 
     private Vector3 getposition(GameObject tile)
     {
-       
+        Debug.Log(myplayer.hand.IndexOf(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile));
+        Debug.Log(tile);
         return positions[myplayer.hand.IndexOf(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile)];      
     }
 
