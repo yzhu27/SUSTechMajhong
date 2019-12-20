@@ -48,6 +48,7 @@ public class PlayDesk {
     private String currentPlayer;
     private int playTile;
     private int roundNum;
+    private int states;
 
     private List<RequestMessage> roundOperationResponseList;
 
@@ -62,6 +63,18 @@ public class PlayDesk {
         this.roundOperationResponseList = new ArrayList<>();
         this.roundNum = 0;
 
+    }
+
+    public int getStates() {
+        return states;
+    }
+
+    public void setStates(int states) {
+        this.states = states;
+    }
+
+    public void setPlayerslist(List<Player> playerslist) {
+        this.playerslist = playerslist;
     }
 
     public int getPlayTile() {
@@ -108,6 +121,7 @@ public class PlayDesk {
                         String currentPlayer = playerslist.get(index).getUsername();
                         setCurrentPlayer(currentPlayer);
                         System.out.println(getCurrentPlayer());
+                        states=1;
                         messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "CurrentPlayer", currentPlayer));
                         break;
                     }
@@ -142,9 +156,9 @@ public class PlayDesk {
         departments.add(Tile.Department.Chem);
         departments.add(Tile.Department.Cse);
         this.tilePool = new TilePool(departments);
-        System.out.println(tilePool.PoolToString());
+        //System.out.println(tilePool.PoolToString());
         for (Player player : playerslist) {
-            for (int i = 0; i < 13; i++) {
+            for (int i = 0; i < 12; i++) {
                 player.getPlayerTiles().add(new Tile(tilePool.Draw()));
             }
             player.getDarkTiles().add(new Tile(tilePool.Draw()));
