@@ -89,7 +89,6 @@ namespace Assets.Scripts.GameMain
 
 			Assert.IsTrue(tiles.Count == 12);
 
-			// bug
 			webController.setInitTiles = tiles;
 		}
 

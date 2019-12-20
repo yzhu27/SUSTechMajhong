@@ -4,11 +4,31 @@ using UnityEngine;
 using Assets.Scripts.Web;
 using Assets.Scripts.GameMain;
 
+public class WebEvent
+{
+	public readonly string gameObject;
+	public readonly string component;
+	public readonly string function;
+	public readonly object param;
+	public readonly bool isCoroutine;
+
+	public WebEvent(string gameObject, string component, string function, object param = null, bool isCoroutine = false)
+	{
+		this.gameObject = gameObject;
+		this.component = component;
+		this.function = function;
+		this.param = param;
+		this.isCoroutine = isCoroutine;
+	}
+}
+
 public class WebController : MonoBehaviour
 {
 	private Web w;
 	public List<Tile> setInitTiles;
 	public List<Tile> setInitHiden;
+
+	private Queue<WebEvent> webEvents;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +42,30 @@ public class WebController : MonoBehaviour
     void Update()
     {
         w.OnUpdate();
+
+		if (webEvents.Count > 0)
+		{
+			var e = webEvents.Dequeue();
+			
+			if (e.isCoroutine)
+			{
+				MonoBehaviour mono = (MonoBehaviour)GameObject.Find(e.gameObject).GetComponent(e.component);
+
+				if (e.param is object)
+					mono.StartCoroutine(e.function, e.param);
+				
+				else
+					mono.StartCoroutine(e.function);
+			}
+			else
+			{
+				if (e.param is object)
+					GameObject.Find(e.gameObject).GetComponent(e.component).SendMessage(e.function, e.param);
+				
+				else
+					GameObject.Find(e.gameObject).GetComponent(e.component).SendMessage(e.function);
+			}
+		}
 
 		if (setInitTiles != null)
 		{
@@ -40,16 +84,9 @@ public class WebController : MonoBehaviour
 		w.Disconnect();
 	}
 
-	public void StartSetInitTiles(List<Tile> tiles)
+	public void Enqueue(WebEvent webEvent)
 	{
-		Debug.Log("here");
-
-		StartCoroutine(AutoCallBacks.playDesk.SetInitTiles(tiles));
-	}
-
-	public void StartSetHidenTiles(List<Tile> tiles)
-	{
-		StartCoroutine(AutoCallBacks.playDesk.SetInitHiden(tiles));
+		webEvents.Enqueue(webEvent);
 	}
 
 	public void TestClick()
