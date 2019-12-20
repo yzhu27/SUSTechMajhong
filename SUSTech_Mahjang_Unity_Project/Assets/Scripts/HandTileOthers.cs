@@ -17,7 +17,7 @@ public class HandTileOthers : MonoBehaviour
 
     private void Reconstruct()
     {
-        Debug.Log("use");
+        
         float length = myplayer.hand.Count * width;
         int bound = myplayer.hand.Count;
         foreach (GameObject tile in handTile)

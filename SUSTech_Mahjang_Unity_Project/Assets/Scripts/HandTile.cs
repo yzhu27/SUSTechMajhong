@@ -162,6 +162,7 @@ public class HandTile : MonoBehaviour
 
     private void Reconstruct()
     {
+
         float length = myplayer.hand.Count * width;
         int bound = myplayer.hand.Count;
         positions.Clear();
@@ -178,8 +179,7 @@ public class HandTile : MonoBehaviour
 
     private Vector3 getposition(GameObject tile)
     {
-        Debug.Log(myplayer.hand.IndexOf(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile));
-        Debug.Log(tile);
+  
         return positions[myplayer.hand.IndexOf(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile)];      
     }
 
