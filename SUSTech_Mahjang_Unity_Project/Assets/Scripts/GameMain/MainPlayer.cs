@@ -49,9 +49,11 @@ namespace Assets.Scripts.GameMain
                 "AddTile",
                 tile
             ));
-            /*GameObject.Find("TileStack").GetComponent<TileStack>().SendMessage("RemoveTile");
+			/*GameObject.Find("TileStack").GetComponent<TileStack>().SendMessage("RemoveTile");
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tile);*/
-        }
+
+			playDesk.OnStart();
+		}
 
 		new public void Play(Tile tile)
 		{
