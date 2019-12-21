@@ -2,6 +2,8 @@ package com.example.ooadproject.util;
 
 import com.example.ooadproject.bean.RequestMessage;
 import com.example.ooadproject.bean.ResponseMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
@@ -40,7 +42,7 @@ public class PlayDesk {
 
 
     }
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(PlayDesk.class);
     private List<Player> playerslist;
     //private List<Tile.Department> department;
     private TilePool tilePool;
@@ -53,7 +55,6 @@ public class PlayDesk {
     private List<RequestMessage> roundOperationResponseList;
 
     private Timer timer;
-    @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
 
@@ -63,6 +64,10 @@ public class PlayDesk {
         this.roundOperationResponseList = new ArrayList<>();
         this.roundNum = 0;
 
+    }
+
+    public void setSender(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
     }
 
     public int getStates() {
@@ -120,9 +125,19 @@ public class PlayDesk {
                         int index = (i + 1) % 4;
                         String currentPlayer = playerslist.get(index).getUsername();
                         setCurrentPlayer(currentPlayer);
-                        System.out.println(getCurrentPlayer());
+                        LOGGER.info("Timer");
                         states=1;
+                        messagingTemplate.convertAndSend("/topic/"+room,new ResponseMessage("Server","No-one response",""));
                         messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "CurrentPlayer", currentPlayer));
+                        roundNum++;
+                        LOGGER.info("no one response,next player is "+currentPlayer);
+                        LOGGER.info(currentPlayer + " draw, send it");
+                        ResponseMessage responseMessage = new ResponseMessage();
+                        responseMessage.setSender(currentPlayer);
+                        responseMessage.setType("PlayerDraw");
+                        responseMessage.setContent("" + playerDraw(getCurrentPlayer()));
+                        messagingTemplate.convertAndSendToUser(getCurrentPlayer(), "/chat", responseMessage);
+
                         break;
                     }
                 }
@@ -156,6 +171,7 @@ public class PlayDesk {
         departments.add(Tile.Department.Chem);
         departments.add(Tile.Department.Cse);
         this.tilePool = new TilePool(departments);
+        this.states=1;
         //System.out.println(tilePool.PoolToString());
         for (Player player : playerslist) {
             for (int i = 0; i < 12; i++) {
@@ -165,6 +181,7 @@ public class PlayDesk {
         }
         Random seed = new Random(System.currentTimeMillis());
         this.currentPlayer = playerslist.get(seed.nextInt(4)).getUsername();
+        System.out.println(this.getCurrentPlayer());
 
 
         //

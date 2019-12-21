@@ -81,7 +81,6 @@ public class Player {
         this.eat.add(new Tile(Integer.parseInt(tiles[1])));
         this.playerTiles.remove(new Tile(Integer.parseInt(tiles[0])));
         this.playerTiles.remove(new Tile(Integer.parseInt(tiles[1])));
-
     }
 
     public void touch(String[] tiles,int playTile) {
