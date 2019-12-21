@@ -35,6 +35,7 @@ public class WebController : MonoBehaviour
     {
 		w = new Web(new System.Uri("ws://10.21.34.58:20000/ws/websocket"), AutoCallBacks.AutoCallBackDict);
 		w.Connect();
+		webEvents = new Queue<WebEvent>();
 		AutoCallBacks.webController = this;
     }
 
