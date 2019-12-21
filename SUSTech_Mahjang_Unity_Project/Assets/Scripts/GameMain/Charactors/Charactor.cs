@@ -134,7 +134,7 @@ namespace Assets.Scripts.GameMain.Charactors
 			else if (fix.Count == 2)
 				return null;
 			else
-				throw new ArgumentException("too many fix files to eat");
+				throw new ArgumentException("too many fix tiles to eat");
 		}
 
 		private HashSet<Tile> TouchableTiles(Tile last, List<Tile> fix, List<Tile> hand)
@@ -146,7 +146,7 @@ namespace Assets.Scripts.GameMain.Charactors
 			else if (fix.Count == 2)
 				return null;
 			else
-				throw new ArgumentException("too many fix files to touch");
+				throw new ArgumentException("too many fix tiles to touch");
 		}
 
 		private HashSet<Tile> RodableTiles(Tile last, List<Tile> fix, List<Tile> hand)
@@ -160,7 +160,7 @@ namespace Assets.Scripts.GameMain.Charactors
 			else if (fix.Count == 3)
 				return null;
 			else
-				throw new ArgumentException("too many fix files to touch");
+				throw new ArgumentException("too many fix tiles to touch");
 		}
 
 		private bool CanResponseWin(Tile last)

@@ -292,11 +292,16 @@ namespace Assets.Scripts.GameMain
         /// <returns></returns>
         public void GetActionsOnResponse()
 		{
-            playDesk.webController.Enqueue(new WebEvent(
+			var actions = charactor.GetAvailableResponses(playDesk.lastPlayedTile, cache);
+
+			if (actions.Contains(Action.Eat) && playDesk.roundPlayer != Seat.Last)
+				actions.Remove(Action.Eat);
+
+			playDesk.webController.Enqueue(new WebEvent(
                 "OperateBar",
                 "OperateBar",
                 "SetActions",
-                charactor.GetAvailableResponses(playDesk.lastPlayedTile, cache)
+                actions
             ));
             //SetActions(charactor.GetAvailableResponses(playDesk.lastPlayedTile, cache));
         }
