@@ -28,10 +28,11 @@ namespace Assets.Scripts.GameMain
 			{"PlayerTiles", SetPlayerTiles},
 			{"DarkTiles", SetHidenTiles},
 			{"CurrentPlayer", CheckCurrentPlayer},
-			{"PlayerDraw", PlayerDraw}
+			{"PlayerDraw", PlayerDraw},
+			{"Accept-Play", AcceptPlay}
 		};
 
-		public static void SetPlayerSeqNum(bool succeed, string msg)
+		public static void SetPlayerSeqNum(bool succeed, string sender, string msg)
 		{
 			string[] splayers = msg.Split(' ');
 			if (splayers.Length != 4)
@@ -69,12 +70,12 @@ namespace Assets.Scripts.GameMain
 			Debug.Log("Player set down");
 		}
 
-		public static void GameStart(bool succeed, string msg)
+		public static void GameStart(bool succeed, string sender, string msg)
 		{
 			Debug.Log("Server: " + msg);
 		}
 
-		public static void SetPlayerTiles(bool succeed, string msg)
+		public static void SetPlayerTiles(bool succeed, string sender, string msg)
 		{
 			Debug.Log("Setting player hand tiles");
 
@@ -92,7 +93,7 @@ namespace Assets.Scripts.GameMain
 			webController.setInitTiles = tiles;
 		}
 
-		public static void SetHidenTiles(bool succeed, string msg)
+		public static void SetHidenTiles(bool succeed, string sender, string msg)
 		{
 			Debug.Log("Setting player hiden tiles");
 
@@ -109,7 +110,7 @@ namespace Assets.Scripts.GameMain
 			webController.setInitHiden = tiles;
 		}
 
-		public static void CheckCurrentPlayer(bool succeed, string msg)
+		public static void CheckCurrentPlayer(bool succeed, string sender, string msg)
 		{
 			Seat current = playDesk.roundPlayer;
 
@@ -130,9 +131,35 @@ namespace Assets.Scripts.GameMain
 			}
 		}
 
-		public static void PlayerDraw(bool succeed, string msg)
+		public static void PlayerDraw(bool succeed, string sender, string msg)
 		{
 			playDesk.self.Draw(tileFactory.GetTile(int.Parse(msg)));
+		}
+
+		public static void AcceptPlay(bool succeed, string sender, string msg)
+		{
+			Tile tile = tileFactory.GetTile(int.Parse(msg));
+
+			if (sender == self.name)
+			{
+				playDesk.self.Play(tile);
+			}
+			else if(sender == playDesk.next.name)
+			{
+				playDesk.next.Play(tile);
+			}
+			else if(sender == playDesk.opposite.name)
+			{
+				playDesk.opposite.Play(tile);
+			}
+			else if(sender == playDesk.last.name)
+			{
+				playDesk.last.Play(tile);
+			}
+			else
+			{
+				throw new ArgumentException("Unknown player " + sender);
+			}
 		}
 	}
 }

@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace Assets.Scripts.Web
 {
-	public delegate void WebCallBack(bool succeed, string msg);
+	public delegate void WebCallBack(bool succeed, string sender, string msg);
 
 	public class Web
 	{
@@ -75,6 +75,30 @@ namespace Assets.Scripts.Web
 			client.Send("/app/room.ready", JsonConvert.SerializeObject(new SendMessage(
 				userName, room, "initialDarwReady")));
 		}
+
+		public void Play(int tile)
+		{
+			client.Send("/app/room.roundOperation", JsonConvert.SerializeObject(new SendMessage(
+				userName, room, "play", tile.ToString())));
+		}
+
+		public void Swap(List<int> hand, List<int> hiden)
+		{
+
+		}
+
+		public void Shout(string content)
+		{
+			client.Send("/app/public.sendMessage", JsonConvert.SerializeObject(new SendMessage(
+				userName, room, "", content)));
+		}
+
+		public void RoomChat(string content)
+		{
+			client.Send("/app/room.sendMessage", JsonConvert.SerializeObject(new SendMessage(
+				userName, room, "", content)));
+		}
+
 
 	}
 }

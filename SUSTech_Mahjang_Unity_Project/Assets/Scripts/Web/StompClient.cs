@@ -128,7 +128,7 @@ namespace Assets.Scripts.Web
 				WebCallBack webCallBack;
 
 				if (autoCallBackDict.TryGetValue(receive.type, out webCallBack))
-					webCallBack(true, receive.content);
+					webCallBack(true, receive.sender, receive.content);
 				else
 					subscribes[stomp.GetHead("destination")](stomp.data);
 			}
