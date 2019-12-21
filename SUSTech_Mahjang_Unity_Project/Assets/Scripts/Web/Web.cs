@@ -99,6 +99,39 @@ namespace Assets.Scripts.Web
 				userName, room, "", content)));
 		}
 
+		public void Eat(int tile1, int tile2)
+		{
+			client.Send("/app/room.roundOperationResponse", JsonConvert.SerializeObject(new SendMessage(
+				userName, room, "eat", tile1 + " " + tile2)));
+		}
 
+		public void Touch(int tile1, int tile2)
+		{
+			client.Send("/app/room.roundOperationResponse", JsonConvert.SerializeObject(new SendMessage(
+				userName, room, "touch", tile1 + " " + tile2)));
+		}
+
+		public void Rod(int tile1, int tile2, int tile3)
+		{
+			client.Send("/app/room.roundOperationResponse", JsonConvert.SerializeObject(new SendMessage(
+				userName, room, "rod", tile1 + " " + tile2 + " " + tile3)));
+		}
+
+		public void Rod(int tile1, int tile2, int tile3, int tile4)
+		{
+			client.Send("/app/room.roundOperationResponse", JsonConvert.SerializeObject(new SendMessage(
+				userName, room, "darkRod", tile1 + " " + tile2 + " " + tile3 + " " + tile4)));
+		}
+
+		public void Rod(int tile)
+		{
+			client.Send("/app/room.roundOperationResponse", JsonConvert.SerializeObject(new SendMessage(
+				userName, room, "rod", tile.ToString())));
+		}
+
+		public void AddRod(int tile)
+		{
+			
+		}
 	}
 }
