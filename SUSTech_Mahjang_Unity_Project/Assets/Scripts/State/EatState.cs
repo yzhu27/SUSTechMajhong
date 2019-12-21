@@ -15,12 +15,12 @@ public class EatState: State
         if (choosed)
         {
             choosed = false;
-            GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Remove(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile);
+            GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Remove(tile.GetComponent<TileScript>().tile);
         }
         else
         {
             choosed = true;
-            GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Add(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile);
+            GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Add(tile.GetComponent<TileScript>().tile);
         }
     }
     public override void OnMouseEnter(GameObject tile)

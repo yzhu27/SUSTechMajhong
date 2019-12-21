@@ -181,6 +181,7 @@ namespace Assets.Scripts.GameMain
                 "HandTile",
                 "StartPlay"
             ));
+                self.GetActionsOnPlay();
             }
 		}
 
@@ -190,9 +191,9 @@ namespace Assets.Scripts.GameMain
 		/// <param name="tile"></param>
 		public void OnPlay(Tile tile)
 		{
-			// script what happens to the playdesk before player plays a tile
-
-			gameState.OnPlay(tile);
+            // script what happens to the playdesk before player plays a tile
+            
+            gameState.OnPlay(tile);
 			OnResponse();
 		}
 
@@ -201,8 +202,10 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		public void OnResponse()
 		{
-			// script what happens to the playdesk after player plays a tile then Response begin
-		}
+            // script what happens to the playdesk after player plays a tile then Response begin
+             self.GetActionsOnResponse();
+
+        }
 
 		/// <summary>
 		/// 玩家回合结束时被调用

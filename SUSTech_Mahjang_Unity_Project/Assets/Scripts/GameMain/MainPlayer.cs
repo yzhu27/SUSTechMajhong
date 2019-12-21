@@ -292,8 +292,14 @@ namespace Assets.Scripts.GameMain
         /// <returns></returns>
         public void GetActionsOnResponse()
 		{
-            SetActions(charactor.GetAvailableResponses(playDesk.lastPlayedTile, cache));
-		}
+            playDesk.webController.Enqueue(new WebEvent(
+                "OperateBar",
+                "OperateBar",
+                "SetActions",
+                charactor.GetAvailableResponses(playDesk.lastPlayedTile, cache)
+            ));
+            //SetActions(charactor.GetAvailableResponses(playDesk.lastPlayedTile, cache));
+        }
 
 		/// <summary>
 		/// 在调用<see cref="GetActionsOnResponse"/>
@@ -319,8 +325,14 @@ namespace Assets.Scripts.GameMain
 		/// <returns></returns>
 		public void GetActionsOnPlay()
 		{
-            SetActions(charactor.GetAvailableActions(cache));
-		}
+            playDesk.webController.Enqueue(new WebEvent(
+                "OperateBar",
+                "OperateBar",
+                "SetActions",
+                charactor.GetAvailableActions(cache)
+            ));
+            //SetActions(charactor.GetAvailableActions(cache));
+        }
 
 		/// <summary>
 		/// 在调用<see cref="GetActionsOnPlay"/>后可用，获取可用的牌
@@ -340,17 +352,6 @@ namespace Assets.Scripts.GameMain
 			else return res;
 		}
 
-        public void SetActions(HashSet<Action> actions)
-        {
-
-            
-
-            /*GameObject.Find("Button_Eat").GetComponent<Button>().interactable = actions.Contains(Action.Eat);
-            GameObject.Find("Button_Touch").GetComponent<Button>().interactable = actions.Contains(Action.Touch);
-            GameObject.Find("Button_Rod").GetComponent<Button>().interactable = actions.Contains(Action.Rod);
-            GameObject.Find("Button_Win").GetComponent<Button>().interactable = actions.Contains(Action.Win);
-            GameObject.Find("Button_Swap").GetComponent<Button>().interactable = actions.Contains(Action.Swap);*/
-
-        }
+        
     }
 }
