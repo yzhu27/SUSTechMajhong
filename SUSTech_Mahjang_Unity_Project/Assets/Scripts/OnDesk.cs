@@ -10,7 +10,8 @@ public class OnDesk : MonoBehaviour
     public bool upward = true;
     Vector3 position;
     public void setPlayer(Player player) => myplayer = player;
-     
+
+    public void setUpward(bool up) => upward = up;
     public void AddTiles(List<Tile> tiles )
     {
        

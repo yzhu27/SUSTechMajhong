@@ -37,16 +37,41 @@ namespace Assets.Scripts.GameMain
 			hand.Sort();
 
             // call script here
-            GameObject.Find("TileStack").GetComponent<TileStack>().SendMessage("RemoveTile");
-            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tile);
+            playDesk.webController.Enqueue(new WebEvent(
+               "TileStack",
+               "TileStack",
+               "RemoveTile"
+           ));
+
+            playDesk.webController.Enqueue(new WebEvent(
+                "HandTile",
+                "HandTile",
+                "AddTile",
+                tile
+            ));
+            /*GameObject.Find("TileStack").GetComponent<TileStack>().SendMessage("RemoveTile");
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tile);*/
         }
 
 		new public void Play(Tile tile)
 		{
 			hand.Remove(tile);
             // call script here
-            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveSingleTile", tile);
-            GameObject.Find("lastTile").GetComponent<lastTile>().SetTile(tile);
+            playDesk.webController.Enqueue(new WebEvent(
+                "HandTile",
+                "HandTile",
+                "RemoveSingleTile",
+                tile
+            ));
+
+            playDesk.webController.Enqueue(new WebEvent(
+                "lastTile",
+                "lastTile",
+                "SetTile",
+                tile
+            ));
+            /*GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveSingleTile", tile);
+            GameObject.Find("lastTile").GetComponent<lastTile>().SetTile(tile);*/
 
         }
 
@@ -63,8 +88,22 @@ namespace Assets.Scripts.GameMain
 			onDesk.Add(tiles);
 
             // call script here
-            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 });
-            GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
+            playDesk.webController.Enqueue(new WebEvent(
+                "HandTile",
+                "HandTile",
+                "RemoveTile",
+                 new List<Tile>() { tile1, tile2 }
+            ));
+
+            playDesk.webController.Enqueue(new WebEvent(
+               "OnDesk",
+               "OnDesk",
+               "AddTiles",
+                tiles
+           ));
+
+            /* GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 });
+             GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);*/
         }
 
 		new public void Touch(Tile tile1, Tile tile2)
@@ -80,8 +119,21 @@ namespace Assets.Scripts.GameMain
 			onDesk.Add(tiles);
 
             // call script here
-            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 });
-            GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
+            playDesk.webController.Enqueue(new WebEvent(
+               "HandTile",
+               "HandTile",
+               "RemoveTile",
+                new List<Tile>() { tile1, tile2 }
+           ));
+
+            playDesk.webController.Enqueue(new WebEvent(
+               "OnDesk",
+               "OnDesk",
+               "AddTiles",
+                tiles
+           ));
+            /*GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 });
+            GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);*/
         }
 
 		new public void Rod(Tile tile1, Tile tile2, Tile tile3)
@@ -98,8 +150,21 @@ namespace Assets.Scripts.GameMain
 			onDesk.Add(tiles);
 
             // call script here
-            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 ,tile3});
-            GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
+            playDesk.webController.Enqueue(new WebEvent(
+               "HandTile",
+               "HandTile",
+               "RemoveTile",
+                new List<Tile>() { tile1, tile2, tile3 }
+           ));
+
+            playDesk.webController.Enqueue(new WebEvent(
+               "OnDesk",
+               "OnDesk",
+               "AddTiles",
+                tiles
+           ));
+            /* GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 ,tile3});
+             GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);*/
         }
 
 		new public void SelfRod(Tile tile)
@@ -109,8 +174,20 @@ namespace Assets.Scripts.GameMain
             onDesk.Add(tiles);
 
             // call script here
-            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveSingleTile",tile );
-            GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
+            playDesk.webController.Enqueue(new WebEvent(
+                "HandTile",
+                "HandTile",
+                "RemoveSingleTile",
+                tile
+            ));
+            playDesk.webController.Enqueue(new WebEvent(
+              "OnDesk",
+              "OnDesk",
+              "AddTiles",
+               tiles
+          ));
+            /* GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveSingleTile",tile );
+             GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);*/
         }
 
 		new public void SelfRod(Tile tile1, Tile tile2, Tile tile3, Tile tile4)
@@ -124,9 +201,27 @@ namespace Assets.Scripts.GameMain
             onDesk.Add(tiles);
 
             // call script here
-            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", tiles);
-            GameObject.Find("OnDesk").GetComponent<OnDesk>().upward =false;
-            GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
+            playDesk.webController.Enqueue(new WebEvent(
+               "HandTile",
+               "HandTile",
+               "RemoveTile",
+                tiles
+           ));
+            playDesk.webController.Enqueue(new WebEvent(
+              "OnDesk",
+              "OnDesk",
+              "setUpward",
+               false
+          ));
+            playDesk.webController.Enqueue(new WebEvent(
+              "OnDesk",
+              "OnDesk",
+              "AddTiles",
+               tiles
+          ));
+            /* GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", tiles);
+             GameObject.Find("OnDesk").GetComponent<OnDesk>().upward =false;
+             GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);*/
         }
 
         public void AddHidden(Tile tile)
@@ -134,7 +229,13 @@ namespace Assets.Scripts.GameMain
             hiden.Add(tile);
             hiden.Sort();
             // call script here
-            GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("AddTile", tile);
+            playDesk.webController.Enqueue(new WebEvent(
+               "HideTiles",
+               "HideTiles",
+               "AddTile",
+                tile
+           ));
+            /*GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("AddTile", tile);*/
         }
 
         /// <summary>
@@ -151,10 +252,35 @@ namespace Assets.Scripts.GameMain
             hand.Sort();
 
             // call script here
-            GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("RemoveSingleTile", tile2);
+
+            playDesk.webController.Enqueue(new WebEvent(
+              "HideTiles",
+              "HideTiles",
+              "RemoveSingleTile",
+               tile2
+          ));
+            playDesk.webController.Enqueue(new WebEvent(
+                "HandTile",
+                "HandTile",
+                "RemoveSingleTile",
+                tile1
+            ));
+            playDesk.webController.Enqueue(new WebEvent(
+              "HideTiles",
+              "HideTiles",
+              "AddTile",
+               tile1
+          ));
+            playDesk.webController.Enqueue(new WebEvent(
+                "HandTile",
+                "HandTile",
+                "AddTile",
+                tile2
+            ));
+            /*GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("RemoveSingleTile", tile2);
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveSingleTile", tile1);
             GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("AddTile", tile1);
-            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tile2);
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tile2);*/
         }
         #endregion
 
@@ -215,11 +341,14 @@ namespace Assets.Scripts.GameMain
 
         public void SetActions(HashSet<Action> actions)
         {
-            GameObject.Find("Button_Eat").GetComponent<Button>().interactable = actions.Contains(Action.Eat);
+
+            
+
+            /*GameObject.Find("Button_Eat").GetComponent<Button>().interactable = actions.Contains(Action.Eat);
             GameObject.Find("Button_Touch").GetComponent<Button>().interactable = actions.Contains(Action.Touch);
             GameObject.Find("Button_Rod").GetComponent<Button>().interactable = actions.Contains(Action.Rod);
             GameObject.Find("Button_Win").GetComponent<Button>().interactable = actions.Contains(Action.Win);
-            GameObject.Find("Button_Swap").GetComponent<Button>().interactable = actions.Contains(Action.Swap);
+            GameObject.Find("Button_Swap").GetComponent<Button>().interactable = actions.Contains(Action.Swap);*/
 
         }
     }

@@ -158,8 +158,19 @@ namespace Assets.Scripts.GameMain
 			hand.RemoveAt(hand.Count - 1);
 
             // call script what other player do here
-            GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
-            GameObject.Find("lastTile (" + (int)seat + ")").GetComponent<lastTile>().SendMessage("SetTile",tile);
+            playDesk.webController.Enqueue(new WebEvent(
+                "HandTile (" + (int)seat + ")",
+                "HandTileOthers",
+                "Reconstruct"
+            ));
+            playDesk.webController.Enqueue(new WebEvent(
+                "lastTile (" + (int)seat + ")",
+                "lastTile",
+                "SetTile",
+                tile
+            ));
+            /*GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
+            GameObject.Find("lastTile (" + (int)seat + ")").GetComponent<lastTile>().SendMessage("SetTile",tile);*/
             playDesk.OnPlay(tile);
 		}
 
@@ -173,8 +184,21 @@ namespace Assets.Scripts.GameMain
             List<Tile> tiles = new List<Tile>() { tile };
             onDesk.Add(tiles);
             // call script what other player do here
-            GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
-            GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().SendMessage("AddTiles",tiles);
+            playDesk.webController.Enqueue(new WebEvent(
+                "HandTile (" + (int)seat + ")",
+                "HandTileOthers",
+                "Reconstruct"
+            ));
+
+            playDesk.webController.Enqueue(new WebEvent(
+                "OnDesk (" + (int)seat + ")",
+                "OnDesk",
+                "AddTiles", 
+                tiles
+            ));
+
+            /*GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
+            GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().SendMessage("AddTiles",tiles);*/
         }
 
 		/// <summary>
@@ -191,9 +215,26 @@ namespace Assets.Scripts.GameMain
             tiles.Sort();
             onDesk.Add(tiles);
             // call script what other player do here
-            GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
+            playDesk.webController.Enqueue(new WebEvent(
+               "HandTile (" + (int)seat + ")",
+               "HandTileOthers",
+               "Reconstruct"
+           ));
+            playDesk.webController.Enqueue(new WebEvent(
+               "OnDesk (" + (int)seat + ")",
+               "OnDesk",
+               "setUpward",
+               false
+           ));
+            playDesk.webController.Enqueue(new WebEvent(
+                "OnDesk (" + (int)seat + ")",
+                "OnDesk",
+                "AddTiles",
+                tiles
+            ));
+            /*GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
             GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().upward = false;
-            GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
+            GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);*/
         }
 
 		/// <summary>
@@ -217,8 +258,20 @@ namespace Assets.Scripts.GameMain
 			onDesk.Add(tiles);
 
             // call script what other player do here
-            GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
-            GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
+            playDesk.webController.Enqueue(new WebEvent(
+               "HandTile (" + (int)seat + ")",
+               "HandTileOthers",
+               "Reconstruct"
+           ));
+
+            playDesk.webController.Enqueue(new WebEvent(
+                "OnDesk (" + (int)seat + ")",
+                "OnDesk",
+                "AddTiles",
+                tiles
+            ));
+            /* GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
+             GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);*/
             playDesk.OnFinish(seat);
 		}
 
@@ -235,8 +288,20 @@ namespace Assets.Scripts.GameMain
 			onDesk.Add(tiles);
 
             // call script what other player do here
-            GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
-            GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
+            playDesk.webController.Enqueue(new WebEvent(
+               "HandTile (" + (int)seat + ")",
+               "HandTileOthers",
+               "Reconstruct"
+           ));
+
+            playDesk.webController.Enqueue(new WebEvent(
+                "OnDesk (" + (int)seat + ")",
+                "OnDesk",
+                "AddTiles",
+                tiles
+            ));
+            /*GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
+            GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);*/
             playDesk.OnFinish(seat);
 		}
 
@@ -254,8 +319,20 @@ namespace Assets.Scripts.GameMain
 			onDesk.Add(tiles);
 
             // call script what other player do here
-            GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
-            GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);
+            playDesk.webController.Enqueue(new WebEvent(
+               "HandTile (" + (int)seat + ")",
+               "HandTileOthers",
+               "Reconstruct"
+           ));
+
+            playDesk.webController.Enqueue(new WebEvent(
+                "OnDesk (" + (int)seat + ")",
+                "OnDesk",
+                "AddTiles",
+                tiles
+            ));
+            /*GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
+            GameObject.Find("OnDesk (" + (int)seat + ")").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);*/
             playDesk.OnFinish(seat);
 		}
 	}
