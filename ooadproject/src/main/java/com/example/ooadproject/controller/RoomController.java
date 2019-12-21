@@ -453,31 +453,54 @@ public class RoomController {
 
             ResponseMessage responseMessage = new ResponseMessage();
             responseMessage.setContent("" + tile);
+            temp.setPlayTile(tile);
             temp.getRoundOperationResponseList().clear();
             responseMessage.setType("Accept-Play");
             for (Player player : temp.getPlayerslist()) {
                 responseMessage.setSender(sender);
                 messagingTemplate.convertAndSendToUser(player.getUsername(), "/chat", responseMessage);
             }
-            LOGGER.info("start timer to wait for response");
+            temp.cancelTimer();
             temp.startTimer(room);
+            LOGGER.info("start timer to wait for response");
+
         } else {
-            switch (type){
-                case "exchange":
+            for (Player player : temp.getPlayerslist()) {
+                if (sender.equals(player.getUsername())) {
+
+                    switch (type) {
+                        case "exchange":
+                            String handTilesString = requestMessage.getContent().split(",")[0];
+                            String darkTilesString = requestMessage.getContent().split(",")[1];
+                            String[] handTiles = handTilesString.split(" ");
+                            String[] darkTiles = darkTilesString.split(" ");
+                            player.exchange(handTiles, darkTiles);
+                            break;
+                        case "selfRod":
+                            //拿一张手牌
+                            String[] tiles = requestMessage.getContent().split(" ");
+                            player.selfRod(tiles);
+                            messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, "selfRod", tiles[0]));
+                            int selfRodDraw = temp.playerDraw(sender);
+                            messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, "selfRodDraw", ""));
+                            messagingTemplate.convertAndSendToUser(sender, "/chat", new ResponseMessage(sender, "selfRodDraw", selfRodDraw + ""));
+                            break;
+                        case "darkRod":
+                            String []tiles1 = requestMessage.getContent().split(" ");
+                            player.darkRod(tiles1);
+
+                            break;
+                        case "addRod":
+                            break;
+                        default:
+                            messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "no such method", ""));
+                            break;
+                    }
                     break;
-                case "selfRod":
-                    //拿一张手牌，然后抽一张
-                    break;
-                case "darkRod":
-                    //报文不同，直接拿四张手牌,然后抽一张
-                    break;
-                case "addRod":
-                    break;
-                    default:
-                        messagingTemplate.convertAndSend("/topic/"+room,new ResponseMessage("Server","no such method",""));
+                }
+
             }
         }
-        //判断是否合法 更新playdesk 判断胡牌 发送更新 回合数判断
     }
 
     @MessageMapping("/room.roundOperationResponse")
@@ -497,18 +520,22 @@ public class RoomController {
                         switch (type) {
                             case "eat":
                                 player.eat(tiles, temp.getPlayTile());
+                                LOGGER.info("eat! " + tiles[0] + " " + tiles[1] + " " + temp.getPlayTile());
                                 messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, type, content + " " + temp.getPlayTile()));
                                 break;
                             case "touch":
                                 player.touch(tiles, temp.getPlayTile());
+                                LOGGER.info("touch! " + tiles[0] + " " + tiles[1] + " " + temp.getPlayTile());
                                 messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, type, content + " " + temp.getPlayTile()));
                                 break;
                             case "rod":
                                 player.rod(tiles, temp.getPlayTile());
+                                LOGGER.info("rod! " + tiles[0] + " " + tiles[1] + " " + tiles[2] + " " + temp.getPlayTile());
                                 messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, type, content + " " + temp.getPlayTile()));
                                 break;
-                                default:
-                                    messagingTemplate.convertAndSend("/topic/"+room , new ResponseMessage("Server",type,"no such method"));
+                            default:
+                                messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", type, "no such method"));
+                                break;
                         }
                         break;
                     }
@@ -519,7 +546,6 @@ public class RoomController {
                 messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "CurrentPlayer", temp.getCurrentPlayer()));
                 messagingTemplate.convertAndSendToUser(sender, "/chat", new ResponseMessage("Server", "PlayerDraw", ""));
             } else {
-
                 messagingTemplate.convertAndSendToUser(sender, "/chat", new ResponseMessage("Server", "Reject-playResponse", "u are late"));
             }
         } else {

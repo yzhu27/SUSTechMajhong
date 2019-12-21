@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class PlayDesk {
 
@@ -30,18 +32,18 @@ public class PlayDesk {
         String room = "1";
         System.out.println(temp.getCurrentPlayer());
         temp.startTimer(room);
-        try{
+        try {
             Thread.sleep(6000);
             temp.cancelTimer();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         System.out.println(temp.getCurrentPlayer());
 
 
-
     }
+
     private static final Logger LOGGER = LoggerFactory.getLogger(PlayDesk.class);
     private List<Player> playerslist;
     //private List<Tile.Department> department;
@@ -115,41 +117,47 @@ public class PlayDesk {
     }
 
     public void startTimer(String room) {
+        LOGGER.info("startTimer " + timer);
+
         this.timer = new Timer();
 
         this.timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 for (int i = 0; i < playerslist.size(); i++) {
-                    if (playerslist.get(i).getUsername() == getCurrentPlayer()) {
+                    if (playerslist.get(i).getUsername().equals(getCurrentPlayer())) {
                         int index = (i + 1) % 4;
                         String currentPlayer = playerslist.get(index).getUsername();
                         setCurrentPlayer(currentPlayer);
                         LOGGER.info("Timer");
-                        states=1;
-                        messagingTemplate.convertAndSend("/topic/"+room,new ResponseMessage("Server","No-one response",""));
+                        states = 1;
+                        messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "No-one response", ""));
                         messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "CurrentPlayer", currentPlayer));
                         roundNum++;
-                        LOGGER.info("no one response,next player is "+currentPlayer);
-                        LOGGER.info(currentPlayer + " draw, send it");
+                        LOGGER.info("no one response,next player is " + currentPlayer);
+                        LOGGER.info(currentPlayer + " draw");
                         ResponseMessage responseMessage = new ResponseMessage();
                         responseMessage.setSender(currentPlayer);
                         responseMessage.setType("PlayerDraw");
                         responseMessage.setContent("" + playerDraw(getCurrentPlayer()));
                         messagingTemplate.convertAndSendToUser(getCurrentPlayer(), "/chat", responseMessage);
-
+                        messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(getCurrentPlayer(), "PlayerDraw", ""));
                         break;
                     }
                 }
-                timer.cancel();
-
+                cancelTimer();
             }
         }, 5000);
-
     }
 
+
     public void cancelTimer() {
-        this.timer.cancel();
+        if (timer == null) {
+
+        } else {
+            this.timer.cancel();
+            this.timer = null;
+        }
     }
 
     public int playerDraw(String name) {
@@ -171,7 +179,7 @@ public class PlayDesk {
         departments.add(Tile.Department.Chem);
         departments.add(Tile.Department.Cse);
         this.tilePool = new TilePool(departments);
-        this.states=1;
+        this.states = 1;
         //System.out.println(tilePool.PoolToString());
         for (Player player : playerslist) {
             for (int i = 0; i < 12; i++) {
@@ -186,7 +194,6 @@ public class PlayDesk {
 
         //
     }
-
 
 
 }
