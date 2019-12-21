@@ -31,7 +31,9 @@ namespace Assets.Scripts.GameMain
 			{"PlayerDraw", PlayerDraw},
 			{"Accept-Play", AcceptPlay},
             {"No-one response", AcceptResponseFinish},
-
+			{"eat", AcceptResponseEat},
+			{"touch", AcceptResponseTouch},
+			{"rod", AcceptResponseRod}
 		};
 
 		public static void SetPlayerSeqNum(bool succeed, string sender, string msg)
@@ -178,18 +180,131 @@ namespace Assets.Scripts.GameMain
 
         public static void AcceptResponseEat(bool succeed, string sender, string msg)
         {
+			string[] slist = msg.Split(' ');
 
+			try
+			{
+				Assert.IsTrue(slist.Length == 3);
+
+				Tile tile1 = tileFactory.GetTile(int.Parse(slist[0]));
+				Tile tile2 = tileFactory.GetTile(int.Parse(slist[1]));
+				Tile last_tile = tileFactory.GetTile(int.Parse(slist[2]));
+				
+				if (sender == self.name)
+				{
+					playDesk.self.Eat(
+						tile1,
+						tile2
+					);
+				}
+				else if (sender == playDesk.next.name)
+				{
+					playDesk.next.Eat(tile1, tile2);
+				}
+				else if (sender == playDesk.opposite.name)
+				{
+					playDesk.opposite.Eat(tile1, tile2);
+				}
+				else if (sender == playDesk.last.name)
+				{
+					playDesk.last.Eat(tile1, tile2);
+				}
+				else
+				{
+					Debug.LogError("Unknown player " + sender);
+				}
+			}
+			catch (Exception)
+			{
+				Debug.LogError("Received " + msg + " for eat");
+			}
         }
 
         public static void AcceptResponseTouch(bool succeed, string sender, string msg)
         {
+			string[] slist = msg.Split(' ');
 
-        }
+			try
+			{
+				Assert.IsTrue(slist.Length == 3);
+
+				Tile tile1 = tileFactory.GetTile(int.Parse(slist[0]));
+				Tile tile2 = tileFactory.GetTile(int.Parse(slist[1]));
+				Tile last_tile = tileFactory.GetTile(int.Parse(slist[2]));
+
+				if (sender == self.name)
+				{
+					playDesk.self.Touch(
+						tile1,
+						tile2
+					);
+				}
+				else if (sender == playDesk.next.name)
+				{
+					playDesk.next.Touch(tile1, tile2);
+				}
+				else if (sender == playDesk.opposite.name)
+				{
+					playDesk.opposite.Touch(tile1, tile2);
+				}
+				else if (sender == playDesk.last.name)
+				{
+					playDesk.last.Touch(tile1, tile2);
+				}
+				else
+				{
+					Debug.LogError("Unknown player " + sender);
+				}
+			}
+			catch (Exception)
+			{
+				Debug.LogError("Received " + msg + " for touch");
+			}
+		}
 
         public static void AcceptResponseRod(bool succeed, string sender, string msg)
         {
+			string[] slist = msg.Split(' ');
 
-        }
+			try
+			{
+				Assert.IsTrue(slist.Length == 4);
+
+				Tile tile1 = tileFactory.GetTile(int.Parse(slist[0]));
+				Tile tile2 = tileFactory.GetTile(int.Parse(slist[1]));
+				Tile tile3 = tileFactory.GetTile(int.Parse(slist[2]));
+				Tile last_tile = tileFactory.GetTile(int.Parse(slist[3]));
+
+				if (sender == self.name)
+				{
+					playDesk.self.Rod(
+						tile1,
+						tile2,
+						tile3
+					);
+				}
+				else if (sender == playDesk.next.name)
+				{
+					playDesk.next.Rod(tile1, tile2, tile3);
+				}
+				else if (sender == playDesk.opposite.name)
+				{
+					playDesk.opposite.Rod(tile1, tile2, tile3);
+				}
+				else if (sender == playDesk.last.name)
+				{
+					playDesk.last.Rod(tile1, tile2, tile3);
+				}
+				else
+				{
+					Debug.LogError("Unknown player " + sender);
+				}
+			}
+			catch (Exception)
+			{
+				Debug.LogError("Received " + msg + " for rod");
+			}
+		}
 
         public static void AcceptResponseFinish(bool succeed, string sender, string msg)
         {
