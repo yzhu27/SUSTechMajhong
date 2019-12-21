@@ -126,7 +126,7 @@ namespace Assets.Scripts.Web
 		public void Rod(int tile)
 		{
 			client.Send("/app/room.roundOperationResponse", JsonConvert.SerializeObject(new SendMessage(
-				userName, room, "rod", tile.ToString())));
+				userName, room, "selfRod", tile.ToString())));
 		}
 
 		public void AddRod(int tile)
