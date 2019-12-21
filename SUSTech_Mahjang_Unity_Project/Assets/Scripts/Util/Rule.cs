@@ -8,7 +8,7 @@ using Assets.Scripts.GameMain;
 
 namespace Assets.Scripts.Util
 {
-	static class Rule
+	public static class Rule
 	{
 		/// <summary>
 		/// 判断三张牌是否为对子

@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using System.Threading.Tasks;
 using Assets.Scripts.Web;
+using Assets.Scripts.Util;
+using Assets.Scripts.GameMain;
 
 namespace Tests
 {
@@ -14,7 +16,9 @@ namespace Tests
         [Test]
         public void StompBasicSimplePasses()
         {
-			
+            // 983584 983585 983139
+            HashSet<Tile> tiles = Rule.GetEatableTiles(new Tile(983139), new List<Tile>() { new Tile(983585), new Tile(983584) });
+            Assert.IsNull(tiles);
         }
 
         // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use

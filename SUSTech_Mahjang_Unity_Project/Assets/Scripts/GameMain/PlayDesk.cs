@@ -186,12 +186,18 @@ namespace Assets.Scripts.GameMain
 		}
         public void OnSwap()
         {
-            self.GetActionsOnPlay();
+            if (roundPlayer == Seat.Self)
+            {
+                self.GetActionsOnPlay();
+            }
         }
 
         public void OnRodDraw()
         {
-            self.GetActionsOnPlay();
+            if (roundPlayer == Seat.Self)
+            {
+                self.GetActionsOnPlay();
+            }
         }
 		/// <summary>
 		/// 玩家打出牌时被调用
@@ -220,9 +226,13 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		public void OnFinish()
 		{
-			// script what happens to the playdesk when round finished without being resopnced
-
-			gameState.OnFinish();
+            // script what happens to the playdesk when round finished without being resopnced
+            webController.Enqueue(new WebEvent(
+                "OperateBar",
+                "OperateBar",
+                 "Prohibt"
+                 ));
+            gameState.OnFinish();
 			OnStart();
 		}
 

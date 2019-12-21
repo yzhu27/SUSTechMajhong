@@ -21,7 +21,7 @@ public class RodState : State
         {
             choosed = true;
             GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Add(tile.GetComponent<TileScript>().tile);
-            GameObject.Find("HandTile").GetComponent<HandTile>().StartRod();
+            GameObject.Find("HandTile").GetComponent<HandTile>().StartRod(GameObject.Find("GameManager").GetComponent<GameManager>().playDesk.roundPlayer);
         }
     }
     public override void OnMouseEnter(GameObject tile)

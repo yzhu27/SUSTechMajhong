@@ -41,6 +41,7 @@ public class EatButton : MonoBehaviour
             clicked = false;
             List<Tile> Fixed = GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles;
             GameObject.Find("WebController").GetComponent<WebController>().w.Eat(Fixed[0].id,Fixed[1].id);
+            GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Clear();
         }
         
     }

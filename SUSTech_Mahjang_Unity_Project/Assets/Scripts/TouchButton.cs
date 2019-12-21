@@ -39,6 +39,7 @@ public class TouchButton : MonoBehaviour
             List<Tile> Fixed = GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles;
             GameObject.Find("WebController").GetComponent<WebController>().w.Touch(Fixed[0].id, Fixed[1].id);
         }
+        GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Clear();
     }
 
 }

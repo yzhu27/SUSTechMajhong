@@ -21,7 +21,7 @@ public class TouchState : State
         {
             choosed = true;
             GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Add(tile.GetComponent<TileScript>().tile);
-            GameObject.Find("HandTile").GetComponent<HandTile>().StartEat();
+            GameObject.Find("HandTile").GetComponent<HandTile>().StartTouch();
         }
     }
     public override void OnMouseEnter(GameObject tile)

@@ -108,10 +108,20 @@ public class HandTile : MonoBehaviour
 
     }
 
-    public void StartRod()
+    public void StartRod(Seat seat)
     {
+        HashSet<Tile> tiles;
 
-        HashSet<Tile> tiles = myplayer.GetResponseTiles(Action.Rod, ChoosedTiles);
+
+        if (seat == Seat.Self)
+        {
+            tiles = myplayer.GetActionTiles(Action.Rod, ChoosedTiles);
+        }
+        else
+        {
+            tiles = myplayer.GetResponseTiles(Action.Rod, ChoosedTiles);
+        }
+        
         foreach (GameObject tile in handTile)
         {
             if (tiles.Contains(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile))

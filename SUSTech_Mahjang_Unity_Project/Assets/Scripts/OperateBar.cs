@@ -17,7 +17,14 @@ public class OperateBar : MonoBehaviour
         GameObject.Find("Button_Swap").GetComponent<Button>().interactable = actions.Contains(Action.Swap);
 
     }
-
+    public void Prohibt()
+    {
+        GameObject.Find("Button_Eat").GetComponent<Button>().interactable = false;
+        GameObject.Find("Button_Touch").GetComponent<Button>().interactable = false;
+        GameObject.Find("Button_Rod").GetComponent<Button>().interactable = false;
+        GameObject.Find("Button_Win").GetComponent<Button>().interactable = false;
+        GameObject.Find("Button_Swap").GetComponent<Button>().interactable = false;
+    }
     public void RefreshSon()
     {
         GameObject.Find("Button_Eat").GetComponent<Button>().SendMessage("Refresh");

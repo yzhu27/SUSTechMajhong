@@ -146,7 +146,10 @@ namespace Assets.Scripts.GameMain
                 return;
             }
             else if (sender == self.name)
-                playDesk.self.Draw(tileFactory.GetTile(int.Parse(msg)));
+            {
+                if (msg != "")
+                    playDesk.self.Draw(tileFactory.GetTile(int.Parse(msg)));
+            }
             else if (sender == playDesk.next.name)
                 playDesk.next.Draw();
             else if (sender == playDesk.opposite.name)

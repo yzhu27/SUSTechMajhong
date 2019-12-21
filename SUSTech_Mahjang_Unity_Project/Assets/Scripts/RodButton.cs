@@ -33,14 +33,23 @@ public class RodButton : MonoBehaviour
         if (!clicked)
         {
             SendRefresh();
-            GameObject.Find("HandTile").GetComponent<HandTile>().StartRod();
+            GameObject.Find("HandTile").GetComponent<HandTile>().StartRod(GameObject.Find("GameManager").GetComponent<GameManager>().playDesk.roundPlayer);
             clicked = true;
         }
         else
         {
             clicked = false;
             List<Tile> Fixed = GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles;
-            GameObject.Find("WebController").GetComponent<WebController>().w.Rod(Fixed[0].id, Fixed[1].id, Fixed[2].id);
+
+            if (Fixed.Count > 1)
+            {
+                GameObject.Find("WebController").GetComponent<WebController>().w.Rod(Fixed[0].id, Fixed[1].id, Fixed[2].id);
+            }
+            else
+            {
+                GameObject.Find("WebController").GetComponent<WebController>().w.Rod(Fixed[0].id);
+            }
+            GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Clear();
         }
 
     }

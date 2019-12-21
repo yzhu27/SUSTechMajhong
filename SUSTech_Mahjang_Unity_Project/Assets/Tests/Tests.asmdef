@@ -3,7 +3,8 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Web"
+        "Web",
+        "Main"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
