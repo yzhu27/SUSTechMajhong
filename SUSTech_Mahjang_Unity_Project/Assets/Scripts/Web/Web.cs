@@ -72,8 +72,8 @@ namespace Assets.Scripts.Web
 
 		public void SendStartSignal()
 		{
-			client.Send("/app/room.roundOperation", JsonConvert.SerializeObject(new SendMessage(
-				userName, room, "draw")));
+			client.Send("/app/room.ready", JsonConvert.SerializeObject(new SendMessage(
+				userName, room, "initialDarwReady")));
 		}
 
 	}
