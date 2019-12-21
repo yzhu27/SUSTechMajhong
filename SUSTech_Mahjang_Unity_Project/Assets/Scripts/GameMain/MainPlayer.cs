@@ -105,6 +105,7 @@ namespace Assets.Scripts.GameMain
 
             /* GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 });
              GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);*/
+            playDesk.OnFinish(Seat.Self);
         }
 
 		new public void Touch(Tile tile1, Tile tile2)
@@ -135,6 +136,7 @@ namespace Assets.Scripts.GameMain
            ));
             /*GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 });
             GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);*/
+            playDesk.OnFinish(Seat.Self);
         }
 
 		new public void Rod(Tile tile1, Tile tile2, Tile tile3)
@@ -166,6 +168,7 @@ namespace Assets.Scripts.GameMain
            ));
             /* GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("RemoveTile", new List<Tile>() { tile1, tile2 ,tile3});
              GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);*/
+            playDesk.OnFinish(Seat.Self);
         }
 
 		new public void SelfRod(Tile tile)

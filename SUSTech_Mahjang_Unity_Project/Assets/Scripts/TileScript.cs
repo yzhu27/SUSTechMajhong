@@ -20,6 +20,18 @@ public class TileScript : MonoBehaviour
         Lightup();
     }
 
+    public void SetTouchState()
+    {
+        tileState = new TouchState(transform.position);
+        Lightup();
+    }
+
+    public void SetRodState()
+    {
+        tileState = new RodState(transform.position);
+        Lightup();
+    }
+
     public void SetPlayCardState()
     {
         tileState = new PlayCardState(transform.position);

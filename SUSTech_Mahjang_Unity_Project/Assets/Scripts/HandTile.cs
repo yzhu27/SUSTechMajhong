@@ -46,10 +46,10 @@ public class HandTile : MonoBehaviour
 
     }
 
-    public void StartEat(Tile lastTile)
+    public void StartEat()
     {
-        myplayer.GetActionsOnPlay();
-        HashSet<Tile> tiles = myplayer.GetActionTiles(Action.Eat, ChoosedTiles);
+       
+        HashSet<Tile> tiles = myplayer.GetResponseTiles(Action.Eat, ChoosedTiles);
         foreach (GameObject tile in handTile)
         {
             if (tiles.Contains(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile))
@@ -77,10 +77,22 @@ public class HandTile : MonoBehaviour
 
     }
 
-    public void lightupTouchable(Tile lastTile)
+    public void StartTouch()
     {
 
-       // List<Tile> tiles;
+        HashSet<Tile> tiles = myplayer.GetResponseTiles(Action.Touch, ChoosedTiles);
+        foreach (GameObject tile in handTile)
+        {
+            if (tiles.Contains(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile))
+            {
+                tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetTouchState");
+            }
+            else
+            {
+                tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
+            }
+        }
+        // List<Tile> tiles;
         /*if (ChoosedTiles.Count == 0)
         {
 
@@ -93,7 +105,38 @@ public class HandTile : MonoBehaviour
             tiles = Rule.GetTouchableList(lastTile, ChoosedTiles[0], myplayer.hand);
             Debug.Log(tiles.Count);
         }*/
-        
+
+    }
+
+    public void StartRod()
+    {
+
+        HashSet<Tile> tiles = myplayer.GetResponseTiles(Action.Rod, ChoosedTiles);
+        foreach (GameObject tile in handTile)
+        {
+            if (tiles.Contains(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile))
+            {
+                tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetRodState");
+            }
+            else
+            {
+                tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
+            }
+        }
+        // List<Tile> tiles;
+        /*if (ChoosedTiles.Count == 0)
+        {
+
+            tiles = Rule.GetTouchableList(lastTile, myplayer.hand);
+            Debug.Log(tiles.Count);
+        }
+        else if (ChoosedTiles.Count == 1)
+        {
+            unlight();
+            tiles = Rule.GetTouchableList(lastTile, ChoosedTiles[0], myplayer.hand);
+            Debug.Log(tiles.Count);
+        }*/
+
     }
     public Tile RemoveSingleTile(Tile tile)
     {

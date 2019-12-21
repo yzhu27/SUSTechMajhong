@@ -141,7 +141,7 @@ namespace Assets.Scripts.GameMain
 			foreach (Tile tile in tiles)
 			{
 				self.AddHidden(tile);
-				yield return new WaitForSeconds(10f);
+				yield return new WaitForSeconds(0.2f);
 			}
 			hidenTileSetted = true;
 		}
@@ -180,11 +180,19 @@ namespace Assets.Scripts.GameMain
                 "HandTile",
                 "HandTile",
                 "StartPlay"
-            ));
+                 ));
                 self.GetActionsOnPlay();
             }
 		}
+        public void OnSwap()
+        {
+            self.GetActionsOnPlay();
+        }
 
+        public void OnRodDraw()
+        {
+            self.GetActionsOnPlay();
+        }
 		/// <summary>
 		/// 玩家打出牌时被调用
 		/// </summary>

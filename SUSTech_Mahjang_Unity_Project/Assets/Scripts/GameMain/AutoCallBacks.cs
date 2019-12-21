@@ -140,7 +140,12 @@ namespace Assets.Scripts.GameMain
 
 		public static void PlayerDraw(bool succeed, string sender, string msg)
 		{
-            if (sender == self.name)
+            if (sender == "Server" && msg == "")
+            {
+                Debug.Log("responsed");
+                return;
+            }
+            else if (sender == self.name)
                 playDesk.self.Draw(tileFactory.GetTile(int.Parse(msg)));
             else if (sender == playDesk.next.name)
                 playDesk.next.Draw();

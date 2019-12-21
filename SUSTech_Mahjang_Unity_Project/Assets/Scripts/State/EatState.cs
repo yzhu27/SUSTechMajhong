@@ -21,6 +21,7 @@ public class EatState: State
         {
             choosed = true;
             GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Add(tile.GetComponent<TileScript>().tile);
+            GameObject.Find("HandTile").GetComponent<HandTile>().StartEat();
         }
     }
     public override void OnMouseEnter(GameObject tile)
