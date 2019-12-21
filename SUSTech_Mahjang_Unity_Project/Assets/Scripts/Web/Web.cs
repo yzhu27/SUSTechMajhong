@@ -52,6 +52,12 @@ namespace Assets.Scripts.Web
             this.room = room;
         }
 
+		public void NextSingleTest()
+		{
+			client.Send("/app/room.nextSingleTest", JsonConvert.SerializeObject(new SendMessage(
+				userName, room, "")));
+		}
+
 		public void Login(string user_name)
 		{
 			client.Subscribe("/user/" + user_name + "/chat", (string msg) => { Debug.Log(msg); });
@@ -62,6 +68,12 @@ namespace Assets.Scripts.Web
 		{
 			client.Subscribe("/topic/" + room_name, (string msg) => { Debug.Log(msg); });
 			room = room_name;
+		}
+
+		public void SendStartSignal()
+		{
+			client.Send("/app/room.roundOperation", JsonConvert.SerializeObject(new SendMessage(
+				userName, room, "draw")));
 		}
 
 	}

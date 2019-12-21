@@ -4,21 +4,22 @@ using UnityEngine;
 using Assets.Scripts.GameMain;
 using Assets.Scripts.Util;
 using Assets.Scripts.LocalServer;
+
+public enum GameStatus
+{
+	Preparing,
+	Prepared,
+	Waiting,
+	Started
+}
+
 public class GameManager : MonoBehaviour
 {
-	private enum GameStatus
-	{
-		Preparing,
-		Prepared,
-		Waiting,
-		Started
-	}
-
     public PlayDesk playDesk = new PlayDesk();
-    TilePool tilePool ;
-    TileFactory tileFactory = new TileFactory();
 
-	private GameStatus gameStatus;
+    public TileFactory tileFactory = new TileFactory();
+
+	public GameStatus gameStatus { get; private set; }
 
     // Start is called before the first frame update
     void Start()
@@ -67,7 +68,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    int t = 0;
+    // int t = 0;
     // Update is called once per frame
     void Update()
     {
@@ -99,19 +100,16 @@ public class GameManager : MonoBehaviour
 		{
 			if (playDesk.prepareFinished)
 			{
-				gameStatus = GameStatus.Prepared;
-				Debug.Log("Prepared");
-                Debug.Log("PREPARE");
                 GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("setPlayer", playDesk.self);
                 GameObject.Find("HandTile (1)").GetComponent<HandTileOthers>().SendMessage("setPlayer", playDesk.next);
                 GameObject.Find("HandTile (2)").GetComponent<HandTileOthers>().SendMessage("setPlayer", playDesk.opposite);
                 GameObject.Find("HandTile (3)").GetComponent<HandTileOthers>().SendMessage("setPlayer", playDesk.last);
+				gameStatus = GameStatus.Prepared;
+				Debug.Log("Prepared");
             }
 		}
 		else if (gameStatus == GameStatus.Prepared)
 		{
-           
-            Debug.Log("PREPARE");
             GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("setPlayer", playDesk.self);
 			GameObject.Find("OnDesk (1)").GetComponent<OnDesk>().SendMessage("setPlayer", playDesk.next);
 			GameObject.Find("OnDesk (2)").GetComponent<OnDesk>().SendMessage("setPlayer", playDesk.opposite);
@@ -120,12 +118,16 @@ public class GameManager : MonoBehaviour
 			GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("setPlayer", playDesk.self);
 
 			gameStatus = GameStatus.Waiting;
+			Debug.Log("Waiting");
 		}
 		else if (gameStatus == GameStatus.Waiting)
 		{
 			if (playDesk.canStart)
 			{
 				gameStatus = GameStatus.Started;
+
+				GameObject.Find("WebController").GetComponent<WebController>().w.SendStartSignal();
+
 				Debug.Log("Started");
 			}
 		}

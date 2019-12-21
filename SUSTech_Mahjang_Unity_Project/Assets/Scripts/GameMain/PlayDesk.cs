@@ -12,6 +12,7 @@ namespace Assets.Scripts.GameMain
 	{
 		private bool handTileSetted;
 		private bool hidenTileSetted;
+		public WebController webController { private get; set; }
 
 		public bool prepareFinished { get; private set; }
 		public bool canStart { get => prepareFinished && handTileSetted && hidenTileSetted; }
@@ -123,8 +124,6 @@ namespace Assets.Scripts.GameMain
 
 		public IEnumerator SetInitTiles(List<Tile> tiles)
 		{
-			Debug.Log("here");
-
 			while (!prepareFinished)
 				yield return null;
 

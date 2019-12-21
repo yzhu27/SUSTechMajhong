@@ -24,16 +24,17 @@ public class WebEvent
 
 public class WebController : MonoBehaviour
 {
-	private Web w;
+	public readonly Web w = new Web(new System.Uri("ws://10.21.34.58:20000/ws/websocket"), AutoCallBacks.AutoCallBackDict);
+
 	public List<Tile> setInitTiles;
 	public List<Tile> setInitHiden;
 
 	private Queue<WebEvent> webEvents;
+	private bool registed = false;
 
     // Start is called before the first frame update
     void Start()
     {
-		w = new Web(new System.Uri("ws://10.21.34.58:20000/ws/websocket"), AutoCallBacks.AutoCallBackDict);
 		w.Connect();
 		webEvents = new Queue<WebEvent>();
 		AutoCallBacks.webController = this;
@@ -42,42 +43,53 @@ public class WebController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if (!registed)
+		{
+			PlayDesk playDesk = GameObject.Find("GameManager").GetComponent<GameManager>().playDesk;
+			playDesk.webController = this;
+		}
+
         w.OnUpdate();
 
-		if (webEvents.Count > 0)
+		if (GameObject.Find("GameManager").GetComponent<GameManager>().gameStatus == GameStatus.Started)
 		{
-			var e = webEvents.Dequeue();
-			
-			if (e.isCoroutine)
+			if (webEvents.Count > 0)
 			{
-				MonoBehaviour mono = (MonoBehaviour)GameObject.Find(e.gameObject).GetComponent(e.component);
+				var e = webEvents.Dequeue();
 
-				if (e.param is object)
-					mono.StartCoroutine(e.function, e.param);
-				
+				if (e.isCoroutine)
+				{
+					MonoBehaviour mono = (MonoBehaviour)GameObject.Find(e.gameObject).GetComponent(e.component);
+
+					if (e.param is object)
+						mono.StartCoroutine(e.function, e.param);
+
+					else
+						mono.StartCoroutine(e.function);
+				}
 				else
-					mono.StartCoroutine(e.function);
-			}
-			else
-			{
-				if (e.param is object)
-					GameObject.Find(e.gameObject).GetComponent(e.component).SendMessage(e.function, e.param);
-				
-				else
-					GameObject.Find(e.gameObject).GetComponent(e.component).SendMessage(e.function);
+				{
+					if (e.param is object)
+						GameObject.Find(e.gameObject).GetComponent(e.component).SendMessage(e.function, e.param);
+
+					else
+						GameObject.Find(e.gameObject).GetComponent(e.component).SendMessage(e.function);
+				}
 			}
 		}
-
-		if (setInitTiles != null)
+		else if (GameObject.Find("GameManager").GetComponent<GameManager>().gameStatus == GameStatus.Waiting)
 		{
-			StartCoroutine(AutoCallBacks.playDesk.SetInitTiles(setInitTiles));
-			setInitTiles = null;
+			if (setInitTiles != null)
+			{
+				StartCoroutine(AutoCallBacks.playDesk.SetInitTiles(setInitTiles));
+				setInitTiles = null;
+			}
+			else if (setInitHiden != null)
+			{
+				StartCoroutine(AutoCallBacks.playDesk.SetInitHiden(setInitHiden));
+				setInitHiden = null;
+			}
 		}
-		else if (setInitHiden != null)
-		{
-			StartCoroutine(AutoCallBacks.playDesk.SetInitHiden(setInitHiden));
-            setInitHiden = null;
-        }
     }
 
 	private void OnDestroy()
@@ -92,6 +104,10 @@ public class WebController : MonoBehaviour
 
 	public void TestClick()
 	{
-        w.SingleTest("a", "1");
+		if (GameObject.Find("GameManager").GetComponent<GameManager>().gameStatus == GameStatus.Preparing)
+			w.SingleTest("a", "1");
+		else if (GameObject.Find("GameManager").GetComponent<GameManager>().gameStatus == GameStatus.Started)
+			w.NextSingleTest();
 	}
+
 }
