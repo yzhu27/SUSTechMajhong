@@ -20,10 +20,14 @@ public class GameManager : MonoBehaviour
 
 	private GameStatus gameStatus;
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
-		AutoCallBacks.playDesk = playDesk;
+       // GameObject instance = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/WebController"));
+
+        AutoCallBacks.playDesk = playDesk;
 		AutoCallBacks.self = new User("a");
 		AutoCallBacks.tileFactory = tileFactory;
 
@@ -101,7 +105,7 @@ public class GameManager : MonoBehaviour
 			{
 				gameStatus = GameStatus.Prepared;
 				Debug.Log("Prepared");
-                Debug.Log("PREPARE");
+                
                 GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("setPlayer", playDesk.self);
                 GameObject.Find("HandTile (1)").GetComponent<HandTileOthers>().SendMessage("setPlayer", playDesk.next);
                 GameObject.Find("HandTile (2)").GetComponent<HandTileOthers>().SendMessage("setPlayer", playDesk.opposite);
@@ -111,7 +115,7 @@ public class GameManager : MonoBehaviour
 		else if (gameStatus == GameStatus.Prepared)
 		{
            
-            Debug.Log("PREPARE");
+           
             GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("setPlayer", playDesk.self);
 			GameObject.Find("OnDesk (1)").GetComponent<OnDesk>().SendMessage("setPlayer", playDesk.next);
 			GameObject.Find("OnDesk (2)").GetComponent<OnDesk>().SendMessage("setPlayer", playDesk.opposite);
