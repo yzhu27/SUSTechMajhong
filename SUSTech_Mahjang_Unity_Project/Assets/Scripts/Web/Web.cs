@@ -119,13 +119,13 @@ namespace Assets.Scripts.Web
 
 		public void Rod(int tile1, int tile2, int tile3, int tile4)
 		{
-			client.Send("/app/room.roundResponse", JsonConvert.SerializeObject(new SendMessage(
+			client.Send("/app/room.roundOperation", JsonConvert.SerializeObject(new SendMessage(
 				userName, room, "darkRod", tile1 + " " + tile2 + " " + tile3 + " " + tile4)));
 		}
 
 		public void Rod(int tile)
 		{
-			client.Send("/app/room.roundResponse", JsonConvert.SerializeObject(new SendMessage(
+			client.Send("/app/room.roundOperation", JsonConvert.SerializeObject(new SendMessage(
 				userName, room, "selfRod", tile.ToString())));
 		}
 
