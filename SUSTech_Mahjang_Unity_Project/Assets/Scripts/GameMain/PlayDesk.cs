@@ -12,7 +12,7 @@ namespace Assets.Scripts.GameMain
 	{
 		private bool handTileSetted;
 		private bool hidenTileSetted;
-		public WebController webController { private get; set; }
+		public WebController webController { get; set; }
 
 		public bool prepareFinished { get; private set; }
 		public bool canStart { get => prepareFinished && handTileSetted && hidenTileSetted; }

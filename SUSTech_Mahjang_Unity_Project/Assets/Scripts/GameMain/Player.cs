@@ -125,9 +125,19 @@ namespace Assets.Scripts.GameMain
 		public void Draw()
 		{
             hand.Add(null);
-            // call script what other player do here
-            GameObject.Find("TileStack ("+(int)seat+")").GetComponent<TileStack>().SendMessage("RemoveTile");
-            GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
+			// call script what other player do here
+			playDesk.webController.Enqueue(new WebEvent(
+				"TileStack (" + (int)seat + ")",
+				"TileStack",
+				"RemoveTile"
+			));
+			playDesk.webController.Enqueue(new WebEvent(
+				"HandTile (" + (int)seat + ")",
+				"HandTileOthers",
+				"Reconstruct"
+			));
+            //GameObject.Find("TileStack ("+(int)seat+")").GetComponent<TileStack>().SendMessage("RemoveTile");
+            //GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
         }
 
 		/// <summary>
