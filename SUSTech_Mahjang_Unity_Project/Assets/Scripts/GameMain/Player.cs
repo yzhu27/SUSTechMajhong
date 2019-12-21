@@ -142,6 +142,13 @@ namespace Assets.Scripts.GameMain
 			playDesk.OnStart();
         }
 
+		public void RodDraw()
+		{
+			hand.Add(null);
+			// call script what other player do here
+
+		}
+
 		/// <summary>
 		/// 换牌
 		/// </summary>

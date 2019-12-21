@@ -33,7 +33,9 @@ namespace Assets.Scripts.GameMain
             {"No-one response", AcceptResponseFinish},
 			{"eat", AcceptResponseEat},
 			{"touch", AcceptResponseTouch},
-			{"rod", AcceptResponseRod}
+			{"rod", AcceptResponseRod},
+			{"selfRod", AcceptSelfRod},
+			{"selfRodDraw", RodDraw}
 		};
 
 		public static void SetPlayerSeqNum(bool succeed, string sender, string msg)
@@ -318,5 +320,71 @@ namespace Assets.Scripts.GameMain
         {
             playDesk.OnFinish();
         }
+
+		public static void AcceptSelfRod(bool succeed, string sender, string msg)
+		{
+			Tile tile = tileFactory.GetTile(int.Parse(msg));
+
+			if (sender == self.name)
+			{
+				playDesk.self.SelfRod(tile);
+			}
+			else if (sender == playDesk.next.name)
+			{
+				playDesk.next.SelfRod(tile);
+			}
+			else if (sender == playDesk.opposite.name)
+			{
+				playDesk.opposite.SelfRod(tile);
+			}
+			else if (sender == playDesk.last.name)
+			{
+				playDesk.last.SelfRod(tile);
+			}
+			else
+			{
+				Debug.LogError("Unknown player " + sender);
+			}
+		}
+
+		public static void RodDraw(bool succeed, string sender, string msg)
+		{
+			if (sender == self.name)
+			{
+				playDesk.self.RodDraw(tileFactory.GetTile(int.Parse(msg)));
+				if (playDesk.roundPlayer != Seat.Self)
+				{
+					playDesk.OnFinish(Seat.Self);
+				}
+			}
+			else if (sender == playDesk.next.name)
+			{
+				playDesk.next.RodDraw();
+				if (playDesk.roundPlayer != Seat.Self)
+				{
+					playDesk.OnFinish(Seat.Next);
+				}
+			}
+			else if (sender == playDesk.opposite.name)
+			{
+				playDesk.opposite.RodDraw();
+				if (playDesk.roundPlayer != Seat.Self)
+				{
+					playDesk.OnFinish(Seat.Oppo);
+				}
+			}
+			else if (sender == playDesk.last.name)
+			{
+				playDesk.last.RodDraw();
+				if (playDesk.roundPlayer != Seat.Self)
+				{
+					playDesk.OnFinish(Seat.Last);
+				}
+			}
+			else
+				Debug.LogError("Unknown player " + sender);
+
+			
+		}
 	}
 }

@@ -55,6 +55,14 @@ namespace Assets.Scripts.GameMain
 			playDesk.OnStart();
 		}
 
+		public void RodDraw(Tile tile)
+		{
+			hand.Add(tile);
+			hand.Sort();
+
+			// call script here
+		}
+
 		new public void Play(Tile tile)
 		{
             Debug.Log("play");
