@@ -136,8 +136,10 @@ namespace Assets.Scripts.GameMain
 				"HandTileOthers",
 				"Reconstruct"
 			));
-            //GameObject.Find("TileStack ("+(int)seat+")").GetComponent<TileStack>().SendMessage("RemoveTile");
-            //GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
+			//GameObject.Find("TileStack ("+(int)seat+")").GetComponent<TileStack>().SendMessage("RemoveTile");
+			//GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
+
+			playDesk.OnStart();
         }
 
 		/// <summary>

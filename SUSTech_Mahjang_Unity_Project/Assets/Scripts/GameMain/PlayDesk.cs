@@ -184,6 +184,7 @@ namespace Assets.Scripts.GameMain
                 self.GetActionsOnPlay();
             }
 		}
+
         public void OnSwap()
         {
             if (roundPlayer == Seat.Self)
@@ -233,7 +234,6 @@ namespace Assets.Scripts.GameMain
                  "Prohibt"
                  ));
             gameState.OnFinish();
-			OnStart();
 		}
 
 		/// <summary>
