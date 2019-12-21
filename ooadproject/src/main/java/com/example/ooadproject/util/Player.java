@@ -102,20 +102,14 @@ public class Player {
         this.playerTiles.remove(new Tile(Integer.parseInt(tiles[2])));
     }
 
-    public void selfRod(String[] tiles,int playTile) {
-        this.selfRod.add(new Tile(playTile));
-
+    public void selfRod(String[] tiles) {
         this.selfRod.add(new Tile(Integer.parseInt(tiles[0])));
-        this.selfRod.add(new Tile(Integer.parseInt(tiles[1])));
-        this.selfRod.add(new Tile(Integer.parseInt(tiles[2])));
         this.playerTiles.remove(new Tile(Integer.parseInt(tiles[0])));
-        this.playerTiles.remove(new Tile(Integer.parseInt(tiles[1])));
-        this.playerTiles.remove(new Tile(Integer.parseInt(tiles[2])));
+
     }
 
-    public void darkRod(String[] tiles,int playTile) {
+    public void darkRod(String[] tiles) {
         this.darkRod.add(new Tile(playTile));
-
         this.darkRod.add(new Tile(Integer.parseInt(tiles[0])));
         this.darkRod.add(new Tile(Integer.parseInt(tiles[1])));
         this.darkRod.add(new Tile(Integer.parseInt(tiles[2])));
@@ -124,10 +118,12 @@ public class Player {
         this.playerTiles.remove(new Tile(Integer.parseInt(tiles[2])));
     }
 
-    public void exchange(String[] tiles,int playTile) {
-        this.playerTiles.remove(new Tile(Integer.parseInt(tiles[0])));
-        this.playerTiles.add(new Tile(playTile));
-        this.darkTiles.remove(new Tile(playTile));
-        this.darkTiles.add(new Tile(Integer.parseInt(tiles[0])));
+    public void exchange(String[] handTiles,String [] darkTiles) {
+        for(int i =0;i<handTiles.length;i++){
+            this.playerTiles.remove(new Tile(Integer.parseInt(handTiles[i])));
+            this.darkTiles.add(new Tile(Integer.parseInt(handTiles[i])));
+            this.darkTiles.remove(new Tile(Integer.parseInt(darkTiles[i])));
+            this.playerTiles.add(new Tile(Integer.parseInt(darkTiles[i])));
+        }
     }
 }
