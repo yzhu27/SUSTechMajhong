@@ -18,6 +18,14 @@ public class OperateBar : MonoBehaviour
 
     }
 
+    public void RefreshSon()
+    {
+        GameObject.Find("Button_Eat").GetComponent<Button>().SendMessage("Refresh");
+        GameObject.Find("Button_Touch").GetComponent<Button>().SendMessage("Refresh");
+        GameObject.Find("Button_Rod").GetComponent<Button>().SendMessage("Refresh");
+        GameObject.Find("Button_Swap").GetComponent<Button>().SendMessage("Refresh");
+    }
+
     void Start()
     {
         

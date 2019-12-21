@@ -24,7 +24,7 @@ public class WebEvent
 
 public class WebController : MonoBehaviour
 {
-	public readonly Web w = new Web(new System.Uri("ws://192.168.43.33:20000/ws/websocket"), AutoCallBacks.AutoCallBackDict);
+	public readonly Web w = new Web(new System.Uri("ws://10.21.34.58:20000/ws/websocket"), AutoCallBacks.AutoCallBackDict);
 
 	public List<Tile> setInitTiles;
 	public List<Tile> setInitHiden;
@@ -71,6 +71,7 @@ public class WebController : MonoBehaviour
 				{
                     if (e.param != null)
                     {
+                        Debug.Log(e.gameObject);
                         GameObject.Find(e.gameObject).GetComponent(e.component).SendMessage(e.function, e.param);
                     }
                     else

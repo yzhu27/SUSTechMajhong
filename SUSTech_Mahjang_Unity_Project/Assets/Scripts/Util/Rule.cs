@@ -56,7 +56,6 @@ namespace Assets.Scripts.Util
 			if (king_count > 1) return true; // Two kings or more must be true
 			else
 			{   // One king or less
-				Debug.Log(string.Format("seqs: {0:d}, {1:d}, {2:d}, 0xf0>>4 = {3:d}", tiles[0].GetSeq(), tiles[1].GetSeq(), tiles[2].GetSeq(), (0xf0)>>4));
 				tiles.Sort();
 				if (king_count == 1) return
 						tiles[1].GetSeq() + 1 == tiles[2].GetSeq() ||

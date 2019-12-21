@@ -18,10 +18,19 @@ public class SwapButton : MonoBehaviour
         
     }
 
+    public void Refresh()
+    {
+        clicked = false;
+    }
+    void SendRefresh()
+    {
+        GameObject.Find("OperateBar").GetComponent<OperateBar>().SendMessage("RefreshSon");
+    }
     public void MouseClick()
     {
         if (!clicked)
         {
+            SendRefresh();
             clicked = true;
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("StartSwap");
             GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("ShowHide");
