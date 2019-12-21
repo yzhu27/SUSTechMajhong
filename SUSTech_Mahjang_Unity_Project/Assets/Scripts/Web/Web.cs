@@ -73,7 +73,7 @@ namespace Assets.Scripts.Web
 		public void SendStartSignal()
 		{
 			client.Send("/app/room.ready", JsonConvert.SerializeObject(new SendMessage(
-				userName, room, "initialDarwReady")));
+				userName, room, "initialDarwReady", "yes")));
 		}
 
 		public void Play(int tile)

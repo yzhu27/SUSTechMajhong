@@ -55,7 +55,8 @@ namespace Assets.Scripts.GameMain
 
 		new public void Play(Tile tile)
 		{
-			hand.Remove(tile);
+            Debug.Log("play");
+            hand.Remove(tile);
             // call script here
             playDesk.webController.Enqueue(new WebEvent(
                 "HandTile",

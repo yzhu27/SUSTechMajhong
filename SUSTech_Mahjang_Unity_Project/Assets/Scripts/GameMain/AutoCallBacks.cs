@@ -29,21 +29,26 @@ namespace Assets.Scripts.GameMain
 			{"DarkTiles", SetHidenTiles},
 			{"CurrentPlayer", CheckCurrentPlayer},
 			{"PlayerDraw", PlayerDraw},
-			{"Accept-Play", AcceptPlay}
+			{"Accept-Play", AcceptPlay},
+            {"No-one response", AcceptResponseFinish},
+
 		};
 
 		public static void SetPlayerSeqNum(bool succeed, string sender, string msg)
 		{
 			string[] splayers = msg.Split(' ');
-			if (splayers.Length != 4)
-				throw new ArgumentException("there are " + splayers.Length + " players, expected 4");
+
+			if (splayers.Length != 5)
+				Debug.LogError("there are " + (splayers.Length - 1) + " players, expected 4");
 
 			Dictionary<Seat, Player> players = new Dictionary<Seat, Player>();
 			Seat self_seat;
 
-			foreach (string splayer in splayers)
+			for (int i = 0; i < splayers.Length - 1; i++)
 			{
-				try
+                string splayer = splayers[i];
+
+                try
 				{
 					string name = splayer.Split(',')[0];
 					Seat seat = (Seat)int.Parse(splayer.Split(',')[1]);
@@ -65,7 +70,7 @@ namespace Assets.Scripts.GameMain
 
 			Assert.IsTrue(players.Count == 4, "4 players got");
 
-			playDesk.SetPlayers(players);
+			playDesk.SetPlayers(players, (Seat)int.Parse(splayers[4]));
 
 			Debug.Log("Player set down");
 		}
@@ -133,7 +138,16 @@ namespace Assets.Scripts.GameMain
 
 		public static void PlayerDraw(bool succeed, string sender, string msg)
 		{
-			playDesk.self.Draw(tileFactory.GetTile(int.Parse(msg)));
+            if (sender == self.name)
+                playDesk.self.Draw(tileFactory.GetTile(int.Parse(msg)));
+            else if (sender == playDesk.next.name)
+                playDesk.next.Draw();
+            else if (sender == playDesk.opposite.name)
+                playDesk.opposite.Draw();
+            else if (sender == playDesk.last.name)
+                playDesk.last.Draw();
+            else
+                Debug.LogError("Unknown player " + sender);
 		}
 
 		public static void AcceptPlay(bool succeed, string sender, string msg)
@@ -158,8 +172,28 @@ namespace Assets.Scripts.GameMain
 			}
 			else
 			{
-				throw new ArgumentException("Unknown player " + sender);
+                Debug.LogError("Unknown player " + sender);
 			}
 		}
+
+        public static void AcceptResponseEat(bool succeed, string sender, string msg)
+        {
+
+        }
+
+        public static void AcceptResponseTouch(bool succeed, string sender, string msg)
+        {
+
+        }
+
+        public static void AcceptResponseRod(bool succeed, string sender, string msg)
+        {
+
+        }
+
+        public static void AcceptResponseFinish(bool succeed, string sender, string msg)
+        {
+            playDesk.OnFinish();
+        }
 	}
 }

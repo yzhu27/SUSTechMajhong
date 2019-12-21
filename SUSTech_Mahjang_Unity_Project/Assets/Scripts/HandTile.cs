@@ -179,8 +179,15 @@ public class HandTile : MonoBehaviour
 
     private Vector3 getposition(GameObject tile)
     {
-  
-        return positions[myplayer.hand.IndexOf(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile)];      
+        try
+        {
+            return positions[myplayer.hand.IndexOf(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile)];
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile);
+            throw e;
+        }
     }
 
    

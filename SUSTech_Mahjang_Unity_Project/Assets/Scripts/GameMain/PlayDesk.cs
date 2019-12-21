@@ -71,10 +71,9 @@ namespace Assets.Scripts.GameMain
 			hidenTileSetted = false;
 		}
 
-		public void SetPlayers(Dictionary<Seat, Player> players)
+		public void SetPlayers(Dictionary<Seat, Player> players, Seat first)
 		{
 			int self_seat = -1;
-			int first_player = -1;
 
 			foreach (KeyValuePair<Seat, Player> pair in players)
 			{
@@ -89,10 +88,6 @@ namespace Assets.Scripts.GameMain
 
 			foreach (KeyValuePair<Seat, Player> pair in players)
 			{
-				if(pair.Key == 0)
-				{
-					first_player = (int)pair.Key;
-				}
 				switch(((int)pair.Key + 4 - self_seat) % 4)
 				{
 					case 0:
@@ -117,7 +112,7 @@ namespace Assets.Scripts.GameMain
 			Assert.IsNotNull(opposite, "player oppo setted");
 			Assert.IsNotNull(last, "player last setted");
 
-			gameState = new GameState((Seat)first_player);
+			gameState = new GameState(first);
 
 			prepareFinished = true;
 		}
@@ -178,8 +173,15 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		public void OnStart()
 		{
-			// script what happens to the playdesk when player start round
-
+            // script what happens to the playdesk when player start round
+            if (roundPlayer == Seat.Self)
+            {
+                webController.Enqueue(new WebEvent(
+                "HandTile",
+                "HandTile",
+                "StartPlay"
+            ));
+            }
 		}
 
 		/// <summary>

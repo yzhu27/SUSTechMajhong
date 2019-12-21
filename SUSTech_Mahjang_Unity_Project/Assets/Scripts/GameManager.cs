@@ -129,11 +129,14 @@ public class GameManager : MonoBehaviour
 				GameObject.Find("WebController").GetComponent<WebController>().w.SendStartSignal();
 
 				Debug.Log("Started");
+
+                if (playDesk.roundPlayer == Seat.Self)
+                    playDesk.OnStart();
 			}
 		}
 		else if (gameStatus == GameStatus.Started)
 		{
-
+            
 		}
         
     }

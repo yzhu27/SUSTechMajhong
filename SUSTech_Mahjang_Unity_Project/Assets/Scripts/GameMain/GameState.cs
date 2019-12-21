@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using UnityEngine;
 namespace Assets.Scripts.GameMain
 {
 	public enum Seat
@@ -60,7 +60,9 @@ namespace Assets.Scripts.GameMain
 			turn = firstPlayer;
 			this.stage = stage;
 			lastPlayedTile = null;
-		}
+
+            Debug.Log("Round " + round + ", player " + turn.ToString() + " stage " + stage);
+        }
 
 		/// <summary>
 		/// 打出牌时调用
@@ -68,11 +70,15 @@ namespace Assets.Scripts.GameMain
 		public void OnPlay(Tile tile)
 		{
 			if (stage != Stage.Main)
-				throw new MethodAccessException("can not play on stage " + stage.ToString());
+            {
+                Debug.LogError("can not play on stage " + stage.ToString());
+            }
 
 			stage = Stage.Responce;
 
 			lastPlayedTile = tile;
+
+            Debug.Log("Round " + round + ", player " + turn.ToString() + " stage " + stage);
 		}
 
 		/// <summary>
@@ -84,7 +90,9 @@ namespace Assets.Scripts.GameMain
 				OnFinish(Seat.Self);
 			else
 				OnFinish(turn + 1);
-		}
+
+            Debug.Log("Round " + round + ", player " + turn.ToString() + " stage " + stage);
+        }
 
 		/// <summary>
 		/// 回合结束调用(响应结算完毕)
@@ -99,6 +107,8 @@ namespace Assets.Scripts.GameMain
 			turn = responce_player;
 
 			stage = Stage.Main;
-		}
+
+            Debug.Log("Round " + round + ", player " + turn.ToString() + " stage " + stage);
+        }
 	}
 }

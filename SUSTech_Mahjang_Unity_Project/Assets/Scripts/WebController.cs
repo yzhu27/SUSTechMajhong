@@ -24,7 +24,7 @@ public class WebEvent
 
 public class WebController : MonoBehaviour
 {
-	public readonly Web w = new Web(new System.Uri("ws://10.21.34.58:20000/ws/websocket"), AutoCallBacks.AutoCallBackDict);
+	public readonly Web w = new Web(new System.Uri("ws://192.168.43.33:20000/ws/websocket"), AutoCallBacks.AutoCallBackDict);
 
 	public List<Tile> setInitTiles;
 	public List<Tile> setInitHiden;
@@ -61,7 +61,7 @@ public class WebController : MonoBehaviour
 				{
 					MonoBehaviour mono = (MonoBehaviour)GameObject.Find(e.gameObject).GetComponent(e.component);
 
-					if (e.param is object)
+					if (e.param !=null)
 						mono.StartCoroutine(e.function, e.param);
 
 					else
@@ -69,11 +69,12 @@ public class WebController : MonoBehaviour
 				}
 				else
 				{
-					if (e.param is object)
-						GameObject.Find(e.gameObject).GetComponent(e.component).SendMessage(e.function, e.param);
-
-					else
-						GameObject.Find(e.gameObject).GetComponent(e.component).SendMessage(e.function);
+                    if (e.param != null)
+                    {
+                        GameObject.Find(e.gameObject).GetComponent(e.component).SendMessage(e.function, e.param);
+                    }
+                    else
+                        GameObject.Find(e.gameObject).GetComponent(e.component).SendMessage(e.function);
 				}
 			}
 		}

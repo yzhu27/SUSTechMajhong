@@ -11,7 +11,8 @@ public class PlayCardState : State
 
     public override void OnMouseDown(GameObject tile)
     {
-        tile.GetComponentInParent<HandTile>().myplayer.Play(tile.GetComponent<TileScript>().tile);
+        GameObject.Find("WebController").GetComponent<WebController>().w.Play(tile.GetComponent<TileScript>().tile.id);
+        
     }
     public override void OnMouseEnter(GameObject tile)
     {
