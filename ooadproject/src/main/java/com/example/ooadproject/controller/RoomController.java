@@ -465,11 +465,12 @@ public class RoomController {
             LOGGER.info("start timer to wait for response");
 
         } else {
+            LOGGER.info("round operation before play a tile");
             for (Player player : temp.getPlayerslist()) {
                 if (sender.equals(player.getUsername())) {
-
                     switch (type) {
                         case "exchange":
+                            LOGGER.info(sender+" exchange");
                             String handTilesString = requestMessage.getContent().split(",")[0];
                             String darkTilesString = requestMessage.getContent().split(",")[1];
                             String[] handTiles = handTilesString.split(" ");
@@ -478,6 +479,7 @@ public class RoomController {
                             break;
                         case "selfRod":
                             //拿一张手牌
+                            LOGGER.info(sender+" selfRod");
                             String[] tiles = requestMessage.getContent().split(" ");
                             player.selfRod(tiles);
                             messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, "selfRod", tiles[0]));
@@ -486,11 +488,12 @@ public class RoomController {
                             messagingTemplate.convertAndSendToUser(sender, "/chat", new ResponseMessage(sender, "selfRodDraw", selfRodDraw + ""));
                             break;
                         case "darkRod":
+                            LOGGER.info(sender+" darkRod");
                             String []tiles1 = requestMessage.getContent().split(" ");
                             player.darkRod(tiles1);
-
                             break;
                         case "addRod":
+                            LOGGER.info(sender+" addRod");
                             break;
                         default:
                             messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "no such method", ""));
