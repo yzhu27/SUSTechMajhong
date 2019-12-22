@@ -60,8 +60,30 @@ namespace Assets.Scripts.GameMain
 			hand.Add(tile);
 			hand.Sort();
 
-			// call script here
-		}
+            // call script here
+            playDesk.webController.Enqueue(new WebEvent(
+               "TileStack",
+               "TileStack",
+               "RemoveTile"
+           ));
+
+            playDesk.webController.Enqueue(new WebEvent(
+                "HandTile",
+                "HandTile",
+                "AddTile",
+                tile
+            ));
+            if (playDesk.roundPlayer == Seat.Self)
+            {
+                playDesk.webController.Enqueue(new WebEvent(
+                "HandTile",
+                "HandTile",
+                "StartPlay"
+                 ));
+                GetActionsOnPlay();
+            }
+
+        }
 
 		new public void Play(Tile tile)
 		{

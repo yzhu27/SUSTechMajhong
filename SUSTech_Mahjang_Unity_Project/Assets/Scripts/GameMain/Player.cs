@@ -145,9 +145,18 @@ namespace Assets.Scripts.GameMain
 		public void RodDraw()
 		{
 			hand.Add(null);
-			// call script what other player do here
-
-		}
+            // call script what other player do here
+            playDesk.webController.Enqueue(new WebEvent(
+                "TileStack (" + (int)seat + ")",
+                "TileStack",
+                "RemoveTile"
+            ));
+            playDesk.webController.Enqueue(new WebEvent(
+                "HandTile (" + (int)seat + ")",
+                "HandTileOthers",
+                "Reconstruct"
+            ));
+        }
 
 		/// <summary>
 		/// 换牌

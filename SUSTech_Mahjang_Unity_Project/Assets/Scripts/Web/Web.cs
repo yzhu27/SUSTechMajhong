@@ -82,10 +82,11 @@ namespace Assets.Scripts.Web
 				userName, room, "play", tile.ToString())));
 		}
 
-		public void Swap(List<int> hand, List<int> hiden)
+		public void Swap(int hand, int hiden)
 		{
-
-		}
+            client.Send("/app/room.roundOperation", JsonConvert.SerializeObject(new SendMessage(
+                userName, room, "exchange", hand+","+hiden)));
+        }
 
 		public void Shout(string content)
 		{
