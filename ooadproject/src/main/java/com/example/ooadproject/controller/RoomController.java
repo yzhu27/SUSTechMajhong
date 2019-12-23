@@ -403,8 +403,9 @@ public class RoomController {
                     content = content + player.getUsername() + " ";
                 }
             }
-            messagingTemplate.convertAndSend("/topic/"+room+"/ready",new ResponseMessage("Server","Player-ready",content));
 
+            messagingTemplate.convertAndSend("/topic/"+room+"/ready",new ResponseMessage("Server","Player-ready",content));
+            LOGGER.info("test");
             //一旦ready 开始游戏 发报文 调用对应room的playdesk的initial() 发送消息(各自的手牌,当前玩家)
             boolean allReady = true;
             for (Player player : temp.getPlayerslist()
