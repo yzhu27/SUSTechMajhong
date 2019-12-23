@@ -67,23 +67,23 @@ public class RoomController {
     public void usertest(@DestinationVariable String username, StompHeaderAccessor headerAccessor, RequestMessage requestMessage) {
         try {
             String sender = HtmlUtils.htmlEscape(requestMessage.getSender());
-            String type = null;
-            String content = null;
+            String type = requestMessage.getType();
+            String content = requestMessage.getContent()  ;
             if (userlist.containsKey(sender)) {
                 type = "Reject-login";
                 content = "sorry 用户名已经存在";
             } else {
                 userlist.put(sender, "NoRoom");
                 type = "Accept-login";
-                content = "welcome " + sender;
+                content = sender;
 
                 headerAccessor.getSessionAttributes().put("username", requestMessage.getSender());
                 String sessionId = headerAccessor.getSessionId();
                 LOGGER.info("login " + sessionId + " " + sender);
-                redisTemplate.opsForSet().add(onlineUsers, requestMessage.getSender());
+                redisTemplate.opsForSet().add(onlineUsers,username);
                 redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(requestMessage));
             }
-            ResponseMessage responseMessage = new ResponseMessage(sender, type, content);
+            ResponseMessage responseMessage = new ResponseMessage("Server", type, content);
             messagingTemplate.convertAndSendToUser(username, "/greetings", responseMessage);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -250,6 +250,7 @@ public class RoomController {
     @MessageMapping("/room.addUser")
     public void addUser(@Payload RequestMessage requestMessage) {
         try {
+            LOGGER.info("room.addUser");
             //如果找不到该room 创建对应room的playdesk
             String sender = requestMessage.getSender();
             String room = requestMessage.getRoom();
@@ -264,8 +265,12 @@ public class RoomController {
                     userlistTemp.add(temp);
                     userlist.replace(sender, room);
                     responseMessage.setType("Accept-room.addUser");
-                    responseMessage.setContent(sender + " join " + room);
-                    messagingTemplate.convertAndSendToUser(sender, "/chat", responseMessage);
+                    sender ="";
+                    for(Player player:current.getPlayerslist()){
+                        sender= sender+player.getUsername()+" ";
+                    }
+                    responseMessage.setContent(sender);
+                    messagingTemplate.convertAndSend("/topic/"+room,  responseMessage);
                 } else {
                     responseMessage.setType("Reject-room.addUser");
                     responseMessage.setContent("Room is full");
@@ -280,8 +285,12 @@ public class RoomController {
                 roomlist.put(room, current);
                 current.setSender(messagingTemplate);
                 responseMessage.setType("Accept-room.addUser");
-                responseMessage.setContent(sender + " join " + room);
-                messagingTemplate.convertAndSendToUser(sender, "/chat", responseMessage);
+                sender ="";
+                for(Player player:current.getPlayerslist()){
+                    sender= sender+player.getUsername()+" ";
+                }
+                responseMessage.setContent(sender);
+                messagingTemplate.convertAndSend("/topic/"+room,  responseMessage);
             }
 
             //如果找到 更新对应room的ready情况 sender path
@@ -384,13 +393,18 @@ public class RoomController {
                 messagingTemplate.convertAndSendToUser(temp.getCurrentPlayer(), "/chat", responseMessage);
             }
         } else {
-
+            String content = "";
             for (Player player : temp.getPlayerslist()) {
                 if (sender.equals(player.getUsername())) {
                     player.setReady(true);
                     //player.setDepartment(department);
                 }
+                if(player.getReday()){
+                    content = content + player.getUsername() + " ";
+                }
             }
+            messagingTemplate.convertAndSend("/topic/"+room+"/ready",new ResponseMessage("Server","Player-ready",content));
+
             //一旦ready 开始游戏 发报文 调用对应room的playdesk的initial() 发送消息(各自的手牌,当前玩家)
             boolean allReady = true;
             for (Player player : temp.getPlayerslist()
@@ -415,7 +429,7 @@ public class RoomController {
                     ResponseMessage responseMessage = new ResponseMessage();
                     responseMessage.setSender("Server");
                     responseMessage.setType("PlayerTiles");
-                    String content = "";
+                    content = "";
                     for (Tile tile : player.getPlayerTiles()) {
                         content = content + tile.getId() + ",";
                     }
@@ -590,7 +604,7 @@ public class RoomController {
             chatMessage.setType(ChatMessage.MessageType.LEAVE);
             chatMessage.setSender(username);
             try {
-                redisTemplate.opsForSet().remove(onlineUsers, username);
+                redisTemplate.opsForSet().remove(onlineUsers,username);
                 redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
