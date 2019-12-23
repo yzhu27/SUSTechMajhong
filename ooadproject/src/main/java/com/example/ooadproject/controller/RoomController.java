@@ -80,7 +80,7 @@ public class RoomController {
                 headerAccessor.getSessionAttributes().put("username", requestMessage.getSender());
                 String sessionId = headerAccessor.getSessionId();
                 LOGGER.info("login " + sessionId + " " + sender);
-
+                redisTemplate.opsForSet().add(onlineUsers,username);
                 redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(requestMessage));
             }
             ResponseMessage responseMessage = new ResponseMessage("Server", type, content);
@@ -250,6 +250,7 @@ public class RoomController {
     @MessageMapping("/room.addUser")
     public void addUser(@Payload RequestMessage requestMessage) {
         try {
+            LOGGER.info("room.addUser");
             //如果找不到该room 创建对应room的playdesk
             String sender = requestMessage.getSender();
             String room = requestMessage.getRoom();
@@ -603,6 +604,7 @@ public class RoomController {
             chatMessage.setType(ChatMessage.MessageType.LEAVE);
             chatMessage.setSender(username);
             try {
+                redisTemplate.opsForSet().remove(onlineUsers,username);
                 redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
