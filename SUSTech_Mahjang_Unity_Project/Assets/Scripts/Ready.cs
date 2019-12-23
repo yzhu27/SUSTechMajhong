@@ -92,7 +92,7 @@ public class Ready : MonoBehaviour
                
                 if (ReadyUser[i] == 1)
                 {
-                    string player = "Player" + (i + 1).ToString() ;
+                    string player = "Player" + (i + 1).ToString() + "_Text";
                    
                     GameObject.Find(player).GetComponent<Text>().text +="已准备";
                 }
