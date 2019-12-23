@@ -30,7 +30,12 @@ public class WebController : MonoBehaviour
 	public List<Tile> setInitHiden;
 
 	private Queue<WebEvent> webEvents;
-	private bool registed = false;
+	private bool register = true;
+
+     void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -43,10 +48,11 @@ public class WebController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if (!registed)
+		if (!register)
 		{
 			PlayDesk playDesk = GameObject.Find("GameManager").GetComponent<GameManager>().playDesk;
 			playDesk.webController = this;
+            register = true;
 		}
 
         w.OnUpdate();
@@ -98,7 +104,10 @@ public class WebController : MonoBehaviour
 	{
 		w.Disconnect();
 	}
-
+    public void unregisterd()
+    {
+        register = false;
+    }
 	public void Enqueue(WebEvent webEvent)
 	{
 		webEvents.Enqueue(webEvent);

@@ -24,7 +24,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-		AutoCallBacks.playDesk = playDesk;
+          
+        AutoCallBacks.playDesk = playDesk;
 		AutoCallBacks.self = new User("a");
 		AutoCallBacks.tileFactory = tileFactory;
 
