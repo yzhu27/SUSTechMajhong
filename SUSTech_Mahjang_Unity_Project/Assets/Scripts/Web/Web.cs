@@ -44,8 +44,8 @@ namespace Assets.Scripts.Web
 
         public void SingleTest(string user_name, string room)
         {
-            Login(user_name);
-            JoinRoom(room);
+            Login();
+            
             client.Send("/app/room.addUserSingleTest", JsonConvert.SerializeObject(new SendMessage(
                 user_name, room, "")));
             userName = user_name;
@@ -58,15 +58,71 @@ namespace Assets.Scripts.Web
 				userName, room, "")));
 		}
 
-		public void Login(string user_name)
+        public void SignUp(string user_name, WebCallBack webCallBack)
+        {
+            client.Subscribe("/user/" + user_name + "/greetings", (string msg) =>
+            {
+                ReceiveMessage receive = JsonConvert.DeserializeObject<ReceiveMessage>(msg);
+                if (receive.type == "Accept-login")
+                {
+                    webCallBack(true, receive.sender, receive.content);
+                    userName = receive.content;
+                    Debug.Log("Set user name: " + receive.content);
+                }
+                else if (receive.type == "Reject-login")
+                    webCallBack(false, receive.sender, receive.content);
+                else
+                    Debug.LogError("Unknown type " + receive.type);
+
+                client.Unsubscribe("/user/" + user_name + "/greeting");
+            });
+            client.Send("/app/hello/" + user_name, JsonConvert.SerializeObject(new SendMessage(user_name, "", "")));
+        }
+
+        public void TryJoinRoom(string room_name, WebCallBack joinCallBack, WebCallBack readyCallBack)
+        {
+            client.Subscribe("/topic/" + room_name, (string msg) =>
+            {
+                ReceiveMessage receive = JsonConvert.DeserializeObject<ReceiveMessage>(msg);
+                if (receive.type == "Accept-room.addUser")
+                {
+                    joinCallBack(true, receive.sender, receive.content);
+                    JoinRoom(room_name, readyCallBack);
+                }
+                else if (receive.type == "Reject-room.addUser")
+                    joinCallBack(false, receive.sender, receive.content);
+                else
+                    Debug.LogError("Unknown type " + receive.type);
+            });
+            client.Send("/app/room.addUser", JsonConvert.SerializeObject(new SendMessage(userName, room_name, "")));
+        }
+
+        public void Ready()
+        {
+            if (room == null)
+            {
+                throw new Exception("Not joined room yet");
+            }
+            client.Send("/app/room.ready", JsonConvert.SerializeObject(new SendMessage(userName, room, "")));
+        }
+
+		public void Login()
 		{
-			client.Subscribe("/user/" + user_name + "/chat", (string msg) => { Debug.Log(msg); });
-			userName = user_name;
+            if (userName == null)
+            {
+                Debug.LogError("Not registered");
+                throw new Exception();
+            }
+			client.Subscribe("/user/" + userName + "/chat", (string msg) => { Debug.Log(msg); });
 		}
 
-		public void JoinRoom(string room_name)
+		private void JoinRoom(string room_name, WebCallBack webCallBack)
 		{
-			client.Subscribe("/topic/" + room_name, (string msg) => { Debug.Log(msg); });
+            client.Subscribe("/topic/" + room_name + "/ready", (string msg) => 
+            {
+                ReceiveMessage receiveMessage = JsonConvert.DeserializeObject<ReceiveMessage>(msg);
+                webCallBack(true, receiveMessage.sender, receiveMessage.content);
+            });
 			room = room_name;
 		}
 

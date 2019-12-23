@@ -336,6 +336,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f5cb798d68eee4487a92f2942d40f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  newmsg: 0
+  newReady: 0
 --- !u!1 &545778710
 GameObject:
   m_ObjectHideFlags: 0
@@ -525,7 +527,7 @@ GameObject:
   - component: {fileID: 957636838}
   - component: {fileID: 957636837}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Player1_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -602,7 +604,7 @@ GameObject:
   - component: {fileID: 1009614122}
   - component: {fileID: 1009614121}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Player4_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -984,7 +986,7 @@ GameObject:
   - component: {fileID: 1811591530}
   - component: {fileID: 1811591529}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Player3_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1061,7 +1063,7 @@ GameObject:
   - component: {fileID: 2025771293}
   - component: {fileID: 2025771292}
   m_Layer: 5
-  m_Name: player4
+  m_Name: Player4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1218,7 +1220,7 @@ GameObject:
   - component: {fileID: 2087010259}
   - component: {fileID: 2087010258}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Player2_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

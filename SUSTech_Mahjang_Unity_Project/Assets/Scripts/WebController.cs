@@ -24,13 +24,14 @@ public class WebEvent
 
 public class WebController : MonoBehaviour
 {
-	public readonly Web w = new Web(new System.Uri("ws://10.21.34.58:20000/ws/websocket"), AutoCallBacks.AutoCallBackDict);
+	public readonly Web w = new Web(new System.Uri("ws://10.21.11.28:20000/ws/websocket"), AutoCallBacks.AutoCallBackDict);
 
 	public List<Tile> setInitTiles;
 	public List<Tile> setInitHiden;
 
 	private Queue<WebEvent> webEvents;
 	private bool register = true;
+    private bool inGame = false;
 
      void Awake()
     {
@@ -53,37 +54,20 @@ public class WebController : MonoBehaviour
 			PlayDesk playDesk = GameObject.Find("GameManager").GetComponent<GameManager>().playDesk;
 			playDesk.webController = this;
             register = true;
+            inGame = true;
 		}
 
         w.OnUpdate();
 
+        if (!inGame)
+        {
+            Dispatch();
+            return;
+        }
+
 		if (GameObject.Find("GameManager").GetComponent<GameManager>().gameStatus == GameStatus.Started)
 		{
-			if (webEvents.Count > 0)
-			{
-				var e = webEvents.Dequeue();
-
-				if (e.isCoroutine)
-				{
-					MonoBehaviour mono = (MonoBehaviour)GameObject.Find(e.gameObject).GetComponent(e.component);
-
-					if (e.param !=null)
-						mono.StartCoroutine(e.function, e.param);
-
-					else
-						mono.StartCoroutine(e.function);
-				}
-				else
-				{
-                    if (e.param != null)
-                    {
-                        Debug.Log(e.gameObject);
-                        GameObject.Find(e.gameObject).GetComponent(e.component).SendMessage(e.function, e.param);
-                    }
-                    else
-                        GameObject.Find(e.gameObject).GetComponent(e.component).SendMessage(e.function);
-				}
-			}
+            Dispatch();
 		}
 		else if (GameObject.Find("GameManager").GetComponent<GameManager>().gameStatus == GameStatus.Waiting)
 		{
@@ -98,6 +82,35 @@ public class WebController : MonoBehaviour
 				setInitHiden = null;
 			}
 		}
+    }
+
+    private void Dispatch()
+    {
+        if (webEvents.Count > 0)
+        {
+            var e = webEvents.Dequeue();
+
+            if (e.isCoroutine)
+            {
+                MonoBehaviour mono = (MonoBehaviour)GameObject.Find(e.gameObject).GetComponent(e.component);
+
+                if (e.param != null)
+                    mono.StartCoroutine(e.function, e.param);
+
+                else
+                    mono.StartCoroutine(e.function);
+            }
+            else
+            {
+                if (e.param != null)
+                {
+                    Debug.Log(e.gameObject);
+                    GameObject.Find(e.gameObject).GetComponent(e.component).SendMessage(e.function, e.param);
+                }
+                else
+                    GameObject.Find(e.gameObject).GetComponent(e.component).SendMessage(e.function);
+            }
+        }
     }
 
 	private void OnDestroy()

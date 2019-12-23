@@ -84,6 +84,16 @@ namespace Assets.Scripts.Web
 			subscribes.Add(dst, handler);
 		}
 
+        public void Unsubscribe(string dst)
+        {
+            var msg = new StompFrame(ClientCommand.UNSUBSCRIBE);
+            msg.AddHead("id", dst + "-" + 0);
+            msg.AddHead("destination", dst);
+
+            Enqueue(msg);
+            subscribes.Remove(dst);
+        }
+
 		public void Send(string dst, string content)
 		{
 			var msg = new StompFrame(ClientCommand.SEND);
