@@ -70,9 +70,11 @@ public class RoomController {
             String type = requestMessage.getType();
             String content = requestMessage.getContent()  ;
             if (userlist.containsKey(sender)) {
+                LOGGER.info("Reject-login");
                 type = "Reject-login";
                 content = "sorry 用户名已经存在";
             } else {
+                LOGGER.info("Accept-login");
                 userlist.put(sender, "NoRoom");
                 type = "Accept-login";
                 content = sender;
@@ -260,14 +262,19 @@ public class RoomController {
                 PlayDesk current = roomlist.get(room);
                 List<Player> userlistTemp = current.getPlayerslist();
                 if (userlist.size() < 4) {
+                    userlist.replace(sender,room);
                     Player temp = new Player();
                     temp.setUsername(sender);
                     userlistTemp.add(temp);
                     userlist.replace(sender, room);
                     responseMessage.setType("Accept-room.addUser");
                     sender ="";
-                    for(Player player:current.getPlayerslist()){
-                        sender= sender+player.getUsername()+" ";
+                    for(int i = 0 ;i<userlistTemp.size();i++){
+                        if(i==userlistTemp.size()-1){
+                            sender = sender + userlistTemp.get(i).getUsername();
+                        }else {
+                            sender = sender + userlistTemp.get(i).getUsername() + " ";
+                        }
                     }
                     responseMessage.setContent(sender);
                     messagingTemplate.convertAndSend("/topic/"+room,  responseMessage);
@@ -603,6 +610,10 @@ public class RoomController {
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setType(ChatMessage.MessageType.LEAVE);
             chatMessage.setSender(username);
+            RequestMessage temp = new RequestMessage();
+            temp.setSender(username);
+            temp.setRoom(userlist.get(username));
+            this.deleteUser(temp);
             try {
                 redisTemplate.opsForSet().remove(onlineUsers,username);
                 redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));

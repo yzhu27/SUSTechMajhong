@@ -34,6 +34,9 @@ public class RequestMessage {
         return content;
     }
 
+    public void setRoom(String room) {
+        this.room = room;
+    }
 
     public void setSender(String sender) {
         this.sender = sender;
