@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8c5805db-8159-4c53-b978-1e78a893fca4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="8c5805db-8159-4c53-b978-1e78a893fca4" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,8 +42,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="126" column="75" selection-start-line="126" selection-start-column="75" selection-end-line="126" selection-end-column="75" />
+            <state relative-caret-position="214">
+              <caret line="109" lean-forward="true" selection-start-line="109" selection-end-line="109" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -56,8 +54,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/controller/RoomController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="489" column="49" selection-start-line="489" selection-start-column="49" selection-end-line="489" selection-end-column="49" />
+            <state relative-caret-position="105">
+              <caret line="471" column="37" lean-forward="true" selection-start-line="471" selection-start-column="37" selection-end-line="471" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -196,12 +194,12 @@
         <option value="$PROJECT_DIR$/src/main/resources/static/main.js" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/TilePool.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/PlayDesk.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/Player.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/controller/RoomController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/Player.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-10" />
     <option name="y" value="-10" />
     <option name="width" value="1939" />
@@ -331,7 +329,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1576966392950" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1577006196020" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -456,7 +454,7 @@
       <workItem from="1576672894903" duration="10261000" />
       <workItem from="1576764443707" duration="12702000" />
       <workItem from="1576907763474" duration="6906000" />
-      <workItem from="1576928797530" duration="30183000" />
+      <workItem from="1576928797530" duration="32437000" />
     </task>
     <task id="LOCAL-00001" summary="2019.12.18 18：51 Andy Commit">
       <created>1576666321154</created>
@@ -469,13 +467,12 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="229404000" />
+    <option name="totallyTimeSpent" value="231658000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2191689" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2191689" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -486,7 +483,7 @@
       <window_info id="Web" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3427762" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.41926345" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.41926345" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.397711" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -894,8 +891,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/util/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="126" column="75" selection-start-line="126" selection-start-column="75" selection-end-line="126" selection-end-column="75" />
+        <state relative-caret-position="214">
+          <caret line="109" lean-forward="true" selection-start-line="109" selection-end-line="109" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -904,8 +901,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/ooadproject/controller/RoomController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="489" column="49" selection-start-line="489" selection-start-column="49" selection-end-line="489" selection-end-column="49" />
+        <state relative-caret-position="105">
+          <caret line="471" column="37" lean-forward="true" selection-start-line="471" selection-start-column="37" selection-end-line="471" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

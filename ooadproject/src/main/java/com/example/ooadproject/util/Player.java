@@ -109,7 +109,7 @@ public class Player {
     }
 
     public void darkRod(String[] tiles) {
-        this.darkRod.add(new Tile(playTile));
+
         this.darkRod.add(new Tile(Integer.parseInt(tiles[0])));
         this.darkRod.add(new Tile(Integer.parseInt(tiles[1])));
         this.darkRod.add(new Tile(Integer.parseInt(tiles[2])));
