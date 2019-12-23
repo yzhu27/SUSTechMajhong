@@ -68,7 +68,7 @@ public class RoomController {
         try {
             String sender = HtmlUtils.htmlEscape(requestMessage.getSender());
             String type = requestMessage.getType();
-            String content = requestMessage.getContent()  ;
+            String content = requestMessage.getContent();
             if (userlist.containsKey(sender)) {
                 LOGGER.info("Reject-login");
                 type = "Reject-login";
@@ -76,15 +76,21 @@ public class RoomController {
             } else {
                 LOGGER.info("Accept-login");
                 userlist.put(sender, "NoRoom");
+                LOGGER.info(userlist.get(sender));
                 type = "Accept-login";
                 content = sender;
 
                 headerAccessor.getSessionAttributes().put("username", requestMessage.getSender());
                 String sessionId = headerAccessor.getSessionId();
                 LOGGER.info("login " + sessionId + " " + sender);
-                redisTemplate.opsForSet().add(onlineUsers,username);
+                redisTemplate.opsForSet().add(onlineUsers, username);
                 redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(requestMessage));
             }
+            String test = "";
+            for (String un : userlist.keySet()) {
+                test += (un + " ");
+            }
+            LOGGER.info("userlist: " + test);
             ResponseMessage responseMessage = new ResponseMessage("Server", type, content);
             messagingTemplate.convertAndSendToUser(username, "/greetings", responseMessage);
         } catch (Exception e) {
@@ -262,22 +268,28 @@ public class RoomController {
                 PlayDesk current = roomlist.get(room);
                 List<Player> userlistTemp = current.getPlayerslist();
                 if (userlist.size() < 4) {
-                    userlist.replace(sender,room);
+                    userlist.replace(sender, room);
                     Player temp = new Player();
                     temp.setUsername(sender);
                     userlistTemp.add(temp);
                     userlist.replace(sender, room);
                     responseMessage.setType("Accept-room.addUser");
-                    sender ="";
-                    for(int i = 0 ;i<userlistTemp.size();i++){
-                        if(i==userlistTemp.size()-1){
-                            sender = sender + userlistTemp.get(i).getUsername();
-                        }else {
-                            sender = sender + userlistTemp.get(i).getUsername() + " ";
+                    String content = "";
+                    for (int i = 0; i < userlistTemp.size(); i++) {
+                        if (i == userlistTemp.size() - 1) {
+                            content = content + userlistTemp.get(i).getUsername();
+                        } else {
+                            content = content + userlistTemp.get(i).getUsername() + " ";
                         }
                     }
-                    responseMessage.setContent(sender);
-                    messagingTemplate.convertAndSend("/topic/"+room,  responseMessage);
+                    String ready = "";
+                    for (Player player : current.getPlayerslist()) {
+                        if (player.getReday()) {
+                            ready = ready + player.getUsername() + " ";
+                        }
+                    }
+                    responseMessage.setContent(content.trim() + "," + ready.trim());
+                    messagingTemplate.convertAndSend("/topic/" + room, responseMessage);
                 } else {
                     responseMessage.setType("Reject-room.addUser");
                     responseMessage.setContent("Room is full");
@@ -290,14 +302,16 @@ public class RoomController {
                 temp.setUsername(sender);
                 current.getPlayerslist().add(temp);
                 roomlist.put(room, current);
+                userlist.replace(sender, room);
                 current.setSender(messagingTemplate);
                 responseMessage.setType("Accept-room.addUser");
-                sender ="";
-                for(Player player:current.getPlayerslist()){
-                    sender= sender+player.getUsername()+" ";
+                String content = "";
+                for (Player player : current.getPlayerslist()) {
+                    content = content + player.getUsername() + " ";
                 }
-                responseMessage.setContent(sender);
-                messagingTemplate.convertAndSend("/topic/"+room,  responseMessage);
+
+                responseMessage.setContent(content.trim() + ",");
+                messagingTemplate.convertAndSend("/topic/" + room, responseMessage);
             }
 
             //如果找到 更新对应room的ready情况 sender path
@@ -308,25 +322,27 @@ public class RoomController {
     }
 
     @MessageMapping("/room.deleteUser")
-    public void deleteUser(@Payload RequestMessage requestMessage) {
+    public void deleteUser(RequestMessage requestMessage) {
         try {
             //得到sender和room 对应更新
             String sender = requestMessage.getSender();
             String room = requestMessage.getRoom();
             PlayDesk temp = roomlist.get(room);
-            for (int i = 0; i < temp.getPlayerslist().size(); i++) {
-                if (temp.getPlayerslist().get(i).getUsername().equals(sender)) {
-                    temp.getPlayerslist().remove(i);
-                    break;
+            if (temp != null || !room.equals("NoRoom")) {
+                for (int i = 0; i < temp.getPlayerslist().size(); i++) {
+                    if (temp.getPlayerslist().get(i).getUsername().equals(sender)) {
+                        temp.getPlayerslist().remove(i);
+                        break;
+                    }
                 }
-            }
-            ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage.setSender("Server");
-            responseMessage.setType("Accept-deleteUser");
-            responseMessage.setContent(sender + " left");
-            messagingTemplate.convertAndSendToUser(sender, "/chat", responseMessage);
-            if (temp.getPlayerslist().size() == 0) {
-                roomlist.remove(room);
+                ResponseMessage responseMessage = new ResponseMessage();
+                responseMessage.setSender("Server");
+                responseMessage.setType("Accept-deleteUser");
+                responseMessage.setContent(sender + " left");
+                messagingTemplate.convertAndSendToUser(sender, "/chat", responseMessage);
+                if (temp.getPlayerslist().size() == 0) {
+                    roomlist.remove(room);
+                }
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -406,12 +422,12 @@ public class RoomController {
                     player.setReady(true);
                     //player.setDepartment(department);
                 }
-                if(player.getReday()){
+                if (player.getReday()) {
                     content = content + player.getUsername() + " ";
                 }
             }
 
-            messagingTemplate.convertAndSend("/topic/"+room+"/ready",new ResponseMessage("Server","Player-ready",content));
+            messagingTemplate.convertAndSend("/topic/" + room + "/ready", new ResponseMessage("Server", "Player-ready", content.trim()));
             LOGGER.info("test");
             //一旦ready 开始游戏 发报文 调用对应room的playdesk的initial() 发送消息(各自的手牌,当前玩家)
             boolean allReady = true;
@@ -441,7 +457,7 @@ public class RoomController {
                     for (Tile tile : player.getPlayerTiles()) {
                         content = content + tile.getId() + ",";
                     }
-                    responseMessage.setContent(content);
+                    responseMessage.setContent(content.trim());
                     messagingTemplate.convertAndSendToUser(player.getUsername(), "/chat", responseMessage);
                     responseMessage.setType("DarkTiles");
                     responseMessage.setContent("" + player.getDarkTiles().get(0).getId());
@@ -492,7 +508,7 @@ public class RoomController {
                 if (sender.equals(player.getUsername())) {
                     switch (type) {
                         case "exchange":
-                            LOGGER.info(sender+" exchange");
+                            LOGGER.info(sender + " exchange");
                             String handTilesString = requestMessage.getContent().split(",")[0];
                             String darkTilesString = requestMessage.getContent().split(",")[1];
                             String[] handTiles = handTilesString.split(" ");
@@ -501,7 +517,7 @@ public class RoomController {
                             break;
                         case "selfRod":
                             //拿一张手牌
-                            LOGGER.info(sender+" selfRod");
+                            LOGGER.info(sender + " selfRod");
                             String[] tiles = requestMessage.getContent().split(" ");
                             player.selfRod(tiles);
                             messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, "selfRod", tiles[0]));
@@ -510,12 +526,12 @@ public class RoomController {
                             messagingTemplate.convertAndSendToUser(sender, "/chat", new ResponseMessage(sender, "selfRodDraw", selfRodDraw + ""));
                             break;
                         case "darkRod":
-                            LOGGER.info(sender+" darkRod");
-                            String []tiles1 = requestMessage.getContent().split(" ");
+                            LOGGER.info(sender + " darkRod");
+                            String[] tiles1 = requestMessage.getContent().split(" ");
                             player.darkRod(tiles1);
                             break;
                         case "addRod":
-                            LOGGER.info(sender+" addRod");
+                            LOGGER.info(sender + " addRod");
                             break;
                         default:
                             messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "no such method", ""));
@@ -607,16 +623,18 @@ public class RoomController {
 
         if (username != null) {
             LOGGER.info("User Disconnected : " + sessionid + " " + username);
-            userlist.remove(username);
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setType(ChatMessage.MessageType.LEAVE);
             chatMessage.setSender(username);
             RequestMessage temp = new RequestMessage();
             temp.setSender(username);
+            LOGGER.info("Room",userlist.get(username));
             temp.setRoom(userlist.get(username));
+            LOGGER.info("Delete user " + username + "from room " + temp.getRoom());
             this.deleteUser(temp);
+            userlist.remove(username);
             try {
-                redisTemplate.opsForSet().remove(onlineUsers,username);
+                redisTemplate.opsForSet().remove(onlineUsers, username);
                 redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
