@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject Camera_win;
 
+    private bool temp = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -113,9 +115,10 @@ public class GameManager : MonoBehaviour
 				gameStatus = GameStatus.Prepared;
 				Debug.Log("Prepared");
             }
-            else
+            else if(temp)
             {
                 GameObject.Find("WebController").GetComponent<WebController>().register = false;
+                temp = false;
             }
 		}
 		else if (gameStatus == GameStatus.Prepared)
