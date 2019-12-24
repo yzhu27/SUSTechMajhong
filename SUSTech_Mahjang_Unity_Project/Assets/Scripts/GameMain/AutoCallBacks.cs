@@ -40,6 +40,8 @@ namespace Assets.Scripts.GameMain
 
 		public static void SetPlayerSeqNum(bool succeed, string sender, string msg)
 		{
+            Debug.Log("begin setting player seq");
+
 			string[] splayers = msg.Split(' ');
 
 			if (splayers.Length != 5)
@@ -71,8 +73,6 @@ namespace Assets.Scripts.GameMain
 					throw e;
 				}
 			}
-
-			Assert.IsTrue(players.Count == 4, "4 players got");
 
 			playDesk.SetPlayers(players, (Seat)int.Parse(splayers[4]));
 

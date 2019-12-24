@@ -107,11 +107,6 @@ namespace Assets.Scripts.GameMain
 				}
 			}
 
-			Assert.IsNotNull(self, "player self setted");
-			Assert.IsNotNull(next, "player next setted");
-			Assert.IsNotNull(opposite, "player oppo setted");
-			Assert.IsNotNull(last, "player last setted");
-
 			gameState = new GameState(first);
 
 			prepareFinished = true;
