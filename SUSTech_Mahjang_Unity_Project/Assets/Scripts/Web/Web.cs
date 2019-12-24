@@ -68,6 +68,7 @@ namespace Assets.Scripts.Web
                     webCallBack(true, receive.sender, receive.content);
                     userName = receive.content;
                     Debug.Log("Set user name: " + receive.content);
+                    Login();
                 }
                 else if (receive.type == "Reject-login")
                     webCallBack(false, receive.sender, receive.content);
