@@ -5,9 +5,7 @@ using Assets.Scripts.GameMain;
 using Assets.Scripts.Util;
 public class lastTile : MonoBehaviour
 {
-
-    
-    public List<GameObject>theTile = new List<GameObject>();
+    public List<GameObject> theTile;
     [SerializeField]
     private float width = 0.025f;
     
@@ -25,10 +23,12 @@ public class lastTile : MonoBehaviour
     {
         float length = theTile.Count * width;
         int bound = theTile.Count;
-        
+        Debug.Log(theTile);
+        Debug.Log(theTile.Count);
 
         for (int i = 0; i < bound; i++)
         {
+            Debug.Log(theTile[i]);
             theTile[i].transform.position = transform.position - transform.right * (length - width) * 0.5f + transform.right * width * i;
         }
 
@@ -37,7 +37,7 @@ public class lastTile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        theTile = new List<GameObject>();
     }
 
     // Update is called once per frame

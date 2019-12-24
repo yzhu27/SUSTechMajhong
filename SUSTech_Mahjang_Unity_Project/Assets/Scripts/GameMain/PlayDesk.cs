@@ -109,6 +109,8 @@ namespace Assets.Scripts.GameMain
 				}
 			}
 
+            first = (Seat)(((int)first + 4 - self_seat) % 4);
+
 			gameState = new GameState(first);
 
 			prepareFinished = true;
