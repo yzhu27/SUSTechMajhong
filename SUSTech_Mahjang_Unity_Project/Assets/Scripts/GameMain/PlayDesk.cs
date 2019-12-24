@@ -181,6 +181,7 @@ namespace Assets.Scripts.GameMain
                 "StartPlay"
                  ));
                 self.GetActionsOnPlay();
+                
             }
 		}
 

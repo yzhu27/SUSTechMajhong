@@ -163,10 +163,7 @@ public class HandTile : MonoBehaviour
                 break;
             }
         }
-        foreach (GameObject obj in handTile)
-        {
-            obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
-        }
+        
         Reconstruct();
         return tile;
 
@@ -186,10 +183,7 @@ public class HandTile : MonoBehaviour
                 }
             }
         }
-        foreach (GameObject obj in handTile)
-        {
-            obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
-        }
+        
         Reconstruct();
         return tiles;
 
@@ -224,7 +218,7 @@ public class HandTile : MonoBehaviour
         {
             positions.Add(transform.position - transform.right * (length - width)*0.5f + transform.right * width *i);
         }
-
+        StartProhibit();
         check = false;
         
 
@@ -273,6 +267,8 @@ public class HandTile : MonoBehaviour
                 {
                     check = false;
                 }
+                
+
             }
         }
         
