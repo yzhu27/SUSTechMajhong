@@ -6,6 +6,8 @@ import java.util.List;
 public class Player {
     private String username;
     private boolean ready;
+    private boolean backgroundReady;
+    private boolean initialDrawReady;
     private Tile.Department department;
     private List<Tile> playerTiles;
     private List<Tile> darkTiles;
@@ -15,6 +17,22 @@ public class Player {
     private List<Tile> selfRod;
     private List<Tile> darkRod;
     private List<Tile> exchange;
+
+    public void setBackgroundReady(boolean backgroundReady) {
+        this.backgroundReady = backgroundReady;
+    }
+
+    public void setInitialDrawReady(boolean initialDrawReady) {
+        this.initialDrawReady = initialDrawReady;
+    }
+
+    public boolean isBackgroundReady() {
+        return backgroundReady;
+    }
+
+    public boolean isInitialDrawReady() {
+        return initialDrawReady;
+    }
 
     public Tile.Department getDepartment() {
         return department;
