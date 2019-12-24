@@ -38,15 +38,18 @@ public class SwapButton : MonoBehaviour
         else
         {
             clicked = false;
-            if(GameObject.Find("HideTiles").GetComponent<HideTiles>().ChoosedTiles.Count == 1 && GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Count == 1)
+            if (GameObject.Find("HideTiles").GetComponent<HideTiles>().ChoosedTiles.Count == 1 && GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Count == 1)
             {
 
+                Debug.Log("HAHA");
                 GameObject.Find("WebController").GetComponent<WebController>().w.Swap(GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles[0].id, GameObject.Find("HideTiles").GetComponent<HideTiles>().ChoosedTiles[0].id);
                 GameObject.Find("HideTiles").GetComponent<HideTiles>().myplayer.Swap(GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles[0], GameObject.Find("HideTiles").GetComponent<HideTiles>().ChoosedTiles[0]);
                 GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Clear();
                 GameObject.Find("HideTiles").GetComponent<HideTiles>().ChoosedTiles.Clear();
                 GameObject.Find("GameManager").GetComponent<GameManager>().playDesk.OnStart();
             }
+            GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("StartPlay");
+            GameObject.Find("HideTiles").GetComponent<HideTiles>().SendMessage("StartProhibit");
         }
     }
 }
