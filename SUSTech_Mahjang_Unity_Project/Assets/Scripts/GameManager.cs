@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        GameObject.Find("WebController").GetComponent<WebController>().w.LoadReady();
         Camera_win = GameObject.Find("Win Camera");
         Camera_win.SetActive(false);
         AutoCallBacks.playDesk = playDesk;

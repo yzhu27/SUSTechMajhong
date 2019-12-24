@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class Ready : MonoBehaviour
 {
@@ -54,6 +55,10 @@ public class Ready : MonoBehaviour
         {
  ;
             string[] names = msg.Split(' ');
+            if(names.Length == 4)
+            {
+                SceneManager.LoadScene("SampleScene");
+            }
             foreach(string ready in names)
             {
                 for(int i = 0; i < Usernames.Length; i++)
