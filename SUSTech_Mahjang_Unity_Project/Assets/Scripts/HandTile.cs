@@ -257,7 +257,6 @@ public class HandTile : MonoBehaviour
         if (!check)
         {
             check = true;
-            StartProhibit();
             foreach (GameObject tile in handTile)
             {
                
@@ -268,12 +267,8 @@ public class HandTile : MonoBehaviour
                 {
                     check = false;
                 }
-               
+                
 
-            }
-            if (check)
-            {
-                StartPlay();
             }
         }
         
