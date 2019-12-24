@@ -56,6 +56,7 @@ public class WebController : MonoBehaviour
             register = true;
             inGame = true;
             w.LoadReady();
+            Debug.Log("regested");
         }
 
         w.OnUpdate();
