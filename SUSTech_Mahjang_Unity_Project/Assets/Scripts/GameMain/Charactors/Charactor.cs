@@ -168,7 +168,7 @@ namespace Assets.Scripts.GameMain.Charactors
 			var temp = new List<Tile>(self.hand);
 			temp.Add(last);
 			temp.Sort();
-			return Rule.BasicCanWin(self.onDesk, temp);
+			return Rule.BasicCanWin(temp);
 		}
 
 		#endregion
@@ -182,7 +182,7 @@ namespace Assets.Scripts.GameMain.Charactors
 
 		private bool CanWin()
 		{
-			return Rule.BasicCanWin(self.onDesk, self.hand);
+			return Rule.BasicCanWin(self.hand);
 		}
 
 		private bool CanSwap()

@@ -259,7 +259,15 @@ namespace Assets.Scripts.GameMain
              GameObject.Find("OnDesk").GetComponent<OnDesk>().upward =false;
              GameObject.Find("OnDesk").GetComponent<OnDesk>().SendMessage("AddTiles", tiles);*/
         }
-
+        new public void Win()
+        {
+            // call script after someone win here
+            playDesk.webController.Enqueue(new WebEvent(
+               "HandTile",
+               "HandTile",
+               "Win"                
+           ));
+        }
         public void AddHidden(Tile tile)
         {
             hiden.Add(tile);

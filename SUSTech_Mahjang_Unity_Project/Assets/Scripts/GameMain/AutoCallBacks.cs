@@ -97,7 +97,8 @@ namespace Assets.Scripts.GameMain
 					tiles.Add(tileFactory.GetTile(int.Parse(stile)));
 			}
 
-			Assert.IsTrue(tiles.Count == 12);
+			if (tiles.Count != 13)
+				Debug.LogError("Wrong init tile count " + tiles.Count);
 
 			webController.setInitTiles = tiles;
 		}

@@ -243,6 +243,13 @@ public class HandTile : MonoBehaviour
         }
     }
 
+    public void Win()
+    {
+        foreach(GameObject tile in handTile)
+        {
+            tile.transform.rotation =  Quaternion.Euler(90f, 0f, 0f);
+        }
+    }
    
     // Start is called before the first frame update
     void Start()

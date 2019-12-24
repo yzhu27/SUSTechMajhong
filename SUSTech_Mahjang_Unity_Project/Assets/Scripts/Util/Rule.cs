@@ -416,10 +416,23 @@ namespace Assets.Scripts.Util
 		/// <param name="on_desk"></param>
 		/// <param name="hand_tile"></param>
 		/// <returns></returns>
-		public static bool BasicCanWin(List<List<Tile>> on_desk, List<Tile> hand_tile)
+		public static bool BasicCanWin(List<Tile> hand_tile)
 		{
+			int king_count = 0;
+			List<Tile> db = new List<Tile>();
+			int check_0 = 0;
+			
+			while (hand_tile[king_count].GetSpecial() == Special.King)
+			{
+				king_count++;
+			}
+
+			// king limit
+			if (king_count > 1)
+				return false;
+
+
 			return false;
-			// TODO
 		}
 	}
 }
