@@ -135,13 +135,14 @@ namespace Assets.Scripts.Web
 			if (stomp.GetServerCommand() == ServerCommand.MESSAGE)
 			{
 				ReceiveMessage receive = JsonConvert.DeserializeObject<ReceiveMessage>(stomp.data);
-				WebCallBack webCallBack;
 
-				if (autoCallBackDict.TryGetValue(receive.type, out webCallBack))
-					webCallBack(true, receive.sender, receive.content);
-				else
-					subscribes[stomp.GetHead("destination")](stomp.data);
-			}
+                if (autoCallBackDict.TryGetValue(receive.type, out WebCallBack webCallBack))
+                    webCallBack(true, receive.sender, receive.content);
+                else if (subscribes.TryGetValue(stomp.GetHead("destination"), out OnMessageHandler onMessageHandler))
+                    onMessageHandler(stomp.data);
+                else
+                    Debug.LogError("Received from unsubscribe dst " + stomp.GetHead("destination"));
+            }
 		}
 	}
 }
