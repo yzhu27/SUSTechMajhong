@@ -260,8 +260,13 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		public void Win()
 		{
-			// call script after someone win here
-		}
+            // call script after someone win here
+            playDesk.webController.Enqueue(new WebEvent(
+               "HandTile (" + (int)seat + ")",
+               "HandTileOthers",
+               "Win"
+           ));
+        }
 
 		/// <summary>
 		/// 吃
