@@ -66,24 +66,27 @@ public class WebController : MonoBehaviour
             Dispatch();
             return;
         }
-
-		if (GameObject.Find("GameManager").GetComponent<GameManager>().gameStatus == GameStatus.Started)
-		{
-            Dispatch();
-		}
-		else if (GameObject.Find("GameManager").GetComponent<GameManager>().gameStatus == GameStatus.Waiting)
-		{
-			if (setInitTiles != null)
-			{
-				StartCoroutine(AutoCallBacks.playDesk.SetInitTiles(setInitTiles));
-				setInitTiles = null;
-			}
-			else if (setInitHiden != null)
-			{
-				StartCoroutine(AutoCallBacks.playDesk.SetInitHiden(setInitHiden));
-				setInitHiden = null;
-			}
-		}
+        else
+        {
+            if (GameObject.Find("GameManager").GetComponent<GameManager>().gameStatus == GameStatus.Started)
+            {
+                Dispatch();
+            }
+            else if (GameObject.Find("GameManager").GetComponent<GameManager>().gameStatus == GameStatus.Waiting)
+            {
+                if (setInitTiles != null)
+                {
+                    StartCoroutine(AutoCallBacks.playDesk.SetInitTiles(setInitTiles));
+                    setInitTiles = null;
+                }
+                else if (setInitHiden != null)
+                {
+                    StartCoroutine(AutoCallBacks.playDesk.SetInitHiden(setInitHiden));
+                    setInitHiden = null;
+                }
+            }
+        }
+		
     }
 
     private void Dispatch()

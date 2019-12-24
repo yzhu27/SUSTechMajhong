@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
         //int[] handtile = { 0xf0230, 0xf0230 , 0xf0230 ,0x30000,0x20000,0xf0220,0xf0210,0x30000, 0x20000, 0xf0220, 0xf0210 ,0x10000, 0x10000 };
 
         // Debug.Log(tilePool.PoolToString());
-        GameObject.Find("WebController").GetComponent<WebController>().register = false;
+        
 
     }
 
@@ -77,6 +77,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         /* if(t<130 && t % 10 == 0)
          {
              GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tileFactory.GetTile(tilePool.Draw()));
@@ -111,6 +112,10 @@ public class GameManager : MonoBehaviour
                 GameObject.Find("HandTile (3)").GetComponent<HandTileOthers>().SendMessage("setPlayer", playDesk.last);
 				gameStatus = GameStatus.Prepared;
 				Debug.Log("Prepared");
+            }
+            else
+            {
+                GameObject.Find("WebController").GetComponent<WebController>().register = false;
             }
 		}
 		else if (gameStatus == GameStatus.Prepared)
