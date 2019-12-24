@@ -73,6 +73,7 @@ namespace Assets.Scripts.GameMain
 					throw e;
 				}
 			}
+            Debug.Log("seq phrese finish");
 
 			playDesk.SetPlayers(players, (Seat)int.Parse(splayers[4]));
 

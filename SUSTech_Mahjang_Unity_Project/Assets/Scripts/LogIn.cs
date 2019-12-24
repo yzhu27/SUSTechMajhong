@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
 using Assets.Scripts.Web;
+using Assets.Scripts.GameMain;
 
 public class LogIn : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class LogIn : MonoBehaviour
     public void logIn()
     {
         webController.w.SignUp(GameObject.Find("Text").GetComponent<Text>().text,Loadscene);
-        
+        AutoCallBacks.self = new Assets.Scripts.Util.User(GameObject.Find("Text").GetComponent<Text>().text);
     }
 
    public void Loadscene(bool succeed, string sender,string msg  )

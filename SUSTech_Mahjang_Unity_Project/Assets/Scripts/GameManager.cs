@@ -32,7 +32,6 @@ public class GameManager : MonoBehaviour
         Camera_win = GameObject.Find("Win Camera");
         Camera_win.SetActive(false);
         AutoCallBacks.playDesk = playDesk;
-		AutoCallBacks.self = new User("a");
 		AutoCallBacks.tileFactory = tileFactory;
 
 		gameStatus = GameStatus.Preparing;

@@ -80,11 +80,12 @@ namespace Assets.Scripts.GameMain
 				if (pair.Value is MainPlayer)
 				{
 					self_seat = (int)pair.Key;
+                    Debug.Log("I am " + self_seat);
 				}
 			}
 
 			if (self_seat < 0)
-				throw new System.Exception("Can't find MainPlayer");
+				Debug.LogError("Can't find MainPlayer");
 
 			foreach (KeyValuePair<Seat, Player> pair in players)
 			{
@@ -103,7 +104,8 @@ namespace Assets.Scripts.GameMain
 						last = pair.Value;
 						break;
 					default:
-						throw new System.Exception("WTF");
+						Debug.LogError("WTF");
+                        break;
 				}
 			}
 
