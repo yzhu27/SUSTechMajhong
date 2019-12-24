@@ -18,6 +18,7 @@ public class WinButton : MonoBehaviour
 
     public void MouseClick()
     {
-
+        GameObject.Find("Main Camera").SetActive(false);
+        GameObject.Find("GameManager").GetComponent<GameManager>().Camera_win.SetActive(true);
     }
 }

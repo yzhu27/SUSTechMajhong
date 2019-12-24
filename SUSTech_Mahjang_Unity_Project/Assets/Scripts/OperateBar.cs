@@ -10,20 +10,20 @@ public class OperateBar : MonoBehaviour
     public void SetActions(HashSet<Action> actions)
     {
 
-        GameObject.Find("Button_Eat").GetComponent<Button>().interactable = actions.Contains(Action.Eat);
-        GameObject.Find("Button_Touch").GetComponent<Button>().interactable = actions.Contains(Action.Touch);
-        GameObject.Find("Button_Rod").GetComponent<Button>().interactable = actions.Contains(Action.Rod);
-        GameObject.Find("Button_Win").GetComponent<Button>().interactable = actions.Contains(Action.Win);
-        GameObject.Find("Button_Swap").GetComponent<Button>().interactable = actions.Contains(Action.Swap);
+        buttonStatus(GameObject.Find("Button_Eat"), actions.Contains(Action.Eat));
+        buttonStatus(GameObject.Find("Button_Touch"), actions.Contains(Action.Touch));
+        buttonStatus(GameObject.Find("Button_Rod"), actions.Contains(Action.Rod));
+        buttonStatus(GameObject.Find("Button_Win"), actions.Contains(Action.Win));
+        buttonStatus(GameObject.Find("Button_Swap"), actions.Contains(Action.Swap));
 
     }
     public void Prohibt()
     {
-        GameObject.Find("Button_Eat").GetComponent<Button>().interactable = false;
-        GameObject.Find("Button_Touch").GetComponent<Button>().interactable = false;
-        GameObject.Find("Button_Rod").GetComponent<Button>().interactable = false;
-        GameObject.Find("Button_Win").GetComponent<Button>().interactable = false;
-        GameObject.Find("Button_Swap").GetComponent<Button>().interactable = false;
+        buttonStatus(GameObject.Find("Button_Eat"), false);
+        buttonStatus(GameObject.Find("Button_Touch"), false);
+        buttonStatus(GameObject.Find("Button_Rod"), false);
+        buttonStatus(GameObject.Find("Button_Win"), false);
+        buttonStatus(GameObject.Find("Button_Swap"), false);
     }
     public void RefreshSon()
     {
@@ -32,10 +32,15 @@ public class OperateBar : MonoBehaviour
         GameObject.Find("Button_Rod").GetComponent<Button>().SendMessage("Refresh");
         GameObject.Find("Button_Swap").GetComponent<Button>().SendMessage("Refresh");
     }
+    public void buttonStatus(GameObject button,bool canuse)
+    {
+        button.GetComponent<Button>().enabled = canuse;
+        button.GetComponent<Button>().interactable = canuse;
 
+    }
     void Start()
     {
-        
+        Prohibt();
     }
 
     // Update is called once per frame

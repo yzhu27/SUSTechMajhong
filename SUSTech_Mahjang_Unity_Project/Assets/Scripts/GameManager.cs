@@ -21,10 +21,14 @@ public class GameManager : MonoBehaviour
 
 	public GameStatus gameStatus { get; private set; }
 
+    public GameObject Camera_win;
+
     // Start is called before the first frame update
     void Start()
     {
-          
+
+        Camera_win = GameObject.Find("Win Camera");
+        Camera_win.SetActive(false);
         AutoCallBacks.playDesk = playDesk;
 		AutoCallBacks.self = new User("a");
 		AutoCallBacks.tileFactory = tileFactory;
