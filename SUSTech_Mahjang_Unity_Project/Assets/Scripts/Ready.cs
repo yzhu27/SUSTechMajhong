@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+
 public class Ready : MonoBehaviour
 {
     WebController webController;
     public bool newmsg = false;
     public bool newReady = false;
+    public bool enterGame = false;
     string[] Usernames ;
     int[] ReadyUser = new int[4];
+    
    public void Onclick()
     {
         if(GameObject.Find("Ready_Text").GetComponent<Text>().text == "取消准备")
@@ -57,7 +61,7 @@ public class Ready : MonoBehaviour
             string[] names = msg.Split(' ');
             if(names.Length == 4)
             {
-                SceneManager.LoadScene("SampleScene");
+                enterGame = true;
             }
             foreach(string ready in names)
             {
@@ -98,11 +102,15 @@ public class Ready : MonoBehaviour
                 if (ReadyUser[i] == 1)
                 {
                     string player = "Player" + (i + 1).ToString() + "_Ready";
-                   
+                    Debug.Log(player);
                     GameObject.Find(player).GetComponent<Text>().text ="已准备";
                 }
                 newReady = false;
             }
+        }
+        if (enterGame)
+        {
+            SceneManager.LoadScene("SampleScene");
         }
     }
 }
