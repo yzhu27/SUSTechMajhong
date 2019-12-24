@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject.Find("WebController").GetComponent<WebController>().w.LoadReady();
+        
         Camera_win = GameObject.Find("Win Camera");
         Camera_win.SetActive(false);
         AutoCallBacks.playDesk = playDesk;
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
 		AutoCallBacks.tileFactory = tileFactory;
 
 		gameStatus = GameStatus.Preparing;
-       
+
         //GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("setPlayer", playDesk.self);
         //GameObject.Find("HandTile (1)").GetComponent<HandTileOthers>().SendMessage("setPlayer", playDesk.next);
         //GameObject.Find("HandTile (2)").GetComponent<HandTileOthers>().SendMessage("setPlayer", playDesk.opposite);
@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
         //int[] handtile = { 0xf0230, 0xf0230 , 0xf0230 ,0x30000,0x20000,0xf0220,0xf0210,0x30000, 0x20000, 0xf0220, 0xf0210 ,0x10000, 0x10000 };
 
         // Debug.Log(tilePool.PoolToString());
-
+        GameObject.Find("WebController").GetComponent<WebController>().register = false;
 
     }
 

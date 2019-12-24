@@ -30,7 +30,7 @@ public class WebController : MonoBehaviour
 	public List<Tile> setInitHiden;
 
 	private Queue<WebEvent> webEvents;
-	private bool register = true;
+	public bool register = true;
     private bool inGame = false;
 
      void Awake()
@@ -55,7 +55,8 @@ public class WebController : MonoBehaviour
 			playDesk.webController = this;
             register = true;
             inGame = true;
-		}
+            w.LoadReady();
+        }
 
         w.OnUpdate();
 
