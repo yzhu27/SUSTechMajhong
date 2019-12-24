@@ -106,6 +106,12 @@ namespace Assets.Scripts.Web
             client.Send("/app/room.ready", JsonConvert.SerializeObject(new SendMessage(userName, room, "")));
         }
 
+		public void LoadReady()
+		{
+			client.Send("/app/room.ready", JsonConvert.SerializeObject(new SendMessage(
+				userName, room, "BackgroundLoadReady")));
+		}
+
 		public void Login()
 		{
             if (userName == null)
