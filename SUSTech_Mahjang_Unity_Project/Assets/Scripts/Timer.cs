@@ -6,38 +6,45 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    public int time = 15;
+    private int time = 15;
+    bool play = false;
     public void startTimer()
     {
-        Debug.Log(time);
+     
         InvokeRepeating("changeNumber", 1, 1);
         
     }
 
     public void stopTimer()
     {
-        Debug.Log("use1");
+
         CancelInvoke("changeNumber");
         Reset();
     }
 
     public void changeNumber()
     {
-        if (time == 0)
+        if (time == 0 && !play)
         {
             stopTimer();
             List<Tile> temp = GameObject.Find("HandTile").GetComponent<HandTile>().myplayer.hand;
             GameObject.Find("WebController").GetComponent<WebController>().w.Play(temp[temp.Count - 1].id);
-            
+            play = true;
+            return;
         }
-        GetComponentInParent<Text>().text = time.ToString();
-        time--;
+        if (!play)
+        {
+            GetComponentInParent<Text>().text = time.ToString();
+            time--;
+        }
+        
     }
 
     public void Reset()
     {
         GetComponentInParent<Text>().text = "";
         time = 15;
+        play = false;
     }
     // Start is called before the first frame update
     void Start()
