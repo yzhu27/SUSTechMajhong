@@ -180,6 +180,12 @@ namespace Assets.Scripts.GameMain
                 "HandTile",
                 "StartPlay"
                  ));
+                webController.Enqueue(new WebEvent(
+                "Timer",
+                "Timer",
+                "startTimer"
+                 ));
+              
                 self.GetActionsOnPlay();
                 
             }
