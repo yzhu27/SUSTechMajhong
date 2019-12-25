@@ -129,16 +129,20 @@ namespace Assets.Scripts.GameMain
 			switch (current)
 			{
 				case Seat.Self:
-					Assert.IsTrue(msg == self.name);
+					if (msg != self.name)
+						Debug.LogError("turn error\nlocal: " + self.name + ", server: " + msg);
 					break;
 				case Seat.Next:
-					Assert.IsTrue(msg == playDesk.next.name);
+					if (msg != playDesk.next.name)
+						Debug.LogError("turn error\nlocal: " + playDesk.next.name + ", server: " + msg);
 					break;
 				case Seat.Oppo:
-					Assert.IsTrue(msg == playDesk.opposite.name);
+					if (msg != playDesk.opposite.name)
+						Debug.LogError("turn error\nlocal: " + playDesk.opposite.name + ", server: " + msg);
 					break;
 				case Seat.Last:
-					Assert.IsTrue(msg == playDesk.last.name);
+					if (msg != playDesk.last.name)
+						Debug.LogError("turn error\nlocal: " + playDesk.last.name + ", server: " + msg);
 					break;
 			}
 		}
