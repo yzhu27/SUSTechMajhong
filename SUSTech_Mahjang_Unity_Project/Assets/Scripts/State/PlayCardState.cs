@@ -23,15 +23,7 @@ public class PlayCardState : State
     }
     public override void OnMouseExit(GameObject tile)
     {
-        if (downPosition.x != tile.transform.position.x)
-        {
-            tile.transform.position = GameObject.Find("HandTile").GetComponent<HandTile>().getposition(tile);
-        }
-        else
-        {
-            tile.transform.position = downPosition;
-        }
-        
+        tile.transform.position = GameObject.Find("HandTile").GetComponent<HandTile>().getposition(tile);                
     }
 
     public override void Lightup(GameObject tile)

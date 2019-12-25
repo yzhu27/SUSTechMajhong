@@ -10,7 +10,7 @@ public class Timer : MonoBehaviour
     bool play = false;
     public void startTimer()
     {
-     
+        play = false;
         InvokeRepeating("changeNumber", 1, 1);
         
     }
@@ -44,7 +44,7 @@ public class Timer : MonoBehaviour
     {
         GetComponentInParent<Text>().text = "";
         time = 15;
-        play = false;
+        
     }
     // Start is called before the first frame update
     void Start()
