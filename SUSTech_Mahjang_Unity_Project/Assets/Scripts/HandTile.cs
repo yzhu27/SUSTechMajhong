@@ -49,31 +49,22 @@ public class HandTile : MonoBehaviour
 
     public void StartEat()
     {
-        Debug.Log("Start Eat:");
-        foreach (Tile tile in ChoosedTiles)
-        {
-            Debug.Log(tile);
-        }
+        
         HashSet<Tile> tiles = myplayer.GetResponseTiles(Action.Eat, ChoosedTiles);
         foreach (GameObject tile in handTile)
         {
-            if (tiles.Contains(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile))
+            if (tiles.Contains(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile))                
             {
                 tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetEatState");
+            }
+            else if (ChoosedTiles.Contains(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile))
+            {
+                tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().Lightup();
             }
             else
             {
                 tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
 
-                foreach (Tile choosed in ChoosedTiles)
-                {
-                    if(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile.id == choosed.id)
-                    {
-                        tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetEatState");
-                        break;
-                    }
-                }
-                              
             }
         }
         
@@ -103,17 +94,14 @@ public class HandTile : MonoBehaviour
             {
                 tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetTouchState");
             }
+            else if (ChoosedTiles.Contains(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile))
+            {
+                tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().Lightup();
+            }
             else
             {
                 tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
-                foreach (Tile choosed in ChoosedTiles)
-                {
-                    if (tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile.id == choosed.id)
-                    {
-                        tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetTouchState");
-                        break;
-                    }
-                }
+
             }
         }
         // List<Tile> tiles;
@@ -152,17 +140,14 @@ public class HandTile : MonoBehaviour
             {
                 tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetRodState");
             }
+            else if (ChoosedTiles.Contains(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile))
+            {
+                tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().Lightup();
+            }
             else
             {
                 tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
-                foreach (Tile choosed in ChoosedTiles)
-                {
-                    if (tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile.id == choosed.id)
-                    {
-                        tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetRodState");
-                        break;
-                    }
-                }
+
             }
         }
         // List<Tile> tiles;
