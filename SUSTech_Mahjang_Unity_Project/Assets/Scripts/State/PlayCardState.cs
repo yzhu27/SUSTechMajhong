@@ -20,15 +20,16 @@ public class PlayCardState : State
         }
         GameObject.Find("WebController").GetComponent<WebController>().w.Play(temp.id);
         GameObject.Find("Timer").GetComponent<Timer>().stopTimer();
-        
-        
+
+        GameObject.Find("Background Camera").GetComponent<AudioManager>().PlayTilePlaySound();
     }
     public override void OnMouseEnter(GameObject tile)
     {
         
         upPosition = tile.transform.position + upDistance;
         tile.transform.position = upPosition;
-        
+        GameObject.Find("Background Camera").GetComponent<AudioManager>().PlayTileEnterSound();
+
     }
     public override void OnMouseExit(GameObject tile)
     {

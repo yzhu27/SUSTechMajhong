@@ -29,6 +29,7 @@ public class HideState : State
         {
             tile.transform.rotation = Quaternion.Euler(180f, 0f, 0f);
             tile.transform.position += upDistance - new Vector3(0f, 0.001f, 0f);
+            GameObject.Find("Background Camera").GetComponent<AudioManager>().PlayTileEnterSound();
         }
        
     }

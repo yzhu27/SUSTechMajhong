@@ -83,7 +83,7 @@ public class TileScript : MonoBehaviour
     OnMouseEnter()
     {
         tileState.OnMouseEnter(gameObject);
-        GameObject.Find("AudioManager").GetComponent<AudioManager>().PlaySound("Sounds/DM-CGS-21.wav");
+        
     }
 
     private void /// <summary>

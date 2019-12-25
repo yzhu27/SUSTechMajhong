@@ -30,6 +30,7 @@ public class RodState : State
         {
             upPosition = tile.transform.position + upDistance;
             tile.transform.position = upPosition;
+            GameObject.Find("Background Camera").GetComponent<AudioManager>().PlayTileEnterSound();
         }
 
     }

@@ -9,12 +9,12 @@ public class AudioManager : MonoBehaviour
     //音乐播放器
     public AudioSource MusicPlayer;
     //音效播放器
-    public AudioSource SoundPlayer;
+    public AudioSource TileEnterSoundPlayer;
+
+    public AudioSource TilePlaySoundPlayer;
     void Start()
     {
         Am = this;
-        MusicPlayer = new AudioSource();
-        SoundPlayer = new AudioSource();
     }
 
     // Update is called once per frame
@@ -24,23 +24,26 @@ public class AudioManager : MonoBehaviour
     }
 
     //播放音乐
-    public void PlayMusic(string name)
+    public void PlayMusic()
     {
         if (MusicPlayer.isPlaying == false)
         {
-            AudioClip clip = Resources.Load<AudioClip>(name);
-            MusicPlayer.clip = clip;
             MusicPlayer.Play();
         }
 
     }
 
     //播放音效
-    public void PlaySound(string name)
+    public void PlayTileEnterSound()
     {
-        AudioClip clip = Resources.Load<AudioClip>(name);
-        SoundPlayer.clip = clip;
-        SoundPlayer.PlayOneShot(clip);
+        TileEnterSoundPlayer.Play();
+    }
+
+
+
+    public void PlayTilePlaySound()
+    {
+        TilePlaySoundPlayer.Play();
     }
 }
 

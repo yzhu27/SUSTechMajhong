@@ -29,6 +29,7 @@ public class SwapState : State
             upPosition = tile.transform.position + upDistance;
             downPosition = tile.transform.position;
             tile.transform.position = upPosition;
+            GameObject.Find("Background Camera").GetComponent<AudioManager>().PlayTileEnterSound();
         }
             
     }
