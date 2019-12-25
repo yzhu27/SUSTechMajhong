@@ -42,9 +42,19 @@ public class HandTileOthers : MonoBehaviour
     
         for(int i = 0; i < handTile.Count; i++)
         {
-            handTile[i].transform.rotation = Quaternion.Euler(90f, 0f, 0f);
-            Debug.Log(Path.ImgPathOfTile("TileFront", myplayer.hand[i]));
-            Debug.Log(myplayer.hand[i]);
+            if(myplayer.seat == Seat.Oppo)
+            {
+                handTile[i].transform.rotation = Quaternion.Euler(90f, 180f, 0f);
+            }else if(myplayer.seat == Seat.Last)
+            {
+                handTile[i].transform.rotation = Quaternion.Euler(90f, 90f, 0f);
+            }
+            else
+            {
+                handTile[i].transform.rotation = Quaternion.Euler(90f, -90f, 0f);
+            }
+            
+            
             handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<AddTileFront>().SendMessage("addTileFront", Path.ImgPathOfTile("TileFront", myplayer.hand[i]));
         }
     }
