@@ -18,6 +18,9 @@ public class AddTileFront : MonoBehaviour
         tr.localScale = new Vector3(x / tex.width, y / tex.height, 1);
     }
 
+    
+
+
     // Start is called before the first frame update
     void Start()
     {
