@@ -19,11 +19,11 @@ public class OperateBar : MonoBehaviour
     }
     public void Prohibt()
     {
-        /*buttonStatus(GameObject.Find("Button_Eat"), false);
+        buttonStatus(GameObject.Find("Button_Eat"), false);
         buttonStatus(GameObject.Find("Button_Touch"), false);
         buttonStatus(GameObject.Find("Button_Rod"), false);
         buttonStatus(GameObject.Find("Button_Win"), false);
-        buttonStatus(GameObject.Find("Button_Swap"), false);*/
+        buttonStatus(GameObject.Find("Button_Swap"), false);
     }
     public void RefreshSon()
     {
