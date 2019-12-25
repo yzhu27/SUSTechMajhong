@@ -5,16 +5,12 @@ using Assets.Scripts.GameMain;
 
 public class TileScript : MonoBehaviour
 {
-    public AudioClip mouseEnterSound;
-   
     /// <summary>
     /// represent whether the tile is clicked
     /// </summary>
     public Tile tile ;
 
     public State tileState;
-
-    private AudioSource AudioSource;
 
     public void SetEatState()
     {
@@ -64,7 +60,6 @@ public class TileScript : MonoBehaviour
     void Start()
     {
         SetProhibitedState();
-        AudioSource = GetComponent<AudioSource>();
     }
 
     public void Lightup()
@@ -88,7 +83,7 @@ public class TileScript : MonoBehaviour
     OnMouseEnter()
     {
         tileState.OnMouseEnter(gameObject);
-        AudioSource.PlayOneShot(mouseEnterSound);
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().PlaySound("Sounds/DM-CGS-21.wav");
     }
 
     private void /// <summary>
