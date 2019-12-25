@@ -33,8 +33,8 @@ public class GameManager : MonoBehaviour
         Camera_win.SetActive(false);
         AutoCallBacks.playDesk = playDesk;
 		AutoCallBacks.tileFactory = tileFactory;
-
-		gameStatus = GameStatus.Preparing;
+       
+        gameStatus = GameStatus.Preparing;
 
         //GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("setPlayer", playDesk.self);
         //GameObject.Find("HandTile (1)").GetComponent<HandTileOthers>().SendMessage("setPlayer", playDesk.next);

@@ -43,6 +43,8 @@ public class HandTileOthers : MonoBehaviour
         for(int i = 0; i < handTile.Count; i++)
         {
             handTile[i].transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+            Debug.Log(Path.ImgPathOfTile("TileFront", myplayer.hand[i]));
+            Debug.Log(myplayer.hand[i]);
             handTile[i].GetComponentsInChildren<Transform>()[2].GetComponent<AddTileFront>().SendMessage("addTileFront", Path.ImgPathOfTile("TileFront", myplayer.hand[i]));
         }
     }
