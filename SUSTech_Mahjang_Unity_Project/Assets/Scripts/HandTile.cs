@@ -49,7 +49,11 @@ public class HandTile : MonoBehaviour
 
     public void StartEat()
     {
-       
+        Debug.Log("Start Eat:");
+        foreach (Tile tile in ChoosedTiles)
+        {
+            Debug.Log(tile);
+        }
         HashSet<Tile> tiles = myplayer.GetResponseTiles(Action.Eat, ChoosedTiles);
         foreach (GameObject tile in handTile)
         {
