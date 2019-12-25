@@ -36,7 +36,8 @@ namespace Assets.Scripts.GameMain
 			{"rod", AcceptResponseRod},
 			{"selfRod", AcceptSelfRod},
 			{"selfRodDraw", RodDraw},
-			{"winnerTiles", PlayerWin}
+			{"winnerTiles", PlayerWin},
+			{"exit", Exit}
 		};
 
 		public static void SetPlayerSeqNum(bool succeed, string sender, string msg)
@@ -428,6 +429,11 @@ namespace Assets.Scripts.GameMain
 			}
 			else
 				Debug.LogError("Unknown player " + sender);
+		}
+
+		public static void Exit(bool succeed, string sender, string msg)
+		{
+			Debug.LogError(sender + " exited");
 		}
 	}
 }
