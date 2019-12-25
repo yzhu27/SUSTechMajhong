@@ -418,19 +418,222 @@ namespace Assets.Scripts.Util
 		/// <returns></returns>
 		public static bool BasicCanWin(List<Tile> hand_tile)
 		{
+			Debug.Log("Calculating win");
+			List<Tile> tiles = new List<Tile>(hand_tile);
+
 			int king_count = 0;
-			List<Tile> db = new List<Tile>();
-			int check_0 = 0;
-			
+
 			while (hand_tile[king_count].GetSpecial() == Special.King)
 			{
 				king_count++;
 			}
 
-			// king limit
 			if (king_count > 1)
 				return false;
 
+			switch (king_count)
+			{
+				case 0:
+					return CanWinWithoutKing(tiles);
+				case 1:
+					return CanWinWithKingCount(tiles.GetRange(king_count, tiles.Count - king_count), king_count);
+				default:
+					return false;
+			}
+		}
+
+		private static bool CanWinWithoutKing(List<Tile> tiles)
+		{
+			for (int i = 0; i < tiles.Count - 1; i++)
+			{
+				if (tiles[i+1] == tiles[i]
+					&& (tiles[i].GetSeq() == 2
+					|| tiles[i].GetSeq() == 5
+					|| tiles[i].GetSeq() == 8)
+				)
+				{
+					Debug.Log("using " + tiles[i] + " " + tiles[i + 1] + " as jiang");
+					List<Tile> tiles1 = new List<Tile>(tiles);
+					tiles1.RemoveRange(i, 2);
+					if (CanWinExceptJiang(tiles1, 0))
+						return true;
+				}
+			}
+			return false;
+		}
+
+		private static bool CanWinWithKingCount(List<Tile> tiles, int king_count)
+		{
+			if (king_count == 1)
+			{
+				for (int i = 0; i < tiles.Count; i++)
+				{
+					if
+					(
+						tiles[i].GetSeq() == 2
+						|| tiles[i].GetSeq() == 5
+						|| tiles[i].GetSeq() == 8
+					)
+					{
+						Debug.Log("using " + tiles[i] + " as jiang");
+						List<Tile> tiles1 = new List<Tile>(tiles);
+						tiles1.RemoveAt(i);
+						if (CanWinExceptJiang(tiles1, 0))
+							return true;
+					}
+				}
+				for (int i = 0; i < tiles.Count - 1; i++)
+				{
+					if (tiles[i + 1] == tiles[i]
+						&& (tiles[i].GetSeq() == 2
+						|| tiles[i].GetSeq() == 5
+						|| tiles[i].GetSeq() == 8)
+					)
+					{
+						Debug.Log("using " + tiles[i] + " " + tiles[i + 1] + " as jiang");
+						List<Tile> tiles1 = new List<Tile>(tiles);
+						tiles1.RemoveRange(i, 2);
+						if (CanWinExceptJiang(tiles1, 1))
+							return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		public static bool CanWinExceptJiang(List<Tile> tiles, int king_count)
+		{
+			int total = tiles.Count + king_count;
+
+			if (total % 3 != 0)
+				Debug.LogError("Wrong count");
+
+			int pair = total / 3;
+
+			// i touches
+			for (int i = 0; i <= pair; i++)
+			{
+				List<Tile> tiles1 = new List<Tile>(tiles);
+				int king_remain = king_count;
+
+				int start;
+				int touches = 0;
+
+				Debug.Log("trying " + i + " touch");
+
+				// try touch without kings
+				start = 0;
+				while (touches < i && start < tiles1.Count - 2)
+				{
+					if (IsPair(new List<Tile>() { tiles1[start], tiles1[start + 1], tiles1[start + 2] }))
+					{
+						Debug.Log("remove " + tiles1[start] + " " + tiles1[start + 1] + " " + tiles1[start + 2] + " as touch");
+						tiles1.RemoveRange(start, 3);
+						touches++;
+					}
+					else
+						start++;
+				}
+
+				// try touch with one king
+				start = 0;
+				while (touches < i && start < tiles1.Count - 1)
+				{
+					// Debug.Log("compairing " + tiles1[start] + " " + tiles1[start + 1] + ", " + king_remain + " king remains");
+					if (king_remain >= 1 && tiles1[start] == tiles1[start + 1])
+					{
+						Debug.Log("remove " + tiles1[start] + " " + tiles1[start + 1] + " as touch");
+						tiles1.RemoveRange(start, 2);
+						touches++;
+						king_remain--;
+					}
+					else
+						start++;
+				}
+
+				// try touch with two kings
+				start = 0;
+				while (touches < i && start < tiles1.Count)
+				{
+					if (king_remain >= 2)
+					{
+						Debug.Log("remove " + tiles1[start] + " as touch");
+						tiles1.RemoveAt(start);
+						touches++;
+						king_remain -= 2;
+					}
+					else
+						start++;
+				}
+
+				// three kings
+				while (touches < i && king_remain >= 3)
+				{
+					touches++;
+					king_remain -= 3;
+				}
+
+				// sentences
+				if (touches == i)
+				{
+					// no king
+					for (start = 0; start < tiles1.Count - 2; start++)
+					{
+						for (int j = start + 1; j < tiles1.Count - 1; j++)
+						{
+							for (int k = j + 1; k < tiles1.Count;)
+							{
+								if (IsSentence(new List<Tile>() { tiles1[start], tiles1[j], tiles1[k] }))
+								{
+									Debug.Log("remove " + tiles1[start] + " " + tiles1[j] + " " + tiles1[k] + " as sentence");
+									tiles1.RemoveAt(k);
+									tiles1.RemoveAt(j);
+									tiles1.RemoveAt(start);
+
+									j -= 1;
+									k -= 2;
+								}
+								else
+									k++;
+							}
+						}
+					}
+					if (tiles1.Count == 0)
+						return true;
+
+					// one king
+					for (start = 0; start < tiles1.Count - 1 && king_remain >= 1; start++)
+					{
+						for (int j = start + 1; j < tiles1.Count && king_remain >= 1;)
+						{
+							// Debug.Log("compairing " + tiles1[start] + " " + tiles1[j] + ", " + king_remain + " king remains");
+							if (
+								tiles1[start].GetSpecial() == Special.None &&
+								tiles1[j].GetSpecial() == Special.None &&
+								tiles1[start].GetDepartment() == tiles1[j].GetDepartment() &&
+								(
+									tiles1[start].GetSeq() + 1 == tiles1[j].GetSeq() ||
+									tiles1[start].GetSeq() + 2 == tiles1[j].GetSeq()
+								)
+							){
+								Debug.Log("remove " + tiles1[start] + " " + tiles1[j] + " as sentence");
+								tiles1.RemoveAt(j);
+								tiles1.RemoveAt(start);
+								king_remain--;
+
+								j--;
+							}
+							else
+								j++;
+						}
+					}
+					if (tiles1.Count == 0)
+					{
+						return true;
+					}
+				}
+			}
 
 			return false;
 		}

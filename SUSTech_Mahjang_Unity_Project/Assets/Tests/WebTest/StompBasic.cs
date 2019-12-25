@@ -16,9 +16,21 @@ namespace Tests
         [Test]
         public void StompBasicSimplePasses()
         {
-            // 983584 983585 983139
-            HashSet<Tile> tiles = Rule.GetEatableTiles(new Tile(983139), new List<Tile>() { new Tile(983585), new Tile(983584) });
-            Assert.IsNull(tiles);
+			List<Tile> tiles = new List<Tile>()
+			{
+				new Tile(0x00000),
+				new Tile(0xf0010),
+				new Tile(0xf0021),
+				new Tile(0xf0022),
+				new Tile(0xf0030),
+				new Tile(0xf0031),
+				//new Tile(0xf0032),
+				new Tile(0xf0042),
+				//new Tile(0xf0043),
+				//new Tile(0xf0050),
+				new Tile(0xf0053),
+			};
+			Debug.Log(Rule.BasicCanWin(tiles));
         }
 
         // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
