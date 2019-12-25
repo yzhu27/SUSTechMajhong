@@ -26,14 +26,21 @@ public class EatState: State
     }
     public override void OnMouseEnter(GameObject tile)
     {
-        upPosition = tile.transform.position + upDistance;
-        downPosition = tile.transform.position;
-        tile.transform.position = upPosition;
+        if (!choosed)
+        {
+            upPosition = tile.transform.position + upDistance;
+            tile.transform.position = upPosition;
+        }
+            
     }
     public override void OnMouseExit(GameObject tile)
     {
-        if(!choosed)
-        tile.transform.position = downPosition;
+        if (!choosed)
+        {
+            GameObject.Find("HandTile").GetComponent<HandTile>().CheckPositions();
+            tile.transform.position = new Vector3(tile.transform.position.x, 3.024994f, tile.transform.position.z);
+        }
+        
     }
     public override void Lightup(GameObject tile)
     {
