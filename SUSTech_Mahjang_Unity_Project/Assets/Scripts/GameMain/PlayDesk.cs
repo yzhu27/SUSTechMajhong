@@ -172,6 +172,7 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		public void OnStart()
 		{
+			Debug.Log("Round start: " + roundPlayer.ToString());
             // script what happens to the playdesk when player start round
             if (roundPlayer == Seat.Self)
             {
@@ -187,7 +188,6 @@ namespace Assets.Scripts.GameMain
                  ));
               
                 self.GetActionsOnPlay();
-                
             }
 		}
 
@@ -223,6 +223,7 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		public void OnResponse()
 		{
+			Debug.Log("Response begin: " + roundPlayer.ToString());
             // script what happens to the playdesk after player plays a tile then Response begin
              self.GetActionsOnResponse();
 
@@ -233,6 +234,7 @@ namespace Assets.Scripts.GameMain
 		/// </summary>
 		public void OnFinish()
 		{
+			Debug.Log("Response finish: " + roundPlayer.ToString());
             // script what happens to the playdesk when round finished without being resopnced
             webController.Enqueue(new WebEvent(
                 "OperateBar",
@@ -248,6 +250,7 @@ namespace Assets.Scripts.GameMain
 		/// <param name="Response_player"></param>
 		public void OnFinish(Seat Response_player)
 		{
+			Debug.Log("Responsed by " + Response_player.ToString() + ": " + roundPlayer.ToString());
 			// script what happens to the playdesk when player resopnced a tile
 
 			gameState.OnFinish(Response_player);

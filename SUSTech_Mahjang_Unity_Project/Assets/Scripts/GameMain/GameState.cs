@@ -61,7 +61,7 @@ namespace Assets.Scripts.GameMain
 			this.stage = stage;
 			lastPlayedTile = null;
 
-            Debug.Log("Round " + round + ", player " + turn.ToString() + " stage " + stage);
+            // Debug.Log("Round " + round + ", player " + turn.ToString() + " stage " + stage);
         }
 
 		/// <summary>
@@ -78,7 +78,7 @@ namespace Assets.Scripts.GameMain
 
 			lastPlayedTile = tile;
 
-            Debug.Log("Round " + round + ", player " + turn.ToString() + " stage " + stage);
+            // Debug.Log("Round " + round + ", player " + turn.ToString() + " stage " + stage);
 		}
 
 		/// <summary>
@@ -91,7 +91,7 @@ namespace Assets.Scripts.GameMain
 			else
 				OnFinish(turn + 1);
 
-            Debug.Log("Round " + round + ", player " + turn.ToString() + " stage " + stage);
+            // Debug.Log("Round " + round + ", player " + turn.ToString() + " stage " + stage);
         }
 
 		/// <summary>
@@ -108,7 +108,7 @@ namespace Assets.Scripts.GameMain
 
 			stage = Stage.Main;
 
-            Debug.Log("Round " + round + ", player " + turn.ToString() + " stage " + stage);
+            // Debug.Log("Round " + round + ", player " + turn.ToString() + " stage " + stage);
         }
 	}
 }
