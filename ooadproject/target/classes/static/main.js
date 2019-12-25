@@ -68,7 +68,7 @@ function getPlayer(){
 }
 function loginMessage(payload){
     var message = JSON.parse(payload.body);
-    if(message.type==="Accept"){
+    if(message.type==="Accept-login"){
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
         //公共频道

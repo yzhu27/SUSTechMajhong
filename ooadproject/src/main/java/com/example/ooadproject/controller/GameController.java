@@ -24,16 +24,15 @@ import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 import org.springframework.web.util.HtmlUtils;
-
 import java.net.InetAddress;
 import java.util.*;
 
 @Controller
-public class RoomController {
+public class GameController {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RoomController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
 
     @Value("${redis.channel.msgToAll}")
     private String msgToAll;
@@ -63,6 +62,8 @@ public class RoomController {
         }
     }
 
+
+    //玩家登录
     @MessageMapping("/hello/{username}")
     public void usertest(@DestinationVariable String username, StompHeaderAccessor headerAccessor, RequestMessage requestMessage) {
         try {
@@ -70,19 +71,18 @@ public class RoomController {
             String type = requestMessage.getType();
             String content = requestMessage.getContent();
             if (userlist.containsKey(sender)) {
-                LOGGER.info("Reject-login");
+                //用户名已经存在
+                String sessionId = headerAccessor.getSessionId();
+                LOGGER.info("Reject-login: "+sessionId+"想要以用户名"+sender+"登录，用户名已经存在");
                 type = "Reject-login";
                 content = "sorry 用户名已经存在";
             } else {
-                LOGGER.info("Accept-login");
+                //登录成功
+                LOGGER.info("Accept-login: 玩家"+sender+"登录成功");
                 userlist.put(sender, "NoRoom");
-                LOGGER.info(userlist.get(sender));
                 type = "Accept-login";
                 content = sender;
-
                 headerAccessor.getSessionAttributes().put("username", requestMessage.getSender());
-                String sessionId = headerAccessor.getSessionId();
-                LOGGER.info("login " + sessionId + " " + sender);
                 redisTemplate.opsForSet().add(onlineUsers, username);
                 redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(requestMessage));
             }
@@ -90,7 +90,7 @@ public class RoomController {
             for (String un : userlist.keySet()) {
                 test += (un + " ");
             }
-            LOGGER.info("userlist: " + test);
+            LOGGER.info("userlist: 当前在线玩家 " + test);
             ResponseMessage responseMessage = new ResponseMessage("Server", type, content);
             messagingTemplate.convertAndSendToUser(username, "/greetings", responseMessage);
         } catch (Exception e) {
@@ -151,6 +151,7 @@ public class RoomController {
 
     }
 
+    //单人麻将测试
     @MessageMapping("/room.addUserSingleTest")
     public void addUserTest(@Payload RequestMessage requestMessage, StompHeaderAccessor headerAccessor) {
         try {
@@ -160,6 +161,7 @@ public class RoomController {
             String room = requestMessage.getRoom();
             headerAccessor.getSessionAttributes().put("username", requestMessage.getSender());
             userlist.put(sender, room);
+            //room 1 玩家 a b c d
             PlayDesk temp = new PlayDesk();
             Player a = new Player();
             a.setUsername(sender);
@@ -173,6 +175,7 @@ public class RoomController {
             Player d = new Player();
             d.setUsername("d");
             temp.getPlayerslist().add(d);
+            //生成牌堆
             temp.initial();
             LOGGER.info("PlayDesk initial");
 
@@ -215,6 +218,7 @@ public class RoomController {
         }
     }
 
+    //单人麻将测试 跳过机器人回合
     @MessageMapping("/room.nextSingleTest")
     public void next(@Payload RequestMessage requestMessage) {
         try {
@@ -255,6 +259,8 @@ public class RoomController {
         }
     }
 
+
+    //用户加入房间
     @MessageMapping("/room.addUser")
     public void addUser(@Payload RequestMessage requestMessage) {
         try {
@@ -267,7 +273,7 @@ public class RoomController {
             if (roomlist.containsKey(room)) {
                 PlayDesk current = roomlist.get(room);
                 List<Player> userlistTemp = current.getPlayerslist();
-                if (userlist.size() < 4) {
+                if (userlistTemp.size() < 4) {
                     userlist.replace(sender, room);
                     Player temp = new Player();
                     temp.setUsername(sender);
@@ -276,11 +282,7 @@ public class RoomController {
                     responseMessage.setType("Accept-room.addUser");
                     String content = "";
                     for (int i = 0; i < userlistTemp.size(); i++) {
-                        if (i == userlistTemp.size() - 1) {
-                            content = content + userlistTemp.get(i).getUsername();
-                        } else {
-                            content = content + userlistTemp.get(i).getUsername() + " ";
-                        }
+                        content = content + userlistTemp.get(i).getUsername() + " ";
                     }
                     String ready = "";
                     for (Player player : current.getPlayerslist()) {
@@ -288,9 +290,11 @@ public class RoomController {
                             ready = ready + player.getUsername() + " ";
                         }
                     }
+                    LOGGER.info("玩家"+sender+"加入房间"+room+" 当前房间内玩家"+content + " ,当前已准备玩家 " + ready);
                     responseMessage.setContent(content.trim() + "," + ready.trim());
                     messagingTemplate.convertAndSend("/topic/" + room, responseMessage);
                 } else {
+                    LOGGER.info("玩家"+sender+"加入房间"+room+"失败，房间已满");
                     responseMessage.setType("Reject-room.addUser");
                     responseMessage.setContent("Room is full");
                     messagingTemplate.convertAndSendToUser(sender, "/chat", responseMessage);
@@ -309,12 +313,11 @@ public class RoomController {
                 for (Player player : current.getPlayerslist()) {
                     content = content + player.getUsername() + " ";
                 }
-
+                LOGGER.info("玩家"+sender+"加入房间"+room+" 当前房间内玩家 "+content);
                 responseMessage.setContent(content.trim() + ",");
                 messagingTemplate.convertAndSend("/topic/" + room, responseMessage);
             }
 
-            //如果找到 更新对应room的ready情况 sender path
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }
@@ -328,18 +331,25 @@ public class RoomController {
             String sender = requestMessage.getSender();
             String room = requestMessage.getRoom();
             PlayDesk temp = roomlist.get(room);
-            if (temp != null || !room.equals("NoRoom")) {
+            if (temp != null && !room.equals("NoRoom")) {
                 for (int i = 0; i < temp.getPlayerslist().size(); i++) {
                     if (temp.getPlayerslist().get(i).getUsername().equals(sender)) {
                         temp.getPlayerslist().remove(i);
                         break;
                     }
                 }
+                LOGGER.info("Accept-deleteUser: 玩家"+sender+"离开房间"+room);
                 ResponseMessage responseMessage = new ResponseMessage();
                 responseMessage.setSender("Server");
                 responseMessage.setType("Accept-deleteUser");
                 responseMessage.setContent(sender + " left");
                 messagingTemplate.convertAndSendToUser(sender, "/chat", responseMessage);
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                messagingTemplate.convertAndSend("/topic/"+room,new ResponseMessage(sender,"exit",""));
                 if (temp.getPlayerslist().size() == 0) {
                     roomlist.remove(room);
                 }
@@ -372,101 +382,104 @@ public class RoomController {
         }
     }
 
+    //玩家准备
     @MessageMapping("/room.ready")
     public void roomReady(@Payload RequestMessage requestMessage) {
+        try {
+            LOGGER.info("/room.ready");
+            String sender = requestMessage.getSender();
+            String room = requestMessage.getRoom();
+            String type = requestMessage.getType();
 
-        //得到sender和room 更新对应room的playdesk的 判断ready
-        LOGGER.info("/room.ready");
-        String sender = requestMessage.getSender();
-        String room = requestMessage.getRoom();
-        String type = requestMessage.getType();
-
-        PlayDesk temp = roomlist.get(room);
-        if (type.equals("initialDarwReady")) {
-
-            for (Player player : temp.getPlayerslist()) {
-                if (sender.equals(player.getUsername())) {
-                    player.setInitialDrawReady(true);
-                }
-            }
-            boolean allReady = true;
-            for (Player player : temp.getPlayerslist()
-            ) {
-                if (!player.isInitialDrawReady()) {
-                    allReady = false;
-                }
-            }
-            String content = requestMessage.getContent();
-            if (content.equals("yes")) {
-                LOGGER.info("/room.ready for single Test!");
-                allReady = true;
-            }
-            if (allReady) {
-                LOGGER.info("Receive 4 players' initial draw response");
-                ResponseMessage responseMessage = new ResponseMessage();
-                responseMessage.setSender("Server");
-                responseMessage.setType("CurrentPlayer");
-                LOGGER.info("Round: " + temp.getRoundNum() + " Current player: " + temp.getCurrentPlayer());
-                requestMessage.setSender(temp.getCurrentPlayer());
-                responseMessage.setSender(temp.getCurrentPlayer());
-                messagingTemplate.convertAndSend("/topic/" + room, responseMessage);
-                LOGGER.info("Player " + temp.getCurrentPlayer() + " draw");
-                responseMessage.setType("PlayerDraw");
-                responseMessage.setContent("" + temp.playerDraw(temp.getCurrentPlayer()));
-                messagingTemplate.convertAndSendToUser(temp.getCurrentPlayer(), "/chat", responseMessage);
-            }
-        } else if (type.equals("BackgroundLoadReady")) {
-
-            for (Player player : temp.getPlayerslist()) {
-                if (sender.equals(player.getUsername())) {
-                    player.setBackgroundReady(true);
-                }
-            }
-            boolean allReady = true;
-            for (Player player : temp.getPlayerslist()
-            ) {
-                if (!player.isBackgroundReady()) {
-                    allReady = false;
-                }
-            }
-            if (allReady) {
-                //messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "Game-Start", "all-ready"));
-                temp.initial();
-                for (int i = 0; i < 4; i++) {
-                    if (temp.getPlayerslist().get(i).getUsername().equals(temp.getCurrentPlayer())) {
-                        messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "PlayerSeqNum", temp.getPlayerslist().get(0).getUsername() + "," + 0 + " " + temp.getPlayerslist().get(1).getUsername() + ",1 " + temp.getPlayerslist().get(2).getUsername() + ",2 " + temp.getPlayerslist().get(3).getUsername() + ",3" + " " + i));
+            PlayDesk temp = roomlist.get(room);
+            if (type.equals("initialDarwReady")) {
+                LOGGER.info(sender+" initial draw ready: "+"玩家"+sender+"初始抽牌完成");
+                for (Player player : temp.getPlayerslist()) {
+                    if (sender.equals(player.getUsername())) {
+                        player.setInitialDrawReady(true);
                     }
                 }
-                for (Player player : temp.getPlayerslist()) {
+                boolean allReady = true;
+                for (Player player : temp.getPlayerslist()
+                ) {
+                    if (!player.isInitialDrawReady()) {
+                        allReady = false;
+                    }
+                }
+                String content = requestMessage.getContent();
+
+                if (allReady) {
+                    LOGGER.info("Receive 4 players' initial draw response: 四个玩家初始抽牌完成");
                     ResponseMessage responseMessage = new ResponseMessage();
                     responseMessage.setSender("Server");
-                    responseMessage.setType("PlayerTiles");
-                    String content = "";
-                    for (Tile tile : player.getPlayerTiles()) {
-                        content = content + tile.getId() + ",";
+                    responseMessage.setType("CurrentPlayer");
+                    requestMessage.setSender(temp.getCurrentPlayer());
+                    responseMessage.setSender(temp.getCurrentPlayer());
+                    messagingTemplate.convertAndSend("/topic/" + room, responseMessage);
+                    LOGGER.info("Player " + temp.getCurrentPlayer() + " draw");
+                    responseMessage.setType("PlayerDraw");
+                    responseMessage.setContent("" + temp.playerDraw(temp.getCurrentPlayer()));
+                    messagingTemplate.convertAndSendToUser(temp.getCurrentPlayer(), "/chat", responseMessage);
+                }
+            } else if (type.equals("BackgroundLoadReady")) {
+                LOGGER.info(sender+" background load ready: "+"玩家"+sender+"游戏场景初始化完成");
+                for (Player player : temp.getPlayerslist()) {
+                    if (sender.equals(player.getUsername())) {
+                        player.setBackgroundReady(true);
                     }
-                    responseMessage.setContent(content.trim());
-                    messagingTemplate.convertAndSendToUser(player.getUsername(), "/chat", responseMessage);
-                    responseMessage.setType("DarkTiles");
-                    responseMessage.setContent("" + player.getDarkTiles().get(0).getId());
-                    messagingTemplate.convertAndSendToUser(player.getUsername(), "/chat", responseMessage);
                 }
-            }
-        } else {
-            String content = "";
-            for (Player player : temp.getPlayerslist()) {
-                if (sender.equals(player.getUsername())) {
-                    player.setReady(true);
-                    //player.setDepartment(department);
+                boolean allReady = true;
+                for (Player player : temp.getPlayerslist()
+                ) {
+                    if (!player.isBackgroundReady()) {
+                        allReady = false;
+                    }
                 }
-                if (player.getReday()) {
-                    content = content + player.getUsername() + " ";
+                if (allReady) {
+                    LOGGER.info("all back ground ready: 四个玩家场景加载均完成");
+                    //messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "Game-Start", "all-ready"));
+                    temp.initial();
+                    for (int i = 0; i < 4; i++) {
+                        if (temp.getPlayerslist().get(i).getUsername().equals(temp.getCurrentPlayer())) {
+                            messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "PlayerSeqNum", temp.getPlayerslist().get(0).getUsername() + "," + 0 + " " + temp.getPlayerslist().get(1).getUsername() + ",1 " + temp.getPlayerslist().get(2).getUsername() + ",2 " + temp.getPlayerslist().get(3).getUsername() + ",3" + " " + i));
+                            LOGGER.info(temp.getPlayerslist().get(0).getUsername() + "," + 0 + " " + temp.getPlayerslist().get(1).getUsername() + ",1 " + temp.getPlayerslist().get(2).getUsername() + ",2 " + temp.getPlayerslist().get(3).getUsername() + ",3" + " " + i);
+                        }
+                    }
+                    for (Player player : temp.getPlayerslist()) {
+                        ResponseMessage responseMessage = new ResponseMessage();
+                        responseMessage.setSender("Server");
+                        responseMessage.setType("PlayerTiles");
+                        String content = "";
+                        for (Tile tile : player.getPlayerTiles()) {
+                            content = content + tile.getId() + ",";
+                        }
+                        LOGGER.info("send tiles to "+player.getUsername()+" "+content);
+                        responseMessage.setContent(content.trim());
+                        messagingTemplate.convertAndSendToUser(player.getUsername(), "/chat", responseMessage);
+                        responseMessage.setType("DarkTiles");
+                        responseMessage.setContent("" + player.getDarkTiles().get(0).getId());
+                        messagingTemplate.convertAndSendToUser(player.getUsername(), "/chat", responseMessage);
+                    }
                 }
-            }
+            } else {
+                String content = "";
+                for (Player player : temp.getPlayerslist()) {
+                    if (sender.equals(player.getUsername())) {
+                        player.setReady(true);
+                        //player.setDepartment(department);
+                    }
+                    if (player.getReday()) {
+                        content = content + player.getUsername() + " ";
+                    }
+                }
 
-            messagingTemplate.convertAndSend("/topic/" + room + "/ready", new ResponseMessage("Server", "Player-ready", content.trim()));
-            LOGGER.info("test");
+                messagingTemplate.convertAndSend("/topic/" + room + "/ready", new ResponseMessage("Server", "Player-ready", content.trim()));
+                LOGGER.info(sender+" ready, 房间内准备玩家"+content);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
         }
+
 
     }
 
@@ -479,7 +492,7 @@ public class RoomController {
         String room = requestMessage.getRoom();
         String type = requestMessage.getType();
         PlayDesk temp = roomlist.get(room);
-        LOGGER.info("/room.roundOperation ,current player " + temp.getCurrentPlayer());
+        LOGGER.info("/room.roundOperation");
         if (!sender.equals(temp.getCurrentPlayer())) {
             ResponseMessage responseMessage = new ResponseMessage();
             responseMessage.setSender("Server");
@@ -489,8 +502,13 @@ public class RoomController {
         } else if (type.equals("play")) {
             LOGGER.info(sender + " play a tile, accept");
             int tile = Integer.parseInt(requestMessage.getContent());
+            for(Player player:temp.getPlayerslist()){
+                if(player.getUsername().equals(sender)){
+                    player.getPlayerTiles().remove(new Tile(tile));
+                    LOGGER.info(sender+"' tiles, length: "+player.getPlayerTiles().size());
+                }
+            }
             temp.setRoundNum(temp.getRoundNum() + 1);
-
             ResponseMessage responseMessage = new ResponseMessage();
             responseMessage.setContent("" + tile);
             temp.setPlayTile(tile);
@@ -554,6 +572,7 @@ public class RoomController {
         String content = requestMessage.getContent();
         PlayDesk temp = roomlist.get(room);
         temp.cancelTimer();
+        LOGGER.info("room.roundOperationResponse");
         if (!sender.equals(temp.getCurrentPlayer())) {
             temp.getRoundOperationResponseList().add(requestMessage);
             if (temp.getRoundOperationResponseList().size() == 1) {
@@ -563,17 +582,17 @@ public class RoomController {
                         switch (type) {
                             case "eat":
                                 player.eat(tiles, temp.getPlayTile());
-                                LOGGER.info("eat! " + tiles[0] + " " + tiles[1] + " " + temp.getPlayTile());
+                                LOGGER.info(sender+" eat! " + tiles[0] + " " + tiles[1] + " " + temp.getPlayTile());
                                 messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, type, content + " " + temp.getPlayTile()));
                                 break;
                             case "touch":
                                 player.touch(tiles, temp.getPlayTile());
-                                LOGGER.info("touch! " + tiles[0] + " " + tiles[1] + " " + temp.getPlayTile());
+                                LOGGER.info(sender+" touch! " + tiles[0] + " " + tiles[1] + " " + temp.getPlayTile());
                                 messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, type, content + " " + temp.getPlayTile()));
                                 break;
                             case "rod":
                                 player.rod(tiles, temp.getPlayTile());
-                                LOGGER.info("rod! " + tiles[0] + " " + tiles[1] + " " + tiles[2] + " " + temp.getPlayTile());
+                                LOGGER.info(sender+" rod! " + tiles[0] + " " + tiles[1] + " " + tiles[2] + " " + temp.getPlayTile());
                                 messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, type, content + " " + temp.getPlayTile()));
                                 break;
                             default:
@@ -586,7 +605,12 @@ public class RoomController {
                 temp.setStates(1);
                 temp.setCurrentPlayer(sender);
                 temp.setRoundNum(temp.getRoundNum() + 1);
-                messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "CurrentPlayer", temp.getCurrentPlayer()));
+                messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(temp.getCurrentPlayer(), "CurrentPlayer", ""));
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 messagingTemplate.convertAndSendToUser(sender, "/chat", new ResponseMessage("Server", "PlayerDraw", ""));
             } else {
                 messagingTemplate.convertAndSendToUser(sender, "/chat", new ResponseMessage("Server", "Reject-playResponse", "u are late"));
@@ -602,17 +626,17 @@ public class RoomController {
     public void win(RequestMessage requestMessage) {
         String sender = requestMessage.getSender();
         String room = requestMessage.getRoom();
-        messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, "win", ""));
         PlayDesk temp = roomlist.get(room);
         String content = "";
         for (Player player : temp.getPlayerslist()) {
             if (player.getUsername().equals(sender)) {
                 for (Tile t : player.getPlayerTiles()) {
-                    content = content + t.toString() + ",";
+                    content = content + t.getId() + " ";
                 }
             }
         }
-        messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, "winnerTiles", content));
+        LOGGER.info(sender+" win! winner tiles: "+content);
+        messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, "winnerTiles", content.trim()));
     }
 
     @EventListener
