@@ -20,6 +20,7 @@ public class Timer : MonoBehaviour
 
         CancelInvoke("changeNumber");
         Reset();
+        GameObject.Find("HandTile").GetComponent<HandTile>().StartProhibit();
     }
 
     public void changeNumber()
