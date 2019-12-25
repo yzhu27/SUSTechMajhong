@@ -7,12 +7,12 @@ public class TileStack : MonoBehaviour
     
     [SerializeField]
     GameObject tilePrefab = null;
+    List<GameObject> tiles = new List<GameObject>();
     
+    //private List<TwoTiles> Tiles = new List<TwoTiles>();
+    //public static int Globalpointer = 0;
     
-    private List<TwoTiles> Tiles = new List<TwoTiles>();
-    public static int Globalpointer = 0;
-    
-    class TwoTiles
+    /*class TwoTiles
     {
         private GameObject upTile;
         private GameObject downTile;
@@ -62,7 +62,7 @@ public class TileStack : MonoBehaviour
             }
         }
     }
-
+*/
     public void AddTile(int number)
     {
         
@@ -75,18 +75,18 @@ public class TileStack : MonoBehaviour
             //Debug.Log(instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.z);
             instance.transform.parent = transform;
             instance.transform.rotation = transform.rotation;
-            instance.transform.position = transform.position + transform.right * (instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.x) * i;           
-            TwoTiles temp = new TwoTiles(new Vector3(0, instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.z, 0));
-            temp.AddTile(instance);
-            
+            instance.transform.position = transform.position + transform.right * (instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.x) * i;
+            //TwoTiles temp = new TwoTiles(new Vector3(0, instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.z, 0));
+            //temp.AddTile(instance);
+            tiles.Add(instance);
             instance = GameObject.Instantiate<GameObject>(tilePrefab, null);
             instance.transform.parent = transform;
             instance.transform.rotation = transform.rotation;
             instance.transform.position = transform.position + transform.right * (instance.GetComponentsInChildren<Transform>()[2].GetComponent<MeshFilter>().mesh.bounds.size.x) * i;
-            
-            temp.AddTile(instance);
-            
-            Tiles.Add(temp);
+
+            tiles.Add(instance);
+
+           
            
         }
         return;
@@ -101,9 +101,7 @@ public class TileStack : MonoBehaviour
     public void RemoveTile()
     {
 
-        if (!Tiles[Globalpointer].RemoveTile()){
-            RemoveTile();
-        }
+        tiles.RemoveAt(tiles.Count);
        
     }
 

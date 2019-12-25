@@ -21,14 +21,14 @@ public class GameManager : MonoBehaviour
 
 	public GameStatus gameStatus { get; private set; }
 
-    public GameObject Camera_win;
+    public GameObject Camera_win, Camera_main;
 
     private bool temp = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        Camera_main = GameObject.Find("Main Camera");
         Camera_win = GameObject.Find("Win Camera");
         Camera_win.SetActive(false);
         AutoCallBacks.playDesk = playDesk;
@@ -78,7 +78,19 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (Camera_main.activeSelf)
+            {
+                Camera_main.SetActive(false);
+                Camera_win.SetActive(true);
+            }
+            else
+            {
+                Camera_win.SetActive(false);
+                Camera_main.SetActive(true);
+            }
+        }
         /* if(t<130 && t % 10 == 0)
          {
              GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tileFactory.GetTile(tilePool.Draw()));
@@ -102,8 +114,8 @@ public class GameManager : MonoBehaviour
 
         }
         t++;*/
-        
-		if (gameStatus == GameStatus.Preparing)
+
+        if (gameStatus == GameStatus.Preparing)
 		{
 			if (playDesk.prepareFinished)
 			{

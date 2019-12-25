@@ -20,7 +20,7 @@ public class PlayCardState : State
         }
         GameObject.Find("WebController").GetComponent<WebController>().w.Play(temp.id);
         GameObject.Find("Timer").GetComponent<Timer>().stopTimer();
-        GameObject.Find("OperateBar").GetComponent<OperateBar>().Prohibt();
+        
         
     }
     public override void OnMouseEnter(GameObject tile)

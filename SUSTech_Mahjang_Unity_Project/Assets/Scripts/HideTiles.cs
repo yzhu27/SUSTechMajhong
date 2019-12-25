@@ -21,6 +21,7 @@ public class HideTiles : MonoBehaviour
     {
         foreach (GameObject tile in hidenTile)
         {
+            tile.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
             tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
         }
 
