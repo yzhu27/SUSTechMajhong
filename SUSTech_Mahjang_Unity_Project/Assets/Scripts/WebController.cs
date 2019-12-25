@@ -24,7 +24,7 @@ public class WebEvent
 
 public class WebController : MonoBehaviour
 {
-	public readonly Web w = new Web(new System.Uri("ws://10.21.11.28:20000/ws/websocket"), AutoCallBacks.AutoCallBackDict);
+	public readonly Web w = new Web(new System.Uri("ws://10.21.34.58:20000/ws/websocket"), AutoCallBacks.AutoCallBackDict);
 
 	public List<Tile> setInitTiles;
 	public List<Tile> setInitHiden;
