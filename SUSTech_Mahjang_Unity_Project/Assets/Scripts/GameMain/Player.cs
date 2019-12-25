@@ -258,8 +258,9 @@ namespace Assets.Scripts.GameMain
 		/// <summary>
 		/// 玩家胡牌，游戏结束
 		/// </summary>
-		public void Win()
+		public void Win(List<Tile> hand)
 		{
+			this.hand = hand;
             // call script after someone win here
             playDesk.webController.Enqueue(new WebEvent(
                "HandTile (" + (int)seat + ")",

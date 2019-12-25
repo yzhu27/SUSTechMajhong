@@ -197,5 +197,11 @@ namespace Assets.Scripts.Web
 		{
 			
 		}
+
+		public void Win()
+		{
+			client.Send("/app/room.win", JsonConvert.SerializeObject(new SendMessage(
+				userName, room, "")));
+		}
 	}
 }
