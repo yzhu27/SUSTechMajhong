@@ -100,9 +100,9 @@ public class TileStack : MonoBehaviour
     }*/
     public void RemoveTile()
     {
-
+        GameObject temp = tiles[tiles.Count - 1];
         tiles.RemoveAt(tiles.Count-1);
-       
+        Destroy(temp);
     }
 
     // Start is called before the first frame update
