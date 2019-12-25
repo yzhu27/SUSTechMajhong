@@ -123,11 +123,14 @@ namespace Assets.Scripts.GameMain
 
 			foreach(Tile tile in tiles)
 			{
-				self.Draw(tile);
-				next.Draw();
-				opposite.Draw();
-				last.Draw();
-				yield return new WaitForSeconds(0.2f);
+				self.Draw(tile, true);
+				yield return new WaitForSeconds(0.05f);
+				next.Draw(true);
+				yield return new WaitForSeconds(0.05f);
+				opposite.Draw(true);
+				yield return new WaitForSeconds(0.05f);
+				last.Draw(true);
+				yield return new WaitForSeconds(0.05f);
 			}
 			handTileSetted = true;
 		}

@@ -31,7 +31,7 @@ namespace Assets.Scripts.GameMain
 		/// 抽牌
 		/// </summary>
 		/// <param name="tile">抽到的牌</param>
-		public void Draw(Tile tile)
+		public void Draw(Tile tile, bool is_init = false)
 		{
 			hand.Add(tile);
 			hand.Sort();
@@ -52,7 +52,8 @@ namespace Assets.Scripts.GameMain
 			/*GameObject.Find("TileStack").GetComponent<TileStack>().SendMessage("RemoveTile");
             GameObject.Find("HandTile").GetComponent<HandTile>().SendMessage("AddTile", tile);*/
 
-			playDesk.OnStart();
+			if (!is_init)
+				playDesk.OnStart();
 		}
 
 		public void RodDraw(Tile tile)

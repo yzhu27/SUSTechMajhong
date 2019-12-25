@@ -122,7 +122,7 @@ namespace Assets.Scripts.GameMain
 		/// <summary>
 		/// 抽牌
 		/// </summary>
-		public void Draw()
+		public void Draw(bool is_init = false)
 		{
             hand.Add(null);
 			// call script what other player do here
@@ -139,7 +139,8 @@ namespace Assets.Scripts.GameMain
 			//GameObject.Find("TileStack ("+(int)seat+")").GetComponent<TileStack>().SendMessage("RemoveTile");
 			//GameObject.Find("HandTile (" + (int)seat + ")").GetComponent<HandTileOthers>().SendMessage("Reconstruct");
 
-			playDesk.OnStart();
+			if (!is_init)
+				playDesk.OnStart();
         }
 
 		public void RodDraw()
