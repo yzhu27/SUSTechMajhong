@@ -59,8 +59,19 @@ public class HandTile : MonoBehaviour
             else
             {
                 tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
+
+                foreach (Tile choosed in ChoosedTiles)
+                {
+                    if(tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile.id == choosed.id)
+                    {
+                        tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetEatState");
+                        break;
+                    }
+                }
+                              
             }
         }
+        
         /*if (ChoosedTiles.Count == 0)
 		{
 
@@ -90,6 +101,14 @@ public class HandTile : MonoBehaviour
             else
             {
                 tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
+                foreach (Tile choosed in ChoosedTiles)
+                {
+                    if (tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile.id == choosed.id)
+                    {
+                        tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetTouchState");
+                        break;
+                    }
+                }
             }
         }
         // List<Tile> tiles;
@@ -131,6 +150,14 @@ public class HandTile : MonoBehaviour
             else
             {
                 tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
+                foreach (Tile choosed in ChoosedTiles)
+                {
+                    if (tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile.id == choosed.id)
+                    {
+                        tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetRodState");
+                        break;
+                    }
+                }
             }
         }
         // List<Tile> tiles;
@@ -224,7 +251,7 @@ public class HandTile : MonoBehaviour
 
     }
 
-    private Vector3 getposition(GameObject tile)
+    public Vector3 getposition(GameObject tile)
     {
         try
         {
@@ -244,13 +271,22 @@ public class HandTile : MonoBehaviour
             tile.transform.rotation =  Quaternion.Euler(90f, 0f, 0f);
         }
     }
-   
+
+    public void CheckPositions()
+    {
+        foreach (GameObject tile in handTile)
+        {
+            tile.transform.position = getposition(tile);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
        
     }
 
+    
     // Update is called once per frame
     void Update()
     {
@@ -269,6 +305,10 @@ public class HandTile : MonoBehaviour
                 }
                 
 
+            }
+            if (check)
+            {
+                CheckPositions();
             }
         }
         

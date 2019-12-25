@@ -12,6 +12,7 @@ public class PlayCardState : State
     public override void OnMouseDown(GameObject tile)
     {
         GameObject.Find("WebController").GetComponent<WebController>().w.Play(tile.GetComponent<TileScript>().tile.id);
+        GameObject.Find("Time").GetComponent<Time>().stopTimer();
         
     }
     public override void OnMouseEnter(GameObject tile)
@@ -22,7 +23,15 @@ public class PlayCardState : State
     }
     public override void OnMouseExit(GameObject tile)
     {
-        tile.transform.position = downPosition;
+        if (downPosition.x != tile.transform.position.x)
+        {
+            tile.transform.position = GameObject.Find("HandTile").GetComponent<HandTile>().getposition(tile);
+        }
+        else
+        {
+            tile.transform.position = downPosition;
+        }
+        
     }
 
     public override void Lightup(GameObject tile)
