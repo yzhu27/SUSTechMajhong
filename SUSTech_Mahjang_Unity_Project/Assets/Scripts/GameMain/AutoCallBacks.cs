@@ -35,7 +35,8 @@ namespace Assets.Scripts.GameMain
 			{"touch", AcceptResponseTouch},
 			{"rod", AcceptResponseRod},
 			{"selfRod", AcceptSelfRod},
-			{"selfRodDraw", RodDraw}
+			{"selfRodDraw", RodDraw},
+			{"winnerTiles", PlayerWin}
 		};
 
 		public static void SetPlayerSeqNum(bool succeed, string sender, string msg)
@@ -385,8 +386,44 @@ namespace Assets.Scripts.GameMain
 			}
 			else
 				Debug.LogError("Unknown player " + sender);
+		}
 
-			
+		public static void PlayerWin(bool succeed, string sender, string msg)
+		{
+			List<Tile> hand = new List<Tile>();
+
+			string[] shand = msg.Split(' ');
+
+			try
+			{
+				foreach(string stile in shand)
+				{
+					hand.Add(tileFactory.GetTile(int.Parse(stile)));
+				}
+			}
+			catch(Exception e)
+			{
+				Debug.LogError(e);
+			}
+
+			if (sender == self.name)
+			{
+				playDesk.self.Win();
+			}
+			else if (sender == playDesk.next.name)
+			{
+				playDesk.next.Win(hand);
+			}
+			else if (sender == playDesk.opposite.name)
+			{
+				playDesk.opposite.Win(hand);
+			}
+			else if (sender == playDesk.last.name)
+			{
+				playDesk.last.Win(hand);
+			}
+			else
+				Debug.LogError("Unknown player " + sender);
 		}
 	}
 }
