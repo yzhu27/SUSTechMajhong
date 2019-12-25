@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts.GameMain;
 
 public class PlayCardState : State
 {
@@ -11,8 +12,15 @@ public class PlayCardState : State
 
     public override void OnMouseDown(GameObject tile)
     {
-        GameObject.Find("WebController").GetComponent<WebController>().w.Play(tile.GetComponent<TileScript>().tile.id);
+        Tile temp = tile.GetComponent<TileScript>().tile;
+        if (temp.GetSpecial() ==Special.King || temp.GetSpecial() ==Special.Logo)
+        {
+            GameObject.Find("WebController").GetComponent<WebController>().w.Rod(temp.id);
+            return;
+        }
+        GameObject.Find("WebController").GetComponent<WebController>().w.Play(temp.id);
         GameObject.Find("Timer").GetComponent<Timer>().stopTimer();
+        GameObject.Find("OperateBar").GetComponent<OperateBar>().Prohibt();
         
     }
     public override void OnMouseEnter(GameObject tile)
