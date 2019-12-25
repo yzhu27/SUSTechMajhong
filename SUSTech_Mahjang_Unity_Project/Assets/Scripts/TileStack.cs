@@ -101,7 +101,7 @@ public class TileStack : MonoBehaviour
     public void RemoveTile()
     {
 
-        tiles.RemoveAt(tiles.Count);
+        tiles.RemoveAt(tiles.Count-1);
        
     }
 
