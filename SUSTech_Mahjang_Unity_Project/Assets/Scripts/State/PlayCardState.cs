@@ -17,13 +17,16 @@ public class PlayCardState : State
     }
     public override void OnMouseEnter(GameObject tile)
     {
+        
         upPosition = tile.transform.position + upDistance;
         downPosition = tile.transform.position;
         tile.transform.position = upPosition;
+        Debug.Log(upPosition);
+        Debug.Log(downPosition);
     }
     public override void OnMouseExit(GameObject tile)
     {
-        tile.transform.position = GameObject.Find("HandTile").GetComponent<HandTile>().getposition(tile);                
+        GameObject.Find("HandTile").GetComponent<HandTile>().CheckPositions();                
     }
 
     public override void Lightup(GameObject tile)

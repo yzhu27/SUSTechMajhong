@@ -180,8 +180,7 @@ public class HandTile : MonoBehaviour
         
         foreach (GameObject obj in handTile)
         {
-            Debug.Log(obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile);
-            Debug.Log(tile);
+          
             if (obj.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().tile.id == tile.id)
             {
                 GameObject temp = obj;
@@ -306,10 +305,7 @@ public class HandTile : MonoBehaviour
                 
 
             }
-            if (check)
-            {
-                CheckPositions();
-            }
+           
         }
         
     }
