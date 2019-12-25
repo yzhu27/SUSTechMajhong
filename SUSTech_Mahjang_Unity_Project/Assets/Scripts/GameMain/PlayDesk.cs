@@ -228,8 +228,10 @@ namespace Assets.Scripts.GameMain
 		{
 			Debug.Log("Response begin: " + roundPlayer.ToString());
             // script what happens to the playdesk after player plays a tile then Response begin
-             self.GetActionsOnResponse();
-
+            if (roundPlayer != Seat.Self)
+            {
+                self.GetActionsOnResponse();
+            }
         }
 
 		/// <summary>
