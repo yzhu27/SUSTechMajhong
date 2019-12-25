@@ -130,19 +130,19 @@ namespace Assets.Scripts.GameMain
 			{
 				case Seat.Self:
 					if (sender != self.name)
-						Debug.LogError("turn error\nlocal: " + self.name + ", server: " + msg);
+						Debug.LogError("turn error\nlocal: " + self.name + ", server: " + sender);
 					break;
 				case Seat.Next:
 					if (sender != playDesk.next.name)
-						Debug.LogError("turn error\nlocal: " + playDesk.next.name + ", server: " + msg);
+						Debug.LogError("turn error\nlocal: " + playDesk.next.name + ", server: " + sender);
 					break;
 				case Seat.Oppo:
 					if (sender != playDesk.opposite.name)
-						Debug.LogError("turn error\nlocal: " + playDesk.opposite.name + ", server: " + msg);
+						Debug.LogError("turn error\nlocal: " + playDesk.opposite.name + ", server: " + sender);
 					break;
 				case Seat.Last:
 					if (sender != playDesk.last.name)
-						Debug.LogError("turn error\nlocal: " + playDesk.last.name + ", server: " + msg);
+						Debug.LogError("turn error\nlocal: " + playDesk.last.name + ", server: " + sender);
 					break;
 			}
 		}
