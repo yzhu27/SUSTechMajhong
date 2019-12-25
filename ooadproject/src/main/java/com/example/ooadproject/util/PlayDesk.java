@@ -132,7 +132,12 @@ public class PlayDesk {
                         LOGGER.info("Timer");
                         states = 1;
                         messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "No-one response", ""));
-                        messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "CurrentPlayer", currentPlayer));
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(currentPlayer, "CurrentPlayer", ""));
                         roundNum++;
                         LOGGER.info("no one response,next player is " + currentPlayer);
                         LOGGER.info(currentPlayer + " draw");
@@ -141,13 +146,18 @@ public class PlayDesk {
                         responseMessage.setType("PlayerDraw");
                         responseMessage.setContent("" + playerDraw(getCurrentPlayer()));
                         messagingTemplate.convertAndSendToUser(getCurrentPlayer(), "/chat", responseMessage);
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(getCurrentPlayer(), "PlayerDraw", ""));
                         break;
                     }
                 }
                 cancelTimer();
             }
-        }, 5000);
+        }, 10000);
     }
 
 
@@ -182,14 +192,14 @@ public class PlayDesk {
         this.states = 1;
         //System.out.println(tilePool.PoolToString());
         for (Player player : playerslist) {
-            for (int i = 0; i < 12; i++) {
+            for (int i = 0; i < 13; i++) {
                 player.getPlayerTiles().add(new Tile(tilePool.Draw()));
             }
             player.getDarkTiles().add(new Tile(tilePool.Draw()));
         }
         Random seed = new Random(System.currentTimeMillis());
         this.currentPlayer = playerslist.get(seed.nextInt(4)).getUsername();
-        System.out.println(this.getCurrentPlayer());
+        //System.out.println(this.getCurrentPlayer());
 
 
         //

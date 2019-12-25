@@ -2,10 +2,10 @@ package com.example.ooadproject.bean;
 
 public class RequestMessage {
 
-    private String sender;//消息发送者
-    private String room;//房间号
-    private String type;//消息类型
-    private String content;//消息内容
+    private String sender;
+    private String room;
+    private String type;
+    private String content;
 
     public RequestMessage() {
     }
