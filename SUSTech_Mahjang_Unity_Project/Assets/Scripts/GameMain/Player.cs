@@ -261,6 +261,7 @@ namespace Assets.Scripts.GameMain
 		public void Win(List<Tile> hand)
 		{
 			this.hand = hand;
+			this.hand.Sort();
             // call script after someone win here
             playDesk.webController.Enqueue(new WebEvent(
                "HandTile (" + (int)seat + ")",
