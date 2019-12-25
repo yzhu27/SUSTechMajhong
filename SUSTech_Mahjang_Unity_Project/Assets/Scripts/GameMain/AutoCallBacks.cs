@@ -129,19 +129,19 @@ namespace Assets.Scripts.GameMain
 			switch (current)
 			{
 				case Seat.Self:
-					if (msg != self.name)
+					if (sender != self.name)
 						Debug.LogError("turn error\nlocal: " + self.name + ", server: " + msg);
 					break;
 				case Seat.Next:
-					if (msg != playDesk.next.name)
+					if (sender != playDesk.next.name)
 						Debug.LogError("turn error\nlocal: " + playDesk.next.name + ", server: " + msg);
 					break;
 				case Seat.Oppo:
-					if (msg != playDesk.opposite.name)
+					if (sender != playDesk.opposite.name)
 						Debug.LogError("turn error\nlocal: " + playDesk.opposite.name + ", server: " + msg);
 					break;
 				case Seat.Last:
-					if (msg != playDesk.last.name)
+					if (sender != playDesk.last.name)
 						Debug.LogError("turn error\nlocal: " + playDesk.last.name + ", server: " + msg);
 					break;
 			}
