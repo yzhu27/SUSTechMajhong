@@ -24,6 +24,7 @@ import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 import org.springframework.web.util.HtmlUtils;
+
 import java.net.InetAddress;
 import java.util.*;
 
@@ -73,12 +74,12 @@ public class GameController {
             if (userlist.containsKey(sender)) {
                 //用户名已经存在
                 String sessionId = headerAccessor.getSessionId();
-                LOGGER.info("Reject-login: "+sessionId+"想要以用户名"+sender+"登录，用户名已经存在");
+                LOGGER.info("Reject-login: " + sessionId + "想要以用户名" + sender + "登录，用户名已经存在");
                 type = "Reject-login";
                 content = "sorry 用户名已经存在";
             } else {
                 //登录成功
-                LOGGER.info("Accept-login: 玩家"+sender+"登录成功");
+                LOGGER.info("Accept-login: 玩家" + sender + "登录成功");
                 userlist.put(sender, "NoRoom");
                 type = "Accept-login";
                 content = sender;
@@ -290,11 +291,11 @@ public class GameController {
                             ready = ready + player.getUsername() + " ";
                         }
                     }
-                    LOGGER.info("玩家"+sender+"加入房间"+room+" 当前房间内玩家"+content + " ,当前已准备玩家 " + ready);
+                    LOGGER.info("玩家" + sender + "加入房间" + room + " 当前房间内玩家" + content + " ,当前已准备玩家 " + ready);
                     responseMessage.setContent(content.trim() + "," + ready.trim());
                     messagingTemplate.convertAndSend("/topic/" + room, responseMessage);
                 } else {
-                    LOGGER.info("玩家"+sender+"加入房间"+room+"失败，房间已满");
+                    LOGGER.info("玩家" + sender + "加入房间" + room + "失败，房间已满");
                     responseMessage.setType("Reject-room.addUser");
                     responseMessage.setContent("Room is full");
                     messagingTemplate.convertAndSendToUser(sender, "/chat", responseMessage);
@@ -313,7 +314,7 @@ public class GameController {
                 for (Player player : current.getPlayerslist()) {
                     content = content + player.getUsername() + " ";
                 }
-                LOGGER.info("玩家"+sender+"加入房间"+room+" 当前房间内玩家 "+content);
+                LOGGER.info("玩家" + sender + "加入房间" + room + " 当前房间内玩家 " + content);
                 responseMessage.setContent(content.trim() + ",");
                 messagingTemplate.convertAndSend("/topic/" + room, responseMessage);
             }
@@ -338,7 +339,7 @@ public class GameController {
                         break;
                     }
                 }
-                LOGGER.info("Accept-deleteUser: 玩家"+sender+"离开房间"+room);
+                LOGGER.info("Accept-deleteUser: 玩家" + sender + "离开房间" + room);
                 ResponseMessage responseMessage = new ResponseMessage();
                 responseMessage.setSender("Server");
                 responseMessage.setType("Accept-deleteUser");
@@ -349,7 +350,7 @@ public class GameController {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                messagingTemplate.convertAndSend("/topic/"+room,new ResponseMessage(sender,"exit",""));
+                messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, "exit", ""));
                 if (temp.getPlayerslist().size() == 0) {
                     roomlist.remove(room);
                 }
@@ -393,7 +394,7 @@ public class GameController {
 
             PlayDesk temp = roomlist.get(room);
             if (type.equals("initialDarwReady")) {
-                LOGGER.info(sender+" initial draw ready: "+"玩家"+sender+"初始抽牌完成");
+                LOGGER.info(sender + " initial draw ready: " + "玩家" + sender + "初始抽牌完成");
                 for (Player player : temp.getPlayerslist()) {
                     if (sender.equals(player.getUsername())) {
                         player.setInitialDrawReady(true);
@@ -422,7 +423,7 @@ public class GameController {
                     messagingTemplate.convertAndSendToUser(temp.getCurrentPlayer(), "/chat", responseMessage);
                 }
             } else if (type.equals("BackgroundLoadReady")) {
-                LOGGER.info(sender+" background load ready: "+"玩家"+sender+"游戏场景初始化完成");
+                LOGGER.info(sender + " background load ready: " + "玩家" + sender + "游戏场景初始化完成");
                 for (Player player : temp.getPlayerslist()) {
                     if (sender.equals(player.getUsername())) {
                         player.setBackgroundReady(true);
@@ -453,7 +454,7 @@ public class GameController {
                         for (Tile tile : player.getPlayerTiles()) {
                             content = content + tile.getId() + ",";
                         }
-                        LOGGER.info("send tiles to "+player.getUsername()+" "+content);
+                        LOGGER.info("send tiles to " + player.getUsername() + " " + content);
                         responseMessage.setContent(content.trim());
                         messagingTemplate.convertAndSendToUser(player.getUsername(), "/chat", responseMessage);
                         responseMessage.setType("DarkTiles");
@@ -474,7 +475,7 @@ public class GameController {
                 }
 
                 messagingTemplate.convertAndSend("/topic/" + room + "/ready", new ResponseMessage("Server", "Player-ready", content.trim()));
-                LOGGER.info(sender+" ready, 房间内准备玩家"+content);
+                LOGGER.info(sender + " ready, 房间内准备玩家" + content);
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -492,76 +493,80 @@ public class GameController {
         String room = requestMessage.getRoom();
         String type = requestMessage.getType();
         PlayDesk temp = roomlist.get(room);
-        LOGGER.info("/room.roundOperation");
-        if (!sender.equals(temp.getCurrentPlayer())) {
-            ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage.setSender("Server");
-            responseMessage.setType("Reject-play");
-            responseMessage.setContent("不是你的时间");
-            messagingTemplate.convertAndSendToUser(sender, "/chat", responseMessage);
-        } else if (type.equals("play")) {
-            LOGGER.info(sender + " play a tile, accept");
-            int tile = Integer.parseInt(requestMessage.getContent());
-            for(Player player:temp.getPlayerslist()){
-                if(player.getUsername().equals(sender)){
-                    player.getPlayerTiles().remove(new Tile(tile));
-                    LOGGER.info(sender+"' tiles, length: "+player.getPlayerTiles().size());
-                }
-            }
-            temp.setRoundNum(temp.getRoundNum() + 1);
-            ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage.setContent("" + tile);
-            temp.setPlayTile(tile);
-            temp.getRoundOperationResponseList().clear();
-            responseMessage.setType("Accept-Play");
-            for (Player player : temp.getPlayerslist()) {
-                responseMessage.setSender(sender);
-                messagingTemplate.convertAndSendToUser(player.getUsername(), "/chat", responseMessage);
-            }
-            temp.cancelTimer();
-            temp.startTimer(room);
-            LOGGER.info("start timer to wait for response");
-
-        } else {
-            LOGGER.info("round operation before play a tile");
-            for (Player player : temp.getPlayerslist()) {
-                if (sender.equals(player.getUsername())) {
-                    switch (type) {
-                        case "exchange":
-                            LOGGER.info(sender + " exchange");
-                            String handTilesString = requestMessage.getContent().split(",")[0];
-                            String darkTilesString = requestMessage.getContent().split(",")[1];
-                            String[] handTiles = handTilesString.split(" ");
-                            String[] darkTiles = darkTilesString.split(" ");
-                            player.exchange(handTiles, darkTiles);
-                            break;
-                        case "selfRod":
-                            //拿一张手牌
-                            LOGGER.info(sender + " selfRod");
-                            String[] tiles = requestMessage.getContent().split(" ");
-                            player.selfRod(tiles);
-                            messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, "selfRod", tiles[0]));
-                            int selfRodDraw = temp.playerDraw(sender);
-                            messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, "selfRodDraw", ""));
-                            messagingTemplate.convertAndSendToUser(sender, "/chat", new ResponseMessage(sender, "selfRodDraw", selfRodDraw + ""));
-                            break;
-                        case "darkRod":
-                            LOGGER.info(sender + " darkRod");
-                            String[] tiles1 = requestMessage.getContent().split(" ");
-                            player.darkRod(tiles1);
-                            break;
-                        case "addRod":
-                            LOGGER.info(sender + " addRod");
-                            break;
-                        default:
-                            messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "no such method", ""));
-                            break;
+        if (temp.getStates() != 99) {
+            LOGGER.info("/room.roundOperation");
+            if (!sender.equals(temp.getCurrentPlayer())) {
+                ResponseMessage responseMessage = new ResponseMessage();
+                responseMessage.setSender("Server");
+                responseMessage.setType("Reject-play");
+                responseMessage.setContent("不是你的时间");
+                messagingTemplate.convertAndSendToUser(sender, "/chat", responseMessage);
+            } else if (type.equals("play")) {
+                LOGGER.info(sender + " play a tile, accept");
+                int tile = Integer.parseInt(requestMessage.getContent());
+                for (Player player : temp.getPlayerslist()) {
+                    if (player.getUsername().equals(sender)) {
+                        player.getPlayerTiles().remove(new Tile(tile));
+                        LOGGER.info(sender + "' tiles, length: " + player.getPlayerTiles().size());
                     }
-                    break;
                 }
+                temp.setRoundNum(temp.getRoundNum() + 1);
+                ResponseMessage responseMessage = new ResponseMessage();
+                responseMessage.setContent("" + tile);
+                temp.setPlayTile(tile);
+                temp.getRoundOperationResponseList().clear();
+                responseMessage.setType("Accept-Play");
+                for (Player player : temp.getPlayerslist()) {
+                    responseMessage.setSender(sender);
+                    messagingTemplate.convertAndSendToUser(player.getUsername(), "/chat", responseMessage);
+                }
+                temp.cancelTimer();
+                temp.startTimer(room);
+                LOGGER.info("start timer to wait for response");
 
+            } else {
+                LOGGER.info("round operation before play a tile");
+                for (Player player : temp.getPlayerslist()) {
+                    if (sender.equals(player.getUsername())) {
+                        switch (type) {
+                            case "exchange":
+                                LOGGER.info(sender + " exchange");
+                                String handTilesString = requestMessage.getContent().split(",")[0];
+                                String darkTilesString = requestMessage.getContent().split(",")[1];
+                                String[] handTiles = handTilesString.split(" ");
+                                String[] darkTiles = darkTilesString.split(" ");
+                                player.exchange(handTiles, darkTiles);
+                                break;
+                            case "selfRod":
+                                //拿一张手牌
+                                LOGGER.info(sender + " selfRod");
+                                String[] tiles = requestMessage.getContent().split(" ");
+                                player.selfRod(tiles);
+                                messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, "selfRod", tiles[0]));
+                                int selfRodDraw = temp.playerDraw(sender);
+                                messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, "selfRodDraw", ""));
+                                messagingTemplate.convertAndSendToUser(sender, "/chat", new ResponseMessage(sender, "selfRodDraw", selfRodDraw + ""));
+                                break;
+                            case "darkRod":
+                                LOGGER.info(sender + " darkRod");
+                                String[] tiles1 = requestMessage.getContent().split(" ");
+                                player.darkRod(tiles1);
+                                break;
+                            case "addRod":
+                                LOGGER.info(sender + " addRod");
+                                break;
+                            default:
+                                messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", "no such method", ""));
+                                break;
+                        }
+                        break;
+                    }
+
+                }
             }
         }
+
+
     }
 
     @MessageMapping("/room.roundOperationResponse")
@@ -572,52 +577,54 @@ public class GameController {
         String content = requestMessage.getContent();
         PlayDesk temp = roomlist.get(room);
         temp.cancelTimer();
-        LOGGER.info("room.roundOperationResponse");
-        if (!sender.equals(temp.getCurrentPlayer())) {
-            temp.getRoundOperationResponseList().add(requestMessage);
-            if (temp.getRoundOperationResponseList().size() == 1) {
-                for (Player player : temp.getPlayerslist()) {
-                    if (sender.equals(player.getUsername())) {
-                        String[] tiles = content.split(" ");
-                        switch (type) {
-                            case "eat":
-                                player.eat(tiles, temp.getPlayTile());
-                                LOGGER.info(sender+" eat! " + tiles[0] + " " + tiles[1] + " " + temp.getPlayTile());
-                                messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, type, content + " " + temp.getPlayTile()));
-                                break;
-                            case "touch":
-                                player.touch(tiles, temp.getPlayTile());
-                                LOGGER.info(sender+" touch! " + tiles[0] + " " + tiles[1] + " " + temp.getPlayTile());
-                                messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, type, content + " " + temp.getPlayTile()));
-                                break;
-                            case "rod":
-                                player.rod(tiles, temp.getPlayTile());
-                                LOGGER.info(sender+" rod! " + tiles[0] + " " + tiles[1] + " " + tiles[2] + " " + temp.getPlayTile());
-                                messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, type, content + " " + temp.getPlayTile()));
-                                break;
-                            default:
-                                messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", type, "no such method"));
-                                break;
+        if(temp.getStates() != 99){
+            LOGGER.info("room.roundOperationResponse");
+            if (!sender.equals(temp.getCurrentPlayer())) {
+                temp.getRoundOperationResponseList().add(requestMessage);
+                if (temp.getRoundOperationResponseList().size() == 1) {
+                    for (Player player : temp.getPlayerslist()) {
+                        if (sender.equals(player.getUsername())) {
+                            String[] tiles = content.split(" ");
+                            switch (type) {
+                                case "eat":
+                                    player.eat(tiles, temp.getPlayTile());
+                                    LOGGER.info(sender + " eat! " + tiles[0] + " " + tiles[1] + " " + temp.getPlayTile());
+                                    messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, type, content + " " + temp.getPlayTile()));
+                                    break;
+                                case "touch":
+                                    player.touch(tiles, temp.getPlayTile());
+                                    LOGGER.info(sender + " touch! " + tiles[0] + " " + tiles[1] + " " + temp.getPlayTile());
+                                    messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, type, content + " " + temp.getPlayTile()));
+                                    break;
+                                case "rod":
+                                    player.rod(tiles, temp.getPlayTile());
+                                    LOGGER.info(sender + " rod! " + tiles[0] + " " + tiles[1] + " " + tiles[2] + " " + temp.getPlayTile());
+                                    messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, type, content + " " + temp.getPlayTile()));
+                                    break;
+                                default:
+                                    messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage("Server", type, "no such method"));
+                                    break;
+                            }
+                            break;
                         }
-                        break;
                     }
+                    temp.setStates(1);
+                    temp.setCurrentPlayer(sender);
+                    temp.setRoundNum(temp.getRoundNum() + 1);
+                    messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(temp.getCurrentPlayer(), "CurrentPlayer", ""));
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    messagingTemplate.convertAndSendToUser(sender, "/chat", new ResponseMessage("Server", "PlayerDraw", ""));
+                } else {
+                    messagingTemplate.convertAndSendToUser(sender, "/chat", new ResponseMessage("Server", "Reject-playResponse", "u are late"));
                 }
-                temp.setStates(1);
-                temp.setCurrentPlayer(sender);
-                temp.setRoundNum(temp.getRoundNum() + 1);
-                messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(temp.getCurrentPlayer(), "CurrentPlayer", ""));
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                messagingTemplate.convertAndSendToUser(sender, "/chat", new ResponseMessage("Server", "PlayerDraw", ""));
             } else {
-                messagingTemplate.convertAndSendToUser(sender, "/chat", new ResponseMessage("Server", "Reject-playResponse", "u are late"));
-            }
-        } else {
 
-            messagingTemplate.convertAndSendToUser(sender, "/chat", new ResponseMessage("Server", "Reject-playResponse", ""));
+                messagingTemplate.convertAndSendToUser(sender, "/chat", new ResponseMessage("Server", "Reject-playResponse", ""));
+            }
         }
 
     }
@@ -635,7 +642,8 @@ public class GameController {
                 }
             }
         }
-        LOGGER.info(sender+" win! winner tiles: "+content);
+        temp.setStates(99);
+        LOGGER.info(sender + " win! winner tiles: " + content);
         messagingTemplate.convertAndSend("/topic/" + room, new ResponseMessage(sender, "winnerTiles", content.trim()));
     }
 
