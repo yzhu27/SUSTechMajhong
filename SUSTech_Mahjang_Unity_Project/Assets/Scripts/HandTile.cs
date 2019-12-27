@@ -26,7 +26,7 @@ public class HandTile : MonoBehaviour
             tile.transform.position = new Vector3(tile.transform.position.x, 3.024994f, tile.transform.position.z);
             tile.GetComponentsInChildren<Transform>()[2].GetComponent<TileScript>().SendMessage("SetProhibitedState");
         }
-        
+        ChoosedTiles.Clear();
     }
 
     public void StartPlay()

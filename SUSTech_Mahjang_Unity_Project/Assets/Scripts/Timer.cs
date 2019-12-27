@@ -21,7 +21,6 @@ public class Timer : MonoBehaviour
         CancelInvoke("changeNumber");
         Reset();
         GameObject.Find("HandTile").GetComponent<HandTile>().StartProhibit();
-        GameObject.Find("HandTile").GetComponent<HandTile>().ChoosedTiles.Clear();
         GameObject.Find("HideTiles").GetComponent<HideTiles>().StartProhibit();
         GameObject.Find("OperateBar").GetComponent<OperateBar>().Prohibt();
     }

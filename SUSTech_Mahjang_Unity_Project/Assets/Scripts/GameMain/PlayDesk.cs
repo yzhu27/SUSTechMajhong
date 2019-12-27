@@ -246,6 +246,16 @@ namespace Assets.Scripts.GameMain
                 "OperateBar",
                  "Prohibt"
                  ));
+            webController.Enqueue(new WebEvent(
+               "HandTile",
+               "HandTile",
+               "StartProhibit"
+                ));
+            webController.Enqueue(new WebEvent(
+               "HideTiles",
+               "HideTiles",
+               "StartProhibit"
+                ));
             gameState.OnFinish();
 		}
 
