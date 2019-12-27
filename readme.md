@@ -162,3 +162,21 @@ https://github.com/Tchao111/SUSTechMajhong
 主要设计模式：订阅/发布模式（观察者模式）、工厂模式、状态模式
 
 待完成内容：前端房间列表页面 角色技能
+
+-----
+
+### 使用说明
+
+请按上述的后端环境(开发环境：java 8，redis 3.2.100 框架：Spring boot)配置服务器,
+
+并更改客户端Scripts 目录下WebController.cs 内的服务器ip,运行Unity(2019.2.17f1).
+
+```c#
+public class WebController : MonoBehaviour
+{
+	public readonly Web w = new Web(new System.Uri("ws://服务器ip:端口/ws/websocket"), AutoCallBacks.AutoCallBackDict);
+
+	...
+```
+
+**Let's enjoy Majhong!!!**
