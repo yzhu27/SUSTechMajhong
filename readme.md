@@ -179,4 +179,4 @@ public class WebController : MonoBehaviour
 	...
 ```
 
-**Let's enjoy Majhong!!!**
+**Let's enjoy Majhong!!!**(这是联机麻将来着...请自行凑齐4台客户端小伙伴)
